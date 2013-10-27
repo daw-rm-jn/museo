@@ -1,0 +1,25 @@
+{% extends 'plantilla.twig' %}
+
+{% block titulo 'Detalle de Post' %}
+
+{% block estilos %}{% endblock %}
+
+{% block contenido %}
+	<table border="3">
+		<tr>
+			<td colspan="4">
+				<h1>TITULO: {{post.titulo}}</h1>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4">AUTOR: {{post.autor}} - FECHA: {{post.fecha}}</td>
+		</tr>
+		<tr rowspan="6">
+			<td colspan="4">
+				CUERPO:
+				<br>
+				<h2>{{post.cuerpo}}</h2>
+			</td>
+		</tr>
+	</table>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'plantilla.twig' %}
+
+{% block titulo 'Inicio de sesión' %}
+
+{% block contenido %}
+
+	<form name="fLogin" action="{{app.request.basepath}}/login" method="POST">
+		<div class="loginout">
+			{% block log %}
+
+				<label>Usuario:</label><input type="text" name="logUser" id="logUser">
+				<br>
+				<br>
+				<label>Contraseña:</label><input type="password" name="logPass" id="logPass">
+				<br>
+				<br>
+				<input type="submit" name="btLogin" value="Acceder">
+				
+			{% endblock %}
+		</div>
+	</form> 
+
+{% endblock %}
