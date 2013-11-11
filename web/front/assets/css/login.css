@@ -1,0 +1,65 @@
+
+div.loginout{
+	margin-left: auto;
+	margin-top: 16%;
+	margin-right: auto;
+	width:300px;
+	height: 100px;
+	border: 2px solid #9DBFC8;
+	padding: 2% 2% 2% 2%;
+	background-color: #E7EDEF;
+	box-shadow: 0px 10px 50px #888888;
+}
+
+div.loginout > input#logUser{
+	background: url('../img/iconUser.png') no-repeat scroll right center #FFFFFF;
+	float: right;
+	width: 150px;
+	color:#9DBFC8;
+}
+
+div.loginout > input#logUser:focus{
+	background: url('../img/iconUser.png') no-repeat scroll right center #FFFFFF;
+	float: right;
+	width: 150px;
+	box-shadow: 0 0 3px 3px #ffa853;
+	color: #666;
+	outline: none;
+}
+
+div.loginout > input#logPass{
+	background: url('../img/iconKey.png') no-repeat scroll right center #FFFFFF;
+	float: right;
+	width: 150px;
+	color:#9DBFC8;
+}
+
+div.loginout > input#logPass:focus{
+	background: url('../img/iconKey.png') no-repeat scroll right center #FFFFFF;
+	float: right;
+	width: 150px;
+	box-shadow: 0 0 3px 3px #ffa853;
+	color: #666;
+	outline: none;
+}
+
+div.loginout > input[type="submit"]{
+	display:block;
+	border:none;
+	width: 150px;
+	background-color: #9DBFC8;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1% 1% 1% 1%;
+	box-shadow: 0 0 20px #888888;
+}
+div.loginout > input[type="submit"]:hover{
+	background-color: #C9CFD0;
+}
+
+div.loginout > label{
+	position:relative;
+	top: 0.5em;
+	font-weight: bold;
+	color:#9DBFC8;
+}

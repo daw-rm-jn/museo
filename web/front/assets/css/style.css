@@ -1,0 +1,7 @@
+@import url('login.css');
+@import url('index.css');
+
+body{
+	font: 15px Arial, Helvetica, Sans-Serif;
+	background-color:#DCE3E5;
+}
