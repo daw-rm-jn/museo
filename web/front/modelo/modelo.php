@@ -46,6 +46,14 @@
                         }
 			mysql_close($con);
                 }
+                public function getPintores(){
+                    $con = Modelo::abrirConexion();
+			$rol;
+			$query = "SELECT * FROM pintores";
+			$res = $con->query($query);
+			
+			mysql_close($con);
+                }
 
 
 		public function cerrarSesion(){

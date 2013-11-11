@@ -1,97 +1,49 @@
-div.menuizq{
-	position:fixed;
-	width: 12%;
-	height: 100%;
-	background-color: #9EC0C8;
-	border: 1px solid #9EC0C8;
-}
+
 
 div.titulo{
-	position:fixed;
-	width:100%;
-	left:12%;
-	height:12%;
-	border: 2px solid #9EC0C8;
-	color: #9CB7AF;
+    position:fixed;
+    width:432px;
+    left:30%;
+    height:12%;
+    border: 2px solid #9EC0C8;
+    color: #000000;
+    
 }
 
 div.panelcontrol{
-	position:fixed;
-	width:auto;
-	height:auto;
-	right:0%;
-	top:0%;
-	border: 1px solid #000;
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+    position:block;
+    width:430px;
+    height:auto;
+    right:0%;
+    top:0%;
+    border: 1px solid #000;
+    background-color:#FFFFFF;
+    
 }
 
 ul.listaControl li{
-	display: inline;
-	list-style-type: none;
-	padding-right:10px;
+    display: inline;
+    list-style-type: none;
+    padding-right:10px;
+    
 }
 
-div.action{
-	position: fixed;
-	width:100%;
-	left:12%;
-	top:12.4%;
-	bottom:0%;
-	background-color: #E8E4E0;
-}
 
 div.cont{
-	position:fixed;
-	width:auto;
-	height: auto;
-	top:0%;
-	bottom:0%;
-	right:0%;
-	left:0%;
+    position:center;
+    width:431px;
+    height: auto;
+    top:0%;
+    bottom:0%;
+    right:0%;
+    left:0%;
 }
 
-div.sections{
-	position: absolute;
-	width:auto;
-	height: auto;
-	top:20%;
-	right:1%;
-	left:0%;
-	background-color: #E8EEEF;
-	padding: 15% 0 15% 0;
-
+li:hover{
+	background-color: #DEDEDE;
+	border-top: 15px solid #FFFFFF;
+        border-bottom: 16px solid #FFFFFF;
+	color: #FFFFFF;
 }
 
-ul.listaSec{
-	display:block;
-	list-style-type: none;
-	padding: 0px;
-	margin: 0px;
-}
-
-ul.listaSec  li{
-	display:block;
-	border-top: 1px solid #9EC0C8;
-	text-align: center;
-	color: #9EC0C8;
-	padding: 1% 0 1% 0;
-}
-
-ul.listaSec  li:last-child{
-	border-bottom: 1px solid #9EC0C8;
-}
-
-ul.listaSec li:hover{
-	background-color: #9EC0C8;
-	border-top: 1px solid #E8EEEF;
-	color: #E8EEEF;
-}
-
-ul.listaSec li a{
-	font-weight: bold;
-	text-decoration: none;
-	color: #C3967D;
-}
-
-ul.listaSec li a:hover{
-	color: #E8EEEF;
-}
