@@ -1,0 +1,10 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Cuadros' %}
+
+	{% block action %}
+		{% for cuadro in cuadros %}
+			{{cuadro.nombreCuadro}}
+			{{cuadro.descripcionCuadro}}
+		{% endfor %}
+	{% endblock %}

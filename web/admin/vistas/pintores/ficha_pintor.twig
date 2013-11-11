@@ -1,0 +1,45 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Ficha de pintor' %}
+
+	{% block action %}
+		{% for pintor in pintores %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Pintor #{{pintor.idPintor}}</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.idPintor, {'attr': {'value' : pintor.idPintor}}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.nombrePintor, {'attr': {'value': pintor.nombrePintor }}) }}
+											</td>
+											<td class="grey">
+												{{ form_row(form.fechaNacimiento, {'attr': {'value': pintor.fechaNacimiento }}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.fechaMuerte, {'attr': {'value': pintor.fechaMuerte }}) }}
+											</td>
+											<td class="grey">
+												{{ form_row(form.fotoPintor, {'attr': {'value': pintor.fotoPintor }}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey" colspan="2">
+												<input type="submit" name="btModPintor" id="btModPintor" value="GUARDAR CAMBIOS">
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+		{% endfor %}
+	{% endblock %}

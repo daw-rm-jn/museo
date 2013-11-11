@@ -9,32 +9,121 @@
 	<div id="menuizq" class="menuizq">
 		<div id="sections" class="sections">
 			<ul id="listaSec" class="listaSec">
-				<li id="lipintores" class="lipintores" name="lipintores" value="lipintores"><a href="{{app.request.basepath}}/Pintores">Pintores</a></li>
-				<li id="licuadros" class="licuadros" name="licuadros" value="licuadros"><a href="{{app.request.basepath}}/Cuadros">Cuadros</a></li>
-				<li id="limuseo" class="limuseo" name="limuseo" value="limuseo"><a href="{{app.request.basepath}}/Museo">Museo</a></li>
-				<li id="liusuarios" class="liusuarios" name="liusuarios" value="liusuarios"><a href="{{app.request.basepath}}/Usuarios">Usuarios</a></li>
-				<li id="litienda" name="litienda" class="litienda" value="litienda"><a href="{{app.request.basepath}}/Tienda">Tienda</a></li>
+				<a href="{{app.request.basepath}}/pintores">
+					<li id="lipintores" class="lipintores" name="lipintores" value="lipintores">
+						Pintores
+					</li>
+				</a>
+				<a href="{{app.request.basepath}}/cuadros">
+					<li id="licuadros" class="licuadros" name="licuadros" value="licuadros">
+					Cuadros
+					</li>
+				</a>
+				<li id="limuseo" class="limuseo" name="limuseo" value="limuseo">
+					Museo
+				</li>
+				<li class="liexposiciones">
+					Exposiciones
+				</li>
+				<li class="liplantas">
+					Plantas
+				</li>
+				<li class="lisalas">
+					Salas
+				</li>
+				<a href="{{app.request.basepath}}/usuarios">
+					<li id="liusuarios" class="liusuarios" name="liusuarios" value="liusuarios">
+					Usuarios
+					</li>
+				</a>
+				<a href="{{app.request.basepath}}/tienda">
+					<li id="litienda" name="litienda" class="litienda" value="litienda">
+					Tienda
+					</li>
+				</a>
 			</ul>
 		</div>
 	</div>
 
 	<div id="titulo" class="titulo">
 	{% block cabecera %}
-	    <h1>Pagina de Inicio</h1>
+		<div id="nombresec" class="nombresec">
+	    	<h1>{{msgCabecera}}</h1>
+	    </div>
 	    <div id="panelcontrol" class="panelcontrol">
-		    <ul id="listaControl" class="listaControl">
-				<li id="elem3" name="elem3" class="elem3" value="elem3">Inicio</li>
-				<li id="elem2" name="elem2" class="elem2" value="elem2">Panel de Control</li>
-				<li id="logout" name="logout" class="logout" value="logout"><a href="{{app.request.basepath}}/logout">Logout</a></li>
-			</ul>
+	    	<div id="divlistacontrol">
+			    <ul id="listaControl" class="listaControl">
+					<li id="elem3" name="elem3" class="elem3" value="elem3">
+						<a href="{{app.request.basepath}}">Inicio</a>
+					</li>
+					<li id="elem2" name="elem2" class="elem2" value="elem2">
+						<a href="#">Panel de Control</a>
+					</li>
+					<li id="logout" name="logout" class="logout" value="logout">
+						<a href="{{app.request.basepath}}/logout">Logout</a>
+					</li>
+				</ul>
+			</div>
+	    	<div id="sessionid">
+	    		Sesión: {{sessionId}}
+	    	</div>
 		</div>
 	{% endblock %}
-	 </div>
+	</div>
 
 	<div id="action" class="action">
-	{% block action %}
-		
-	{% endblock %}
+		<div id="tcrud" class="tcrud">
+			{% block action %}
+				<table class="tablacrud">
+					<tr class="trcab">
+						<th colspan="4">ÚLTIMAS OPERACIONES</th>
+					</tr>
+					{% for upd in updates %}
+						<tr>
+							<td colspan="4">
+								<table class="bodycrud" rules="all">
+									<thead>
+										<tr class="trtit">
+											<th>
+												Título
+											</th>
+											<th>
+												Usuario
+											</th>
+											<th>
+												Fecha
+											</th>
+											<th></th>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{upd.tituloActualizacion}}
+											</td>
+											<td class="grey">
+												{{upd.Usuario_email}}
+											</td>
+											<td class="perla">
+												{{upd.fechaActualizacion}}
+											</td>
+											<td class="grey">
+												<input type="button" class="btVer" value="Ver Descripción" />
+											</td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td colspan="4" class="descact">
+												<span class="labdesc">Descripción:</span> <span class="spdesc">{{upd.descActualizacion}}</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			{% endblock %}
+		</div>
 	</div>
 </div>
 

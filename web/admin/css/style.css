@@ -2,6 +2,8 @@
 @import url('index.css');
 
 body{
-	font: 15px Arial, Helvetica, Sans-Serif;
+	font-family: 'Armata', sans-serif;
+	font-size: 0.810em;
 	background-color:#DCE3E5;
 }
+

@@ -4,20 +4,20 @@
 
 {% block contenido %}
 
-	<form name="fLogin" action="{{app.request.basepath}}/login" method="POST">
 		<div class="loginout">
 			{% block log %}
 
-				<label>Usuario:</label><input type="text" name="logUser" id="logUser">
+				{{ form_start(form, {'method': 'POST'}) }}
+				{{ form_row(form.Usuario) }}
+				{{ form_row(form.Clave) }}
+				<br><br>
+				{{ form_row(form.recordar) }}
 				<br>
-				<br>
-				<label>Contraseña:</label><input type="password" name="logPass" id="logPass">
-				<br>
-				<br>
-				<input type="submit" name="btLogin" value="Acceder">
+				<input type="submit" name="btLogin" id="btLogin" value="Acceder">
+				{{ form_end(form) }}
 				
 			{% endblock %}
 		</div>
-	</form> 
+	    
 
 {% endblock %}

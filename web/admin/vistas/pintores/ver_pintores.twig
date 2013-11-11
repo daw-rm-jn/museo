@@ -1,0 +1,43 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Pintores' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Lista de Pintores</th>
+					</tr>
+					{% for pintor in pintores %}
+						<tr>
+							<td colspan="4">
+								<table class="bodycrud" rules="all">
+									<thead>
+										<tr class="trtit">
+											<th>
+												idPintor
+											</th>
+											<th>
+												nombrePintor
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="perla">
+												<a href="{{app.request.basepath}}/pintores/pintor/{{pintor.idPintor}}">
+												{{pintor.idPintor}}
+												</a>
+											</td>
+											<td class="grey">
+												<a href="{{app.request.basepath}}/pintores/pintor/{{pintor.idPintor}}">
+												{{pintor.nombrePintor}}
+												</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+	{% endblock %}

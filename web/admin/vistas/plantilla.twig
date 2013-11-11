@@ -3,9 +3,14 @@
 <meta charset="UTF-8">
 <head>
 	<title>{% block titulo '' %}</title>
+	<link href='http://fonts.googleapis.com/css?family=Armata' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="{{app.request.basepath}}/css/style.css">
+	
 </head>
 <body>
 	{% block contenido %}{% endblock %}
+
+	<script type="text/javascript" src="{{app.request.basepath}}/js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="{{app.request.basepath}}/js/funciones.js"></script>
 </body>
 </html>
