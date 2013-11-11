@@ -9,9 +9,9 @@ USE `bd_Museo` ;
 -- Table `bd_Museo`.`Pintor`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Pintor` (
-  `idPintor` INT NOT NULL ,
+  `idPintor` INT NOT NULL AUTO_INCREMENT ,
   `nombrePintor` VARCHAR(50) NULL ,
-  `bioPintor` VARCHAR(45) NULL ,
+  `bioPintor` VARCHAR(4000) NULL ,
   `fechaNacimiento` DATE NOT NULL ,
   `fechaMuerte` DATE NULL ,
   `fotoPintor` VARCHAR(150) NULL ,
@@ -23,7 +23,7 @@ ENGINE = InnoDB;
 -- Table `bd_Museo`.`Planta_Museo`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Planta_Museo` (
-  `idPlanta` INT NOT NULL ,
+  `idPlanta` INT NOT NULL AUTO_INCREMENT ,
   `numeroPlanta` INT(2) NOT NULL ,
   `capacidad` INT(3) NOT NULL ,
   PRIMARY KEY (`idPlanta`) )
@@ -34,7 +34,7 @@ ENGINE = InnoDB;
 -- Table `bd_Museo`.`Sala_Museo`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Sala_Museo` (
-  `idSala` INT NOT NULL ,
+  `idSala` INT NOT NULL AUTO_INCREMENT ,
   `idPlanta` INT NOT NULL ,
   `nombreSala` VARCHAR(45) NOT NULL ,
   `descripcionSala` VARCHAR(45) NULL ,
@@ -52,7 +52,7 @@ ENGINE = InnoDB;
 -- Table `bd_Museo`.`Exposicion`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Exposicion` (
-  `idExposicion` INT NOT NULL ,
+  `idExposicion` INT NOT NULL AUTO_INCREMENT ,
   `idSala` INT NOT NULL ,
   `nombreExposicion` VARCHAR(50) NULL ,
   `fechaInicio` DATE NULL ,
@@ -72,7 +72,7 @@ ENGINE = InnoDB;
 -- Table `bd_Museo`.`Estilo`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Estilo` (
-  `idEstilo` INT NOT NULL ,
+  `idEstilo` INT NOT NULL AUTO_INCREMENT ,
   `nombreEstilo` VARCHAR(50) NULL ,
   `descripcionEstilo` VARCHAR(100) NULL ,
   PRIMARY KEY (`idEstilo`) )
@@ -83,7 +83,7 @@ ENGINE = InnoDB;
 -- Table `bd_Museo`.`Cuadro`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Cuadro` (
-  `idCuadro` INT NOT NULL ,
+  `idCuadro` INT NOT NULL AUTO_INCREMENT ,
   `idPintor` INT NOT NULL ,
   `idExposicion` INT NOT NULL ,
   `idEstilo` INT NOT NULL ,
@@ -117,7 +117,7 @@ ENGINE = InnoDB;
 -- Table `bd_Museo`.`Copia_Cuadro`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Copia_Cuadro` (
-  `idCopia_Cuadro` INT NOT NULL ,
+  `idCopia_Cuadro` INT NOT NULL AUTO_INCREMENT ,
   `nombreProducto` VARCHAR(100) NULL ,
   `autor` VARCHAR(50) NULL ,
   `estilo` VARCHAR(50) NULL ,
@@ -133,7 +133,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Usuario` (
   `email` VARCHAR(50) NOT NULL ,
-  `Rol` VARCHAR(7) NOT NULL ,
+  `rol` VARCHAR(7) NOT NULL ,
   `clave` VARCHAR(100) NOT NULL ,
   `nombre` VARCHAR(20) NULL ,
   `nif` VARCHAR(10) NOT NULL ,
@@ -149,7 +149,7 @@ ENGINE = InnoDB;
 -- Table `bd_Museo`.`Carrito`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Carrito` (
-  `idCarrito` INT NOT NULL ,
+  `idCarrito` INT NOT NULL AUTO_INCREMENT ,
   `email` VARCHAR(50) NOT NULL ,
   `fechaCreacion` DATE NOT NULL ,
   `fechaExpir` DATE NULL ,
@@ -215,7 +215,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Pedido` (
   `email` VARCHAR(50) NOT NULL ,
-  `idPedido` INT NOT NULL ,
+  `idPedido` INT NOT NULL AUTO_INCREMENT ,
   `fecha` DATE NULL ,
   `precioTotal` INT NULL ,
   `estado` VARCHAR(45) NULL ,
@@ -260,7 +260,7 @@ ENGINE = InnoDB;
 -- Table `bd_Museo`.`Recibo`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Recibo` (
-  `idRecibo` INT NOT NULL ,
+  `idRecibo` INT NOT NULL AUTO_INCREMENT ,
   `idPedido` INT NOT NULL ,
   `reciboHTML` VARCHAR(4000) NULL ,
   PRIMARY KEY (`idRecibo`) ,
@@ -268,6 +268,25 @@ CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Recibo` (
   CONSTRAINT `fk_Recibo_Pedido1`
     FOREIGN KEY (`idPedido` )
     REFERENCES `bd_Museo`.`Pedido` (`idPedido` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bd_Museo`.`Actualizacion`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Actualizacion` (
+  `idActualizacion` INT NOT NULL AUTO_INCREMENT ,
+  `tituloActualizacion` VARCHAR(50) NOT NULL ,
+  `fechaActualizacion` DATE NOT NULL ,
+  `descActualizacion` VARCHAR(200) NOT NULL ,
+  `Usuario_email` VARCHAR(50) NOT NULL ,
+  PRIMARY KEY (`idActualizacion`) ,
+  INDEX `fk_Actualizacion_Usuario1` (`Usuario_email` ASC) ,
+  CONSTRAINT `fk_Actualizacion_Usuario1`
+    FOREIGN KEY (`Usuario_email` )
+    REFERENCES `bd_Museo`.`Usuario` (`email` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
