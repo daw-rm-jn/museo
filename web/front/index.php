@@ -15,19 +15,16 @@
 	));
 	$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
-	$app->get('/logout', 'control\controlAdmin::logOut');
 
-	$app->get('/login', 'control\controlAdmin::logIn')->method("POST");
-
-	$app->get("/", "control\controlAdmin::main")->bind("inicio");
+	$app->get("/", "controlalor\controladorPrincipal::main")->bind("inicio");
         
-        $app->get("/pintores", "control\controlAdmin::main")->bind("pintores");
+        $app->get("/pintores", "controlalor\controladorPrincipal::main")->bind("pintores");
         
-        $app->get("/cuadros", "control\controlAdmin::main")->bind("cuadros");
+        $app->get("/cuadros", "controlalor\controladorPrincipal::main")->bind("cuadros");
 
-        $app->get("/carrito", "control\controlAdmin::main")->bind("carrito");
+        $app->get("/carrito", "controlalor\controladorPrincipal::main")->bind("carrito");
 
-        $app->get("/miusuario", "control\controlAdmin::main")->bind("usuario");
+        $app->get("/miusuario", "controlalor\controladorPrincipal::main")->bind("usuario");
 
 
 	$app->run();
