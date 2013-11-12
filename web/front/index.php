@@ -20,6 +20,15 @@
 	$app->get('/login', 'control\controlAdmin::logIn')->method("POST");
 
 	$app->get("/", "control\controlAdmin::main")->bind("inicio");
+        
+        $app->get("/pintores", "control\controlAdmin::main")->bind("pintores");
+        
+        $app->get("/cuadros", "control\controlAdmin::main")->bind("cuadros");
+
+        $app->get("/carrito", "control\controlAdmin::main")->bind("carrito");
+
+        $app->get("/miusuario", "control\controlAdmin::main")->bind("usuario");
+
 
 	$app->run();
  ?>
