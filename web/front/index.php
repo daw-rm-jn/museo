@@ -1,31 +1,50 @@
 <?php 
 	require_once __DIR__.'/../../vendor/autoload.php';
+	require __DIR__.'/modelo/Modelo.php';
+	require __DIR__.'/controlador/listaControladores.php';
 
+	/*---INYECCION DE DEPENDENCIAS--*/
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
 	use Silex\Application;
+	use Silex\Provider\FormServiceProvider;
+	use Symfony\Component\Validator\Constraints as Assert;
 	
 	session_start();
 
+	/*---INICIALIZACION DEL FRAMEWORK--*/
 	$app = new Silex\Application();
 	$app['debug'] = true;
 
+	/*---REGISTRO DE PROVEEDORES DE SERVICIOS--*/
 	$app->register(new Silex\Provider\TwigServiceProvider(), array(
 		'twig.path' => __DIR__.'/vistas'
 	));
 	$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
+	$app->register(new FormServiceProvider());
+	$app->register(new Silex\Provider\TranslationServiceProvider(), array(
+	    'locale' => 'es',
+	    'fallback_locale' => 'en',
+	));
+	$app->register(new Silex\Provider\ValidatorServiceProvider());
 
 
-	$app->get("/", "controlalor\controladorPrincipal::main")->bind("inicio");
+	/*---ENRUTAMIENTO--*/
+	$app->match('/pintores/pintor/{id}', function(Request $req, $id) use($app){
+		return controlPintor::verFichaPintor($req, $app, $id);
+	});
+
+	$app->match('/pintores', function() use ($app){
+		return controladorPrincipal::pintores($app);
+	})->bind('pintores');
         
-        $app->get("/pintores", "controlalor\controladorPrincipal::main")->bind("pintores");
-        
-        $app->get("/cuadros", "controlalor\controladorPrincipal::main")->bind("cuadros");
+        $app->match("/cuadros", function() use ($app){
+		return controladorPrincipal::cuadros($app);
+	})->bind("cuadros");
 
-        $app->get("/carrito", "controlalor\controladorPrincipal::main")->bind("carrito");
+	$app->match("/", function() use ($app){
+		return controladorPrincipal::main($app);
+	})->bind("inicio");
 
-        $app->get("/miusuario", "controlalor\controladorPrincipal::main")->bind("usuario");
-
-
-	$app->run();
+	$app->run();//ARRANQUE DE LA APLICACION
  ?>

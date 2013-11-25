@@ -1,0 +1,36 @@
+{% extends 'plantilla.twig' %}
+
+{% block titulo 'Museo' %}
+
+{% block contenido %}
+
+<div id="cont" class="cont">
+    
+
+    <div id="action" class="action">
+<table class="tablacrud">
+					<tr class="trcab">
+					</tr>
+					{% for pintor in pintores %}
+						<tr>
+							<td colspan="4">
+								<table class="bodycrud" rules="all">
+									
+									<tbody>
+										<tr>
+											<td class="grey">
+												
+												{{pintor.nombrePintor}}<br />
+												<img src="{{pintor.fotoPintor}}"/>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+    </div>
+</div> 
+
+{% endblock %}

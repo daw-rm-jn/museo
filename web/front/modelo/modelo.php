@@ -1,7 +1,6 @@
 <?php 
 
-	namespace modelo;
-	//require 'ListaModelos.php';
+	require 'ListaModelos.php';
 
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
@@ -9,7 +8,7 @@
 
 	class Modelo{
 
-		public function abrirConexion(){
+		public static function abrirConexion(){
 			$mysql_server = "localhost";
 			$mysql_user = "root";
 			$mysql_password = "";
@@ -46,14 +45,19 @@
                         }
 			mysql_close($con);
                 }
-                public function getPintores(){
-                    $con = Modelo::abrirConexion();
-			$rol;
-			$query = "SELECT * FROM pintores";
+                public static function getPintores(){
+			$pintores = array();
+			$con = Modelo::abrirConexion();
+			$query = "SELECT * FROM Pintor ORDER BY nombrePintor ASC";
 			$res = $con->query($query);
-			
-			mysql_close($con);
-                }
+
+		    foreach($res as $row){
+				$pintor = new Pintor($row['idPintor'],$row['nombrePintor'],$row['bioPintor'],$row['fechaNacimiento'],$row['fechaMuerte'],$row['fotoPintor']);
+				$pintores[] = $pintor;
+		    }
+		    return $pintores;
+			$con = null;
+		}
 
 
 		public function cerrarSesion(){

@@ -5,7 +5,7 @@
 	use Symfony\Component\HttpFoundation\Response;
 	use Silex\Application;
 
-	class Modelo{
+	class Consultas{
 
 		
                 public function getPintores(){

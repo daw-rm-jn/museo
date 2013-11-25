@@ -42,8 +42,11 @@ div.cont{
 
 li:hover{
 	background-color: #DEDEDE;
-	border-top: 15px solid #FFFFFF;
-        border-bottom: 16px solid #FFFFFF;
+	//border-top: 15px solid #FFFFFF;
+        //border-bottom: 5px solid #000000;
 	color: #FFFFFF;
 }
+ #slides {
+      display:none;
+    }
 

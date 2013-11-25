@@ -7,7 +7,7 @@
 		public function conectar(){
 			$host = 'localhost';
 			$usuario = 'root';
-			$clave = 'root';
+			$clave = '';
 
 			try {
 			    $con = new PDO("mysql:host=$host;dbname=bd_Museo;charset=utf8", $usuario, $clave);

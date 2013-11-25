@@ -4,8 +4,26 @@
 <head>
 	<title>{% block titulo '' %}</title>
 	<link rel="stylesheet" href="{{app.request.basepath}}/assets/css/style.css">
+         <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+         <script src="{{app.request.basepath}}/assets/js/jquery.slides.min.js"></script>
+         <script src="{{app.request.basepath}}/assets/js/funciones.js"></script>
 </head>
 <body>
-	{% block contenido %}{% endblock %}
+    <div id="titulo" class="titulo">
+	{% block cabecera %}
+        <div id="panelcontrol" class="panelcontrol">
+            <ul id="listaControl" class="listaControl">
+                <li id="elem3" name="elem3" class="elem3" value="elem3"><a href="{{app.request.basepath}}/">Inicio</a></li>
+                <li id="elem2" name="elem2" class="elem2" value="elem2"><a href="{{app.request.basepath}}/pintores">Pintores</a></li>
+                <li id="elem4" name="elem3" class="elem4" value="elem4"><a href="{{app.request.basepath}}/cuadros">Cuadros</a></li>
+                <li id="elem5" name="elem5" class="elem5" value="elem5"><a href="{{app.request.basepath}}/carrito">Carrito</a></li>
+                <li id="elem6" name="elem6" class="elem6" value="elem6"><a href="{{app.request.basepath}}/miusuario">Mi Usuario</a></li>
+
+            </ul>
+        </div>
+        {% block contenido %}{% endblock %}
+	{% endblock %}
+    </div>
+	
 </body>
 </html>
