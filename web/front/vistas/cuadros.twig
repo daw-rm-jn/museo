@@ -14,7 +14,28 @@
         <img src="http://intelectuales08.files.wordpress.com/2008/05/guernica-784569.jpg">
         <img src="http://3.bp.blogspot.com/-5iWUN4p_Kz8/Tw7QH5U7k9I/AAAAAAAACJg/KR5FKcWxxm0/s1600/Picasso.jpg">
     </div>
-
+<table>
+					<tr>
+					</tr>
+					{% for cuadro in cuadros %}
+						<tr>
+							<td colspan="4">
+								<table rules="all">
+									
+									<tbody>
+										<tr>
+											<td>
+												
+												{{cuadro.nombreCuadro}}<br />
+												<img src="{{cuadro.descripcionCuadro}}" />
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
 </div>
 
 {% endblock %}

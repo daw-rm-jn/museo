@@ -58,6 +58,19 @@
 		    return $pintores;
 			$con = null;
 		}
+                 public static function getCuadros(){
+			$pintores = array();
+			$con = Modelo::abrirConexion();
+			$query = "SELECT * FROM Cuadro ORDER BY nombreCuadro ASC";
+			$res = $con->query($query);
+
+		    foreach($res as $row){
+				$cuadro = new Cuadro($row['idCuadro'],$row['idPintor'],$row['idExposicion'],$row['idEstilo'],$row['nombreCuadro'],$row['descripcionCuadro'],$row['fotoCuadro']);
+				$cuadros[] = $cuadro;
+		    }
+		    return $cuadros;
+			$con = null;
+		}
 
 
 		public function cerrarSesion(){
