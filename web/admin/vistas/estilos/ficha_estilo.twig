@@ -1,0 +1,38 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Ficha de estilo' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Estilo #{{estilo.idEstilo}}</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.idEstilo, {'attr': {'value' : estilo.idEstilo}}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.nombreEstilo, {'attr': {'value' : estilo.nombreEstilo}}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey" colspan="2">
+												<label for="">Descripción de estilo:</label><br>
+												<textarea name="descEstilo" id="descEstilo" cols="100" rows="20">{{estilo.descripcionEstilo}}</textarea>
+											</td>
+										</tr>
+										<tr>
+											<td class="grey" colspan="2">
+												{{ form_row(form.guardar) }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

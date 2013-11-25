@@ -1,0 +1,9 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Inserción de estilo' %}
+
+	{% block action %}
+			{{ msgoperacion }}
+			<br>
+			<a href="{{app.request.basepath}}/estilos">Lista de estilos</a>
+	{% endblock %}

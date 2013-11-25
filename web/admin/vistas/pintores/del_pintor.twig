@@ -1,0 +1,9 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Eliminación de pintor(es)' %}
+
+	{% block action %}
+			{{ msgoperacion }}
+			<br>
+			<a href="{{app.request.basepath}}/pintores">Lista de pintores</a>
+	{% endblock %}

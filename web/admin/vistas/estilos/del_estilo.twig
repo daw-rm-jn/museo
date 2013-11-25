@@ -1,0 +1,9 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Eliminación de estilo(s)' %}
+
+	{% block action %}
+			{{ msgoperacion }}
+			<br>
+			<a href="{{app.request.basepath}}/estilos">Lista de estilos</a>
+	{% endblock %}

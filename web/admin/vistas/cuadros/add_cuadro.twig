@@ -1,0 +1,51 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Añadir cuadro' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Formulario de alta de Cuadro</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.nombreCuadro) }}
+											</td>
+											<td class="grey">
+												{{ form_row(form.descripcionCuadro) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.fotoCuadro) }}
+											</td>
+											<td class="grey">
+												{{ form_row(form.pintor) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.exposicion)}}
+											</td>
+
+											<td class="grey">
+												{{ form_row(form.estilo)}}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey" colspan="2">
+												{{ form_row(form.guardar) }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

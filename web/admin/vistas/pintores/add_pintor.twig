@@ -1,0 +1,48 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Añadir pintor' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Formulario de alta de Pintor</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.nombrePintor) }}
+											</td>
+											<td class="grey">
+												{{ form_row(form.fechaNacimiento) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.fechaMuerte) }}
+											</td>
+											<td class="grey">
+												{{ form_row(form.fotoPintor) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla" colspan="2">
+												<label for="">Biografía de pintor:</label><br>
+												<textarea name="bioPintor" id="bioPintor" cols="100" rows="20"></textarea>
+											</td>
+										</tr>
+										<tr>
+											<td class="grey" colspan="2">
+												{{ form_row(form.guardar) }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

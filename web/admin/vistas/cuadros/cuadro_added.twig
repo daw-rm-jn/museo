@@ -1,0 +1,9 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Inserción de cuadro' %}
+
+	{% block action %}
+			{{ msgoperacion }}
+			<br>
+			<a href="{{app.request.basepath}}/cuadros">Lista de cuadros</a>
+	{% endblock %}
