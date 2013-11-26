@@ -59,8 +59,8 @@ CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Exposicion` (
   `fechaFIn` DATE NULL ,
   `descripcionExpo` VARCHAR(100) NULL ,
   PRIMARY KEY (`idExposicion`) ,
-  INDEX `fk_Excposicion_Sala_Museo1` (`idSala` ASC) ,
-  CONSTRAINT `fk_Excposicion_Sala_Museo1`
+  INDEX `fk_Exposicion_Sala_Museo1` (`idSala` ASC) ,
+  CONSTRAINT `fk_Exposicion_Sala_Museo1`
     FOREIGN KEY (`idSala` )
     REFERENCES `bd_Museo`.`Sala_Museo` (`idSala` )
     ON DELETE NO ACTION
@@ -88,19 +88,18 @@ CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Cuadro` (
   `idExposicion` INT NOT NULL ,
   `idEstilo` INT NOT NULL ,
   `nombreCuadro` VARCHAR(100) NULL ,
-  `estilo` VARCHAR(20) NULL ,
   `descripcionCuadro` VARCHAR(100) NULL ,
   `fotoCuadro` VARCHAR(150) NULL ,
   PRIMARY KEY (`idCuadro`) ,
   INDEX `fk_Cuadro_Pintor` (`idPintor` ASC) ,
-  INDEX `fk_Cuadro_Excposicion1` (`idExposicion` ASC) ,
+  INDEX `fk_Cuadro_Exposicion1` (`idExposicion` ASC) ,
   INDEX `fk_Cuadro_Estilo1` (`idEstilo` ASC) ,
   CONSTRAINT `fk_Cuadro_Pintor`
     FOREIGN KEY (`idPintor` )
     REFERENCES `bd_Museo`.`Pintor` (`idPintor` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Cuadro_Excposicion1`
+  CONSTRAINT `fk_Cuadro_Exposicion1`
     FOREIGN KEY (`idExposicion` )
     REFERENCES `bd_Museo`.`Exposicion` (`idExposicion` )
     ON DELETE NO ACTION
