@@ -189,6 +189,10 @@ table.tablacrud td.grey{
 	padding:0.3%;
 }
 
+table.tablacrud td.pict{
+	text-align: right;
+}
+
 table.tablacrud td.perla{
 	background-color: #FFFAF6;
 	border-top:1px solid #AAA;
@@ -212,7 +216,21 @@ table.bodycrud {
 	border:1px solid #aaa;
 }
 
-/*--- DETALLES DE PINTOR --*/
-input[type="text"]{
+input.btborrar, input.btadd{
 	float:right;
+}
+
+input[type="text"].txtdcha, button#form_Borrar{
+	float:right;
+}
+
+img.foto{
+	max-width: 20%;
+	max-height: 20%;
+}
+
+hr.separador{
+	width: 30%;
+	margin-bottom: 1%;
+	margin-top: 5%;
 }

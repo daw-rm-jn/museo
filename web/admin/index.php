@@ -8,6 +8,8 @@
 	use Symfony\Component\HttpFoundation\Response;
 	use Silex\Application;
 	use Silex\Provider\FormServiceProvider;
+	use Symfony\Component\HttpFoundation\JsonResponse;
+	use Symfony\Component\HttpFoundation\RedirectResponse;
 	use Symfony\Component\Validator\Constraints as Assert;
 	
 	session_start();
@@ -28,23 +30,52 @@
 	));
 	$app->register(new Silex\Provider\ValidatorServiceProvider());
 
+	$checkAdmin = function (Request $request) {
+				    if(!isset($_SESSION['admin'])){
+				    	return controlAdmin::noAuth();
+				    }
+				};
 
 	/*---ENRUTAMIENTO--*/
+	$app->match('/estilos/estilo/{id}', function(Request $req, $id) use($app){
+		return controlEstilo::verFichaEstilo($req, $app, $id);
+	})->before($checkAdmin);
+
+	$app->match('/estilos/add', function(Request $req) use ($app){
+		return controlEstilo::addEstilo($req, $app);
+	})->before($checkAdmin);
+
+	$app->match('/estilos', function(Request $req) use ($app){
+		return controlEstilo::verEstilos($req, $app);
+	})->bind('ver_estilos')
+	  ->before($checkAdmin);
+
+	$app->match('/pintores/add', function(Request $req) use ($app){
+		return controlPintor::addPintor($req, $app);
+	})->before($checkAdmin);
+
 	$app->match('/pintores/pintor/{id}', function(Request $req, $id) use($app){
 		return controlPintor::verFichaPintor($req, $app, $id);
-	});
+	})->before($checkAdmin);
 
-	$app->match('/pintores', function() use ($app){
-		return controlPintor::verPintores($app);
-	})->bind('ver_pintores');
+	$app->match('/pintores', function(Request $req) use ($app){
+		return controlPintor::verPintores($req, $app);
+	})->bind('ver_pintores')
+	  ->before($checkAdmin);
 
-	$app->match('/cuadros', function() use ($app){
-		return controlCuadros::verCuadros($app);
-	})->bind('ver_cuadros');
+	$app->match('/cuadros/add', function(Request $req) use ($app){
+		return controlCuadro::addCuadro($req, $app);
+	})->before($checkAdmin);
+
+	$app->match('/cuadros', function(Request $req) use ($app){
+		return controlCuadro::verCuadros($req, $app);
+	})->bind('ver_cuadros')
+	  ->before($checkAdmin);
 
 	$app->match('/logout', function() use($app){
 		return controlAdmin::logOut($app);	
-	})->bind('logout');
+	})->bind('logout')
+	  ->before($checkAdmin);
 
 	$app->match('/login', function(Request $req) use($app){
 		return controlAdmin::logIn($req, $app);

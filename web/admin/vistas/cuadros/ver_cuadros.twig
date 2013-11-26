@@ -3,8 +3,55 @@
 {% block titulo 'Cuadros' %}
 
 	{% block action %}
-		{% for cuadro in cuadros %}
-			{{cuadro.nombreCuadro}}
-			{{cuadro.descripcionCuadro}}
-		{% endfor %}
+			<table class="tablacrud">
+					<tr class="trcab" >
+						<th colspan="3">
+							<a href="{{app.request.basepath}}/cuadros/add"><input type="button" name="btadd" id="btadd" class="btadd" value="Añadir Registro" /></a>
+							{{ form_start(form, {'method': 'POST'}) }}
+							{{ form_row(form.Borrar)}}
+						</th>
+					</tr>
+					<tr class="trcab">
+						<th>Lista de Cuadros</th>
+					</tr>
+					{% for cuadro in cuadros %}
+						<input type="hidden" name="hidid" value="{{cuadro.idCuadro}}"/>
+						<tr>
+							<td colspan="4">
+								<table class="bodycrud" rules="all">
+									<thead>
+										<tr class="trtit">
+											<th>
+												idCuadro
+											</th>
+											<th>
+												nombreCuadro
+											</th>
+											<th>#</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="perla">
+												<a href="{{app.request.basepath}}/cuadros/cuadro/{{cuadro.idCuadro}}">
+												{{cuadro.idCuadro}}
+												</a>
+											</td>
+											<td class="grey">
+												<a href="{{app.request.basepath}}/cuadros/cuadro/{{cuadro.idCuadro}}">
+												{{cuadro.nombreCuadro}}
+												</a>
+											</td>
+											<td class="perla">
+												<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{cuadro.idCuadro}}"/>
+											</td>
+										</tr>
+					{% endfor %}
+									</tbody>
+
+								</table>
+							</td>
+						</tr>
+					{{ form_end(form) }}
+				</table>
 	{% endblock %}

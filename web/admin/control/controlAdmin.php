@@ -4,11 +4,20 @@
 	use Symfony\Component\HttpFoundation\Response;
 	use Silex\Application;
 	use Silex\Provider\FormServiceProvider;
+	use Symfony\Component\HttpFoundation\JsonResponse;
+	use Symfony\Component\HttpFoundation\RedirectResponse;
 	use Symfony\Component\Validator\Constraints as Assert;
 
 	class controlAdmin{
 
-		public function main(Application $app){
+		static function noAuth(){
+			$msg = "<h1>403 - Forbidden</h1>
+					<br>
+					<h2>No está autorizado a ver este contenido.</h2>";
+			return new Response($msg, 403);
+		}
+
+		static function main(Application $app){
 			$updates = Modelo::getUpdates();
 			if(isset($_SESSION['admin'])){
 				return $app['twig']->render('inicio.twig', array(
@@ -21,7 +30,7 @@
 			}
 		}
 
-		public function logIn(Request $req, Application $app){
+		static function logIn(Request $req, Application $app){
 			$form = $app['form.factory']->createBuilder('form')
 			        ->add('Usuario', "text", array(
 			        	'constraints' => array(
@@ -57,7 +66,7 @@
 		    return $app['twig']->render('login.twig', array('form' => $form->createView()));
 		}
 
-		public function logOut(Application $app){
+		static function logOut(Application $app){
 			session_destroy();
 			return $app['twig']->render('logout.twig', array());
 		}

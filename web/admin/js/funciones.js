@@ -1,13 +1,14 @@
 /*---ACORDEÓN TABLA ÚLTIMOS CAMBIOS---*/
 $(document).ready(function(){
+/*--- OCULTAR/MOSTRAR DESCRIPCION DE ACTUALIZACIONES ---*/
 		$('input.btVer') .click(
 			function() {
-				$(this) .parents('table.bodyupdates') .children('tbody') .toggle();
+				$(this) .parents('table.bodycrud') .children('tbody') .toggle();
 			}
 		)
 
-		$('input.btVer').parents('table.bodyupdates').children('tbody').toggle();
-
+		$('input.btVer').parents('table.bodycrud').children('tbody').toggle();
+/*--- DESPLEGABLE LISTA MUSEO---*/
 		$('li#limuseo') .click(
 			function() {
 				$('li.liexposiciones').toggle();
@@ -18,6 +19,6 @@ $(document).ready(function(){
 		$('li.liexposiciones').toggle();
 		$('li.liplantas').toggle();
 		$('li.lisalas').toggle();
-
+/*--- CHECKBOXES ---*/
 
 });
