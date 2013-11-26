@@ -59,7 +59,7 @@
 			$con = null;
 		}
                  public static function getCuadros(){
-			$pintores = array();
+			$cuadros = array();
 			$con = Modelo::abrirConexion();
 			$query = "SELECT * FROM Cuadro ORDER BY nombreCuadro ASC";
 			$res = $con->query($query);
