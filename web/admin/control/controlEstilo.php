@@ -20,9 +20,11 @@
 		        	$data = $form_borrar->getData();
 					$idEstilos = $req->request->get('cb_borrar');
 		        	Modelo::borrarEstilos($idEstilos);
-					return $app['twig']->render('/estilos/del_estilo.twig', array(
-						'msgCabecera' => 'Entrada(s) borrada(s)',
+					return $app['twig']->render('mod.twig', array(
+						'msgCabecera' => 'Operación correcta',
+						'titulo' => 'Entrada(s) eliminada(s)',
 						'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
+						'seccion' => 'estilos',
 						'sessionId' => $_SESSION['admin']
 				    	)
 				    );
@@ -53,16 +55,20 @@
 		        if ($form->isValid()) {
 		        	$data = $form->getData();
 					if(Modelo::modificaEstilo($data, $desc)){
-						return $app['twig']->render('/estilos/mod_estilo.twig', array(
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Operación correcta',
 				    		'sessionId' => $_SESSION['admin'],
-				    		'msgCabecera' => 'Entrada Modificada',
-				    		'msgoperacion' => 'Estilo modificado con éxito'
+				    		'titulo' => 'Entrada modificada',
+				    		'msgoperacion' => 'Estilo modificado con éxito',
+				    		'seccion' => 'estilos'
 						));
 					}else{
-						return $app['twig']->render('/estilos/mod_estilo.twig', array(
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Error',
 				    		'sessionId' => $_SESSION['admin'],
-				    		'msgCabecera' => 'Entrada NO modificada',
-				    		'msgoperacion' => 'Error al modificar el estilo.'
+				    		'titulo' => 'Entrada NO modificada',
+				    		'msgoperacion' => 'Error al modificar el registro Estilo',
+				    		'seccion' => 'estilo'
 						));
 					}
 		        }
@@ -91,16 +97,20 @@
 		        	$data = $form_add_estilo->getData();
 
 					if(Modelo::addEstilo($data, $desc)){
-						return $app['twig']->render('/estilos/estilo_added.twig', array(
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Operación correcta',
 				    		'sessionId' => $_SESSION['admin'],
-				    		'msgCabecera' => 'Entrada Añadida',
-				    		'msgoperacion' => 'Pintor añadida con éxito'
+				    		'titulo' => 'Entrada Añadida',
+				    		'msgoperacion' => 'Estilo añadido con éxito',
+				    		'seccion' => 'estilos'
 						));
 					}else{
-						return $app['twig']->render('/estilos/estilo_added.twig', array(
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Error',
 				    		'sessionId' => $_SESSION['admin'],
-				    		'msgCabecera' => 'Entrada NO Añadida',
-				    		'msgoperacion' => 'Error al añadir el pintor.'
+				    		'titulo' => 'Entrada NO Añadida',
+				    		'msgoperacion' => 'Error al insertar el registro Estilo',
+				    		'seccion' => 'estilos'
 						));
 					}
 		        }

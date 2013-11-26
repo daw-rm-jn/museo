@@ -57,11 +57,11 @@
 			$con = null;
 		}
 
-		static function insertUpdate($op, $sec, $id, $estado){
+		static function insertUpdate($descriptor){
 			$con = Modelo::conectar();
-			$update = $con->prepare("INSERT INTO Actualizacion (tituloActualizacion, fechaActualizacion, descActualizacion, Usuario_email) VALUES (:op, NOW(), 'El registro de tipo " . $sec . " con id #" . $id . " ha sido " . $estado ."', :user)");
+			$update = $con->prepare("INSERT INTO Actualizacion (tituloActualizacion, fechaActualizacion, descActualizacion, Usuario_email) VALUES (:op, NOW(), 'El registro de tipo " . $descriptor['sec'] . " con id #" . $descriptor['id'] . " ha sido " . $descriptor['estado'] ."', :user)");
 
-			$update->bindParam(':op', $op);
+			$update->bindParam(':op', $descriptor['op']);
 			$update->bindParam(':user', $_SESSION['admin']);
 
 			$update->execute();
@@ -78,7 +78,7 @@
 		static function getPintores(){
 			$pintores = array();
 			$con = Modelo::conectar();
-			$stmt = $con->prepare("SELECT * FROM Pintor ORDER BY nombrePintor ASC");
+			$stmt = $con->prepare("SELECT * FROM Pintor ORDER BY idPintor ASC");
 		    $stmt->execute();
 		    $result = $stmt->fetchAll();
 
@@ -107,22 +107,28 @@
 		}
 
 		/*--- MODIFICA UN PINTOR ---*/
-		static function modificaPintor($pintor, $bio, $foto){
+		static function modificaPintor($pintor, $descriptor){
 			$con = Modelo::conectar();
 			$stmt = $con->prepare("UPDATE Pintor SET nombrePintor = :nombrep,  bioPintor = :biop, fechaNacimiento = :fechan, fechaMuerte = :fecham, fotoPintor = :fotop WHERE idPintor = :idp");
 			
 			$stmt->bindParam(':idp', $pintor['idPintor']);
 			$stmt->bindParam(':nombrep', $pintor['nombrePintor']);
-			$stmt->bindParam(':biop', $bio);
+			$stmt->bindParam(':biop', $descriptor['bio']);
 			$stmt->bindParam(':fechan', $pintor['fechaNacimiento']);
 			$stmt->bindParam(':fecham', $pintor['fechaMuerte']);
-			$stmt->bindParam(':fotop', $foto);
+			$stmt->bindParam(':fotop', $descriptor['foto']);
 
 			$stmt->execute();
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				Modelo::insertUpdate('MODIFICACIÓN [PINTOR]', 'Pintor', $pintor['idPintor'], 'actualizado');
+				$descriptor = array(
+					'op' => 'MODIFICACIÓN [PINTOR]',
+					'sec' => 'Pintor',
+					'id' => $pintor['idPintor'],
+					'estado' => 'actualizado'
+				);
+				Modelo::insertUpdate($descriptor);
 				return true;
 			}else{
 				return false;
@@ -143,51 +149,47 @@
 				$pintorABorrar = Modelo::getPintorPorId($idPintores[$i]);
 				$nombrePintor = $pintorABorrar->getnombrePintor();
 
-				Modelo::borraDirectorio(__DIR__.'/../img/'. $nombrePintor);
+				//Modelo::borraDirectorio(__DIR__.'/../../img/pintores/'. $nombrePintor);
 
-				Modelo::insertUpdate('BAJA [PINTOR]', 'Pintor', $idPintores[$i], 'eliminado');
+				$descriptor = array(
+					'op' => 'BAJA [PINTOR]',
+					'sec' => 'Pintor',
+					'id' => $idPintores[$i],
+					'estado' => 'eliminado'
+				);
+				Modelo::insertUpdate($descriptor);
 
 			}
 			$con = null;
 		}
 
 		/*--- AÑADE UN PINTOR ---*/
-		static function addPintor($pintor, $bio, $foto){
+		static function addPintor($pintor, $descriptor){
 			$con = Modelo::conectar();
 			$stmt = $con->prepare("INSERT INTO Pintor (nombrePintor,bioPintor,fechaNacimiento,fechaMuerte,fotoPintor) VALUES (:nomp,:biop,:fechn,:fechm,:fotop)");
 
 			$stmt->bindParam(':nomp', $pintor['nombrePintor']);
-			$stmt->bindParam(':biop', $bio);
+			$stmt->bindParam(':biop', $descriptor['bio']);
 			$stmt->bindParam(':fechn', $pintor['fechaNacimiento']);
 			$stmt->bindParam(':fechm', $pintor['fechaMuerte']);
-			$stmt->bindParam(':fotop', $foto);
+			$stmt->bindParam(':fotop', $descriptor['foto']);
 
 			$stmt->execute();
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				Modelo::insertUpdate('ALTA [PINTOR]', 'Pintor', $con->lastInsertId(), 'insertado');
+				$descriptor = array(
+					'op' => 'ALTA [PINTOR]',
+					'sec' => 'Pintor',
+					'id' => $con->lastInsertId(),
+					'estado' => 'insertado'
+				);
+				Modelo::insertUpdate($descriptor);
 				return true;
 			}else{
 				return false;
 			}
 
-			$con = null;
-		}
-
-		/*--- DEVUELVE LOS NOMBRES DE TODOS LOS PINTORES ---*/
-		static function getNombresDePintores(){
-			$nombres = array();
-			$con = Modelo::conectar();
-			$stmt = $con->prepare("SELECT nombrePintor FROM Pintor");
-		    $stmt->execute();
-		    $result = $stmt->fetchAll();
-
-		    foreach($result as $row){
-				$nombre = $row['nombrePintor'];
-				$nombres[] = $nombre;
-		    }
-		    return $nombres;
 			$con = null;
 		}
 
@@ -215,7 +217,7 @@
 		static function getEstilos(){
 			$estilos = array();
 			$con = Modelo::conectar();
-			$stmt = $con->prepare("SELECT * FROM Estilo ORDER BY nombreEstilo ASC");
+			$stmt = $con->prepare("SELECT * FROM Estilo ORDER BY idEstilo ASC");
 		    $stmt->execute();
 		    $result = $stmt->fetchAll();
 
@@ -256,7 +258,13 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				Modelo::insertUpdate('MODIFICACIÓN [ESTILO]', 'Estilo', $estilo['idEstilo'], 'actualizado');
+				$descriptor = array(
+					'op' => 'MODIFICACIÓN [ESTILO]',
+					'sec' => 'Estilo',
+					'id' => $estilo['idEstilo'],
+					'estado' => 'actualizado'
+				);
+				Modelo::insertUpdate($descriptor);
 				return true;
 			}else{
 				return false;
@@ -277,7 +285,13 @@
 				$estiloABorrar = Modelo::getEstiloPorId($idEstilos[$i]);
 				$nombreEstilo = $estiloABorrar->getnombreEstilo();
 
-				Modelo::insertUpdate('BAJA [ESTILO]', 'Estilo', $idEstilos[$i], 'eliminado');
+				$descriptor = array(
+					'op' => 'BAJA [ESTILO]',
+					'sec' => 'Estilo',
+					'id' => $idEstilos[$i],
+					'estado' => 'eliminado'
+				);
+				Modelo::insertUpdate($descriptor);
 
 			}
 			$con = null;
@@ -295,7 +309,13 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				Modelo::insertUpdate('ALTA [ESTILO]', 'Estilo', $con->lastInsertId(), 'insertado');
+				$descriptor = array(
+					'op' => 'ALTA [ESTILO]',
+					'sec' => 'Estilo',
+					'id' => $con->lastInsertId(),
+					'estado' => 'insertado'
+				);
+				Modelo::insertUpdate($descriptor);
 				return true;
 			}else{
 				return false;
@@ -304,23 +324,7 @@
 			$con = null;
 		}
 
-		/*--- DEVUELVE LOS NOMBRES DE LOS ESTILOS ---*/
-		static function getNombresDeEstilos(){
-			$nombres = array();
-			$con = Modelo::conectar();
-			$stmt = $con->prepare("SELECT nombreEstilo FROM Estilo");
-		    $stmt->execute();
-		    $result = $stmt->fetchAll();
-
-		    foreach($result as $row){
-				$nombre = $row['nombreEstilo'];
-				$nombres[] = $nombre;
-		    }
-		    return $nombres;
-			$con = null;
-		}
-
-		/*--- DEVULVE LA ID DE UN ESTILO ---*/
+		/*--- DEVUELVE LA ID DE UN ESTILO ---*/
 		static function getIdEstilo($nombre){
 			$con = Modelo::conectar();
 			$stmt = $con->prepare("SELECT idEstilo FROM Estilo WHERE nombreEstilo = :nombreEstilo");
@@ -340,11 +344,42 @@
 		/*--- FUNCIONES DE CUADROS ---*/
 		/*---------------------------*/
 
+		/*--- DEVUELVE CUADRO CON ID INDICADA ---*/
+		static function getCuadroPorId($id){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Cuadro WHERE idCuadro = :idCuadro");
+
+		    $stmt->bindParam(':idCuadro', $id);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$cuadro = new Cuadro($row['idCuadro'],$row['idPintor'],$row['idExposicion'],$row['idEstilo'],$row['nombreCuadro'],$row['descripcionCuadro'],$row['fotoCuadro']);
+			
+		    return $cuadro;
+			$con = null;
+		}
+
+		static function getFoto($id){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT fotoCuadro FROM Cuadro WHERE idCuadro = :idCuadro");
+
+		    $stmt->bindParam(':idCuadro', $id);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$cuadro = $row['fotoCuadro'];
+			
+		    return $cuadro;
+			$con = null;
+		}
+
 		/*--- DEVUELVE TODOS LOS CUADROS ---*/
 		static function getCuadros(){
 			$cuadros = array();
 			$con = Modelo::conectar();
-			$stmt = $con->prepare("SELECT * FROM Cuadros ORDER BY nombreCuadro ASC");
+			$stmt = $con->prepare("SELECT * FROM Cuadro ORDER BY idCuadro ASC");
 		    $stmt->execute();
 		    $result = $stmt->fetchAll();
 
@@ -357,17 +392,17 @@
 		}
 
 		/*--- AÑADE UN CUADRO ---*/
-		static function addCuadro($cuadro, $foto){
-			$idp = Modelo::getIdPintor($cuadro['pintor']);
-			$idex = Modelo::getIdExposicion($cuadro['exposicion']);
-			$ides = Modelo::getIdEstilo($cuadro['estilo']);
+		static function addCuadro($cuadro, $descriptor){
+			$idp = Modelo::getIdPintor($descriptor['pintor']);
+			$idex = Modelo::getIdExposicion($descriptor['expo']);
+			$ides = Modelo::getIdEstilo($descriptor['estilo']);
 			
 			$con = Modelo::conectar();
-			$stmt = $con->prepare("INSERT INTO Cuadro (idPintor,idExposicion,idEstilo,nombreCuadro,descripcionCuadro,fotoCuadro) VALUES (:idp,:idex,:ides,:nomc,:descc,:fotoc");
+			$stmt = $con->prepare("INSERT INTO Cuadro (idPintor,idExposicion,idEstilo,nombreCuadro,descripcionCuadro,fotoCuadro) VALUES (:idp,:idex,:ides,:nomc,:descc,:fotoc)");
 
 			$stmt->bindParam(':nomc', $cuadro['nombreCuadro']);
-			$stmt->bindParam(':descc', $cuadro['descripcionCuadro']);
-			$stmt->bindParam(':fotoc', $foto);
+			$stmt->bindParam(':descc', $descriptor['descripcion']);
+			$stmt->bindParam(':fotoc', $descriptor['foto']);
 			$stmt->bindParam(':idp', $idp);
 			$stmt->bindParam(':idex', $idex);
 			$stmt->bindParam(':ides', $ides);
@@ -376,7 +411,13 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				Modelo::insertUpdate('ALTA [CUADRO]', 'Cuadro', $con->lastInsertId(), 'insertado');
+				$descriptor = array(
+					'op' => 'ALTA [CUADRO]',
+					'sec' => 'Cuadro',
+					'id' => $con->lastInsertId(),
+					'estado' => 'insertado'
+				);
+				Modelo::insertUpdate($descriptor);
 				return true;
 			}else{
 				return false;
@@ -398,6 +439,31 @@
 		    $nombrePintor = $row['nombrePintor'];
 
 		    return $nombrePintor;		    
+			$con = null;
+		}
+
+		/*--- ELIMINA UNO O MAS CUADROS ---*/
+		static function borrarCuadros($idCuadros){
+			$con = Modelo::conectar();
+			for ($i=0; $i < sizeof($idCuadros); $i++) { 
+				$stmt = $con->prepare("DELETE FROM Cuadro WHERE idCuadro = :id");
+				$stmt->bindParam(':id', $idCuadros[$i]);
+				$stmt->execute();
+
+				$cuadroABorrar = Modelo::getCuadroPorId($idCuadros[$i]);
+				$nombreCuadro = $cuadroABorrar->getnombreCuadro();
+
+				//Modelo::borraDirectorio(__DIR__.'/../../img/cuadros/'.$nombreCuadro.'/');
+
+				$descriptor = array(
+					'op' => 'BAJA [PINTOR]',
+					'sec' => 'Cuadro',
+					'id' => $idCuadros[$i],
+					'estado' => 'eliminado'
+				);
+				Modelo::insertUpdate($descriptor);
+
+			}
 			$con = null;
 		}
 
@@ -423,18 +489,18 @@
 		/*----------------------------------------*/
 
 		/*--- DEVUELVE LOS NOMBRES DE LAS EXPOSICIONES ---*/
-		static function getNombresDeExpos(){
-			$nombres = array();
+		static function getExposiciones(){
+			$exposiciones = array();
 			$con = Modelo::conectar();
-			$stmt = $con->prepare("SELECT nombreExposicion FROM Exposicion");
+			$stmt = $con->prepare("SELECT * FROM Exposicion ORDER BY idExposicion ASC");
 		    $stmt->execute();
 		    $result = $stmt->fetchAll();
 
 		    foreach($result as $row){
-				$nombre = $row['nombreExposicion'];
-				$nombres[] = $nombre;
+				$exposicion = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFIn'],$row['descripcionExpo']);
+				$exposiciones[] = $exposicion;
 		    }
-		    return $nombres;
+		    return $exposiciones;
 			$con = null;
 		}
 

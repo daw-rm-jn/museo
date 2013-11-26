@@ -4,10 +4,10 @@
 	require __DIR__.'/control/ListaControladores.php';
 
 	/*---INYECCION DE DEPENDENCIAS--*/
-	use Symfony\Component\HttpFoundation\Request;
-	use Symfony\Component\HttpFoundation\Response;
 	use Silex\Application;
 	use Silex\Provider\FormServiceProvider;
+	use Symfony\Component\HttpFoundation\Request;
+	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\HttpFoundation\JsonResponse;
 	use Symfony\Component\HttpFoundation\RedirectResponse;
 	use Symfony\Component\Validator\Constraints as Assert;
@@ -21,22 +21,24 @@
 	/*---REGISTRO DE PROVEEDORES DE SERVICIOS--*/
 	$app->register(new Silex\Provider\TwigServiceProvider(), array(
 		'twig.path' => __DIR__.'/vistas'
-	));
-	$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
-	$app->register(new FormServiceProvider());
+	));//Twig, el sistema de templates para las vistas
+	$app->register(new Silex\Provider\UrlGeneratorServiceProvider());//Generador de redirecciones
+	$app->register(new FormServiceProvider());//Formularios
 	$app->register(new Silex\Provider\TranslationServiceProvider(), array(
 	    'locale' => 'es',
 	    'fallback_locale' => 'en',
-	));
-	$app->register(new Silex\Provider\ValidatorServiceProvider());
+	));//Traductor para los mensajes de los formularios
+	$app->register(new Silex\Provider\ValidatorServiceProvider());//Validador para los campos de los formularios
 
 	$checkAdmin = function (Request $request) {
 				    if(!isset($_SESSION['admin'])){
 				    	return controlAdmin::noAuth();
 				    }
-				};
+				};//Función para comprobar si se ha iniciado sesión y restringir el acceso
 
 	/*---ENRUTAMIENTO--*/
+
+	/*--- ESTILOS ---*/
 	$app->match('/estilos/estilo/{id}', function(Request $req, $id) use($app){
 		return controlEstilo::verFichaEstilo($req, $app, $id);
 	})->before($checkAdmin);
@@ -47,21 +49,25 @@
 
 	$app->match('/estilos', function(Request $req) use ($app){
 		return controlEstilo::verEstilos($req, $app);
-	})->bind('ver_estilos')
-	  ->before($checkAdmin);
+	})->before($checkAdmin);
+
+	/*--- PINTORES ---*/
+	$app->match('/pintores/pintor/{id}', function(Request $req, $id) use($app){
+		return controlPintor::verFichaPintor($req, $app, $id);
+	})->before($checkAdmin);
 
 	$app->match('/pintores/add', function(Request $req) use ($app){
 		return controlPintor::addPintor($req, $app);
 	})->before($checkAdmin);
 
-	$app->match('/pintores/pintor/{id}', function(Request $req, $id) use($app){
-		return controlPintor::verFichaPintor($req, $app, $id);
-	})->before($checkAdmin);
-
 	$app->match('/pintores', function(Request $req) use ($app){
 		return controlPintor::verPintores($req, $app);
-	})->bind('ver_pintores')
-	  ->before($checkAdmin);
+	})->before($checkAdmin);
+
+	/*--- CUADROS ---*/
+	$app->match('/cuadros/cuadro/{id}', function(Request $req, $id) use($app){
+		return controlCuadro::verFichaCuadro($req, $app, $id);
+	})->before($checkAdmin);
 
 	$app->match('/cuadros/add', function(Request $req) use ($app){
 		return controlCuadro::addCuadro($req, $app);
@@ -69,9 +75,9 @@
 
 	$app->match('/cuadros', function(Request $req) use ($app){
 		return controlCuadro::verCuadros($req, $app);
-	})->bind('ver_cuadros')
-	  ->before($checkAdmin);
+	})->before($checkAdmin);
 
+	/*--- MAIN ---*/
 	$app->match('/logout', function() use($app){
 		return controlAdmin::logOut($app);	
 	})->bind('logout')

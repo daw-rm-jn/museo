@@ -14,9 +14,13 @@
 									<tbody>
 										<tr>
 											<td class="perla">
-												{{ form_row(form.nombreCuadro) }}
+												{{ form_row(form.nombreCuadro, {'attr': {'value': cuadro.fotoCuadro, 'class': 'txtdcha' }}) }}
 											</td>
 											<td class="grey">
+												<label for="">Foto de Cuadro(ACTUAL)</label>
+												<br>
+												<img class="foto" src="{{app.request.basepath}}/../img/cuadros/{{cuadro.nombreCuadro}}/{{cuadro.fotoCuadro}}" alt="">
+												<br>
 												{{ form_row(form.fotoCuadro) }}
 											</td>
 										</tr>
@@ -50,7 +54,7 @@
 										</tr>
 											<td class="perla" colspan="3">
 												<label for="">Descripción del cuadro::</label><br>
-												<textarea name="descCuadro" id="descCuadro" cols="100" rows="20"></textarea>
+												<textarea name="descCuadro" id="descCuadro" cols="100" rows="20">{{pic}}</textarea>
 											</td>
 										<tr>
 										</tr>

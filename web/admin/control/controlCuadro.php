@@ -1,8 +1,8 @@
 <?php 
-	use Symfony\Component\HttpFoundation\Request;
-	use Symfony\Component\HttpFoundation\Response;
 	use Silex\Application;
 	use Silex\Provider\FormServiceProvider;
+	use Symfony\Component\HttpFoundation\Request;
+	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Validator\Constraints as Assert;
 
 	class controlCuadro{
@@ -16,11 +16,13 @@
 		        $form_borrar->bind($req);
 		        if ($form_borrar->isValid()) {
 		        	$data = $form_borrar->getData();
-					$idPintores = $req->request->get('cb_borrar');
-		        	Modelo::borrarCuadros($idPintores);
-					return $app['twig']->render('/cuadros/del_cuadro.twig', array(
-						'msgCabecera' => 'Entrada(s) borrada(s)',
+					$idCuadros = $req->request->get('cb_borrar');
+		        	Modelo::borrarCuadros($idCuadros);
+					return $app['twig']->render('mod.twig', array(
+						'msgCabecera' => 'Operación correcta',
+						'titulo' => 'Entrada(s) eliminada(s)',
 						'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
+						'seccion' => 'cuadros',
 						'sessionId' => $_SESSION['admin']
 				    	)
 				    );
@@ -37,28 +39,12 @@
 		}
 
 		static function addCuadro(Request $req, Application $app){
-			$pintores = Modelo::getNombresDePintores();
-			$estilos = Modelo::getNombresDeEstilos();
-			$expos = Modelo::getNombresDeExpos();
+			$pintores = Modelo::getPintores();
+			$estilos = Modelo::getEstilos();
+			$expos = Modelo::getExposiciones();
 			$form = $app['form.factory']->createBuilder('form')
 					->add('nombreCuadro', 'text', array())
-					->add('descripcionCuadro', 'text', array())
 					->add('fotoCuadro', 'file', array())
-					->add('pintor', 'choice', array(
-						'choices' => $pintores,
-						'required' => false,
-						)
-					)
-					->add('exposicion', 'choice', array(
-						'choices' => $expos,
-						'required' => false,
-						)
-					)
-					->add('estilo', 'choice', array(
-						'choices' => $estilos,
-						'required' => false,
-						)
-					)
 					->add('guardar', 'submit', array())
 			        ->getForm();
 
@@ -66,10 +52,11 @@
 		        $form->bind($req);
 
 		        if ($form->isValid()) {
+
 		        	$data = $form->getData();
 
 		        	$files = $req->files->get($form->getName());
-		            $path = __DIR__.'/../img/Cuadros/'.$data['nombreCuadro'];
+		            $path = __DIR__.'/../../img/cuadros/'.$data['nombreCuadro'];
 
 		            $extension = $files['fotoCuadro']->guessExtension();
 					if (!$extension) {
@@ -79,17 +66,29 @@
 					$filename = $data['nombreCuadro'].'.'.$extension;
 					$files['fotoCuadro']->move($path, $filename);
 
-					if(Modelo::addCuadro($data, $filename)){
-						return $app['twig']->render('/cuadros/cuadro_added.twig', array(
+		        	$descriptor = array(
+		        		'pintor' => $req->request->get('selpintores'),
+		        		'estilo' => $req->request->get('selestilos'),
+		        		'expo' => $req->request->get('selexpos'),
+		        		'descripcion' => $req->request->get('descCuadro'),
+		        		'foto' => $filename
+		        	);
+
+					if(Modelo::addCuadro($data, $descriptor)){
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Operación correcta',
 				    		'sessionId' => $_SESSION['admin'],
-				    		'msgCabecera' => 'Entrada Añadida',
-				    		'msgoperacion' => 'Cuadro añadido con éxito'
+				    		'titulo' => 'Entrada Añadida',
+				    		'msgoperacion' => 'Cuadro añadido con éxito',
+				    		'seccion' => 'cuadros'
 						));
 					}else{
-						return $app['twig']->render('/cuadros/cuadro_added.twig', array(
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Error',
 				    		'sessionId' => $_SESSION['admin'],
-				    		'msgCabecera' => 'Entrada NO Añadida',
-				    		'msgoperacion' => 'Error al añadir el cuadro.'
+				    		'titulo' => 'Entrada NO Añadida',
+				    		'msgoperacion' => 'Error al insertar el registro Cuadro',
+				    		'seccion' => 'cuadros'
 						));
 					}
 		        }
@@ -97,10 +96,83 @@
 
 		    return $app['twig']->render('/cuadros/add_cuadro.twig', array(
 		    	'form' => $form->createView(),
+		    	'pintores' => $pintores,
+		    	'estilos'=> $estilos,
+		    	'exposiciones' => $expos,
 				'msgCabecera' => 'Añadir cuadro',
 				'sessionId' => $_SESSION['admin']
 		    	)
 		    );
+		}
+		static function verFichaCuadro(Request $req, Application $app, $id){
+			$cuadro = Modelo::getCuadroPorId($id);
+			$foto = MOdelo::getFoto($id);
+			$pintores = Modelo::getPintores();
+			$estilos = Modelo::getEstilos();
+			$expos = Modelo::getExposiciones();
+			$form = $app['form.factory']->createBuilder('form')
+					->add('nombreCuadro', 'text', array())
+					->add('fotoCuadro', 'file', array())
+					->add('guardar', 'submit', array())
+			        ->getForm();
+
+		   /*if ('POST' == $req->getMethod()) {
+		        $form->bind($req);
+
+		        $files = $req->files->get($form->getName());
+		            $path = __DIR__.'/../../img/pintores/'.$data['nombrePintor'];
+
+		            $extension = $files['fotoPintor']->guessExtension();
+					if (!$extension) {
+					    $extension = 'bin';
+					}
+
+					$filename = $data['nombrePintor'].'.'.$extension;
+					$files['fotoPintor']->move($path, $filename);
+
+					$descriptor = array(
+						'bio' => $req->request->get('bioPintor'),
+						'foto' => $filename
+					);
+
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+					if(Modelo::modificaPintor($data, $descriptor)){
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Operación correcta',
+				    		'sessionId' => $_SESSION['admin'],
+				    		'titulo' => 'Entrada modificada',
+				    		'msgoperacion' => 'Pintor modificado con éxito',
+				    		'seccion' => 'pintores'
+						));
+					}else{
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Error',
+				    		'sessionId' => $_SESSION['admin'],
+				    		'titulo' => 'Entrada NO modificada',
+				    		'msgoperacion' => 'Error al modificar el registro Pintor',
+				    		'seccion' => 'pintores'
+						));
+					}
+		        }
+		    }*/
+			return $app['twig']->render('foto.twig', array(
+				'foto' => $foto,
+				'msgCabecera' => 'Ficha de cuadro',
+				'sessionId' => $_SESSION['admin']
+		    	)
+		    );/*
+		    return $app['twig']->render('/cuadros/ficha_cuadro.twig', array(
+		    	'form' => $form->createView(),
+		    	'cuadro' => $cuadro,
+		    	'pic' => $cuadro->getfotoCuadro(),
+		    	'pintores' => $pintores,
+		    	'estilos'=> $estilos,
+		    	'exposiciones' => $expos,
+				'msgCabecera' => 'Ficha de cuadro',
+				'sessionId' => $_SESSION['admin']
+		    	)
+		    );*/
 		}
 	}
 ?>

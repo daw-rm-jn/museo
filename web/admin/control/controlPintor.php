@@ -1,8 +1,8 @@
 <?php 
-	use Symfony\Component\HttpFoundation\Request;
-	use Symfony\Component\HttpFoundation\Response;
 	use Silex\Application;
 	use Silex\Provider\FormServiceProvider;
+	use Symfony\Component\HttpFoundation\Request;
+	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\HttpFoundation\JsonResponse;
 	use Symfony\Component\HttpFoundation\RedirectResponse;
 	use Symfony\Component\Validator\Constraints as Assert;
@@ -20,9 +20,11 @@
 		        	$data = $form_borrar->getData();
 					$idPintores = $req->request->get('cb_borrar');
 		        	Modelo::borrarPintores($idPintores);
-					return $app['twig']->render('/pintores/del_pintor.twig', array(
-						'msgCabecera' => 'Entrada(s) borrada(s)',
+					return $app['twig']->render('mod.twig', array(
+						'msgCabecera' => 'Operación correcta',
+						'titulo' => 'Entrada(s) eliminada(s)',
 						'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
+						'seccion' => 'pintores',
 						'sessionId' => $_SESSION['admin']
 				    	)
 				    );
@@ -65,10 +67,9 @@
 
 		   if ('POST' == $req->getMethod()) {
 		        $form->bind($req);
-		        $bio = $req->request->get('bioPintor');
 
 		        $files = $req->files->get($form->getName());
-		            $path = __DIR__.'/../img/Pintores/'.$data['nombrePintor'];
+		            $path = __DIR__.'/../../img/pintores/'.$data['nombrePintor'];
 
 		            $extension = $files['fotoPintor']->guessExtension();
 					if (!$extension) {
@@ -78,19 +79,28 @@
 					$filename = $data['nombrePintor'].'.'.$extension;
 					$files['fotoPintor']->move($path, $filename);
 
+					$descriptor = array(
+						'bio' => $req->request->get('bioPintor'),
+						'foto' => $filename
+					);
+
 		        if ($form->isValid()) {
 		        	$data = $form->getData();
-					if(Modelo::modificaPintor($data, $bio, $filename)){
-						return $app['twig']->render('/pintores/mod_pintor.twig', array(
+					if(Modelo::modificaPintor($data, $descriptor)){
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Operación correcta',
 				    		'sessionId' => $_SESSION['admin'],
-				    		'msgCabecera' => 'Entrada Modificada',
-				    		'msgoperacion' => 'Pintor modificado con éxito'
+				    		'titulo' => 'Entrada modificada',
+				    		'msgoperacion' => 'Pintor modificado con éxito',
+				    		'seccion' => 'pintores'
 						));
 					}else{
-						return $app['twig']->render('/pintores/mod_pintor.twig', array(
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Error',
 				    		'sessionId' => $_SESSION['admin'],
-				    		'msgCabecera' => 'Entrada Modificada',
-				    		'msgoperacion' => 'Error al modificar el pintor.'
+				    		'titulo' => 'Entrada NO modificada',
+				    		'msgoperacion' => 'Error al modificar el registro Pintor',
+				    		'seccion' => 'pintores'
 						));
 					}
 		        }
@@ -130,13 +140,12 @@
 
 		   if ('POST' == $req->getMethod()) {
 		        $form->bind($req);
-		        $bio = $req->request->get('bioPintor');
 
 		        if ($form->isValid()) {
 		        	$data = $form->getData();
 
 		        	$files = $req->files->get($form->getName());
-		            $path = __DIR__.'/../img/Pintores/'.$data['nombrePintor'];
+		            $path = __DIR__.'/../../img/pintores/'.$data['nombrePintor'];
 
 		            $extension = $files['fotoPintor']->guessExtension();
 					if (!$extension) {
@@ -146,17 +155,26 @@
 					$filename = $data['nombrePintor'].'.'.$extension;
 					$files['fotoPintor']->move($path, $filename);
 
-					if(Modelo::addPintor($data, $bio, $filename)){
-						return $app['twig']->render('/pintores/pintor_added.twig', array(
+					$descriptor = array(
+						'bio' => $req->request->get('bioPintor'),
+						'foto' => $filename
+					);
+
+					if(Modelo::addPintor($data, $descriptor)){
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Operación correcta',
 				    		'sessionId' => $_SESSION['admin'],
-				    		'msgCabecera' => 'Entrada Añadida',
-				    		'msgoperacion' => 'Pintor añadida con éxito'
+				    		'titulo' => 'Entrada Añadida',
+				    		'msgoperacion' => 'Pintor añadido con éxito',
+				    		'seccion' => 'pintores'
 						));
 					}else{
-						return $app['twig']->render('/pintores/pintor_added.twig', array(
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Error',
 				    		'sessionId' => $_SESSION['admin'],
-				    		'msgCabecera' => 'Entrada NO Añadida',
-				    		'msgoperacion' => 'Error al añadir el pintor.'
+				    		'titulo' => 'Entrada NO Añadida',
+				    		'msgoperacion' => 'Error al insertar el registro Pintor',
+				    		'seccion' => 'pintores'
 						));
 					}
 		        }
