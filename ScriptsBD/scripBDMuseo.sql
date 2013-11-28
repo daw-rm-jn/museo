@@ -6,6 +6,16 @@ CREATE SCHEMA IF NOT EXISTS `bd_Museo` DEFAULT CHARACTER SET latin1 COLLATE lati
 USE `bd_Museo` ;
 
 -- -----------------------------------------------------
+-- Table `bd_Museo`.`Administrador`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Administrador` (
+  `email` VARCHAR(50) NOT NULL ,
+  `clave` VARCHAR(100) NOT NULL ,
+  `fechaAlta` DATE NOT NULL ,
+  PRIMARY KEY (`email`) )
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `bd_Museo`.`Pintor`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Pintor` (
@@ -132,7 +142,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Usuario` (
   `email` VARCHAR(50) NOT NULL ,
-  `rol` VARCHAR(7) NOT NULL ,
   `clave` VARCHAR(100) NOT NULL ,
   `nombre` VARCHAR(20) NULL ,
   `nif` VARCHAR(10) NOT NULL ,
