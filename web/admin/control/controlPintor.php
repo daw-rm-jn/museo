@@ -66,9 +66,11 @@
 			        ->getForm();
 
 		   if ('POST' == $req->getMethod()) {
-		        $form->bind($req);
+		        $form->bind($req);		       
 
-		        $files = $req->files->get($form->getName());
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+		        	$files = $req->files->get($form->getName());
 		            $path = __DIR__.'/../../img/pintores/'.$data['nombrePintor'];
 
 		            $extension = $files['fotoPintor']->guessExtension();
@@ -83,9 +85,6 @@
 						'bio' => $req->request->get('bioPintor'),
 						'foto' => $filename
 					);
-
-		        if ($form->isValid()) {
-		        	$data = $form->getData();
 					if(Modelo::modificaPintor($data, $descriptor)){
 						return $app['twig']->render('mod.twig', array(
 							'msgCabecera' => 'Operación correcta',

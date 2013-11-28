@@ -66,7 +66,7 @@
 					$filename = $data['nombreCuadro'].'.'.$extension;
 					$files['fotoCuadro']->move($path, $filename);
 
-		        	$descriptor = array(
+		        	$descriptorAdd = array(
 		        		'pintor' => $req->request->get('selpintores'),
 		        		'estilo' => $req->request->get('selestilos'),
 		        		'expo' => $req->request->get('selexpos'),
@@ -74,7 +74,7 @@
 		        		'foto' => $filename
 		        	);
 
-					if(Modelo::addCuadro($data, $descriptor)){
+					if(Modelo::addCuadro($data, $descriptorAdd)){
 						return $app['twig']->render('mod.twig', array(
 							'msgCabecera' => 'Operación correcta',
 				    		'sessionId' => $_SESSION['admin'],
@@ -105,74 +105,71 @@
 		    );
 		}
 		static function verFichaCuadro(Request $req, Application $app, $id){
-			$cuadro = Modelo::getCuadroPorId($id);
-			$foto = MOdelo::getFoto($id);
+			$cuadro = Modelo::getDatosCuadro($id);
 			$pintores = Modelo::getPintores();
 			$estilos = Modelo::getEstilos();
 			$expos = Modelo::getExposiciones();
 			$form = $app['form.factory']->createBuilder('form')
+					->add('idCuadro', 'hidden', array())
 					->add('nombreCuadro', 'text', array())
 					->add('fotoCuadro', 'file', array())
 					->add('guardar', 'submit', array())
 			        ->getForm();
 
-		   /*if ('POST' == $req->getMethod()) {
+		   if ('POST' == $req->getMethod()) {
 		        $form->bind($req);
 
-		        $files = $req->files->get($form->getName());
-		            $path = __DIR__.'/../../img/pintores/'.$data['nombrePintor'];
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+		        	$files = $req->files->get($form->getName());
+		            $path = __DIR__.'/../../img/cuadros/'.$data['nombreCuadro'];
 
-		            $extension = $files['fotoPintor']->guessExtension();
+		            $extension = $files['fotoCuadro']->guessExtension();
 					if (!$extension) {
 					    $extension = 'bin';
 					}
 
-					$filename = $data['nombrePintor'].'.'.$extension;
-					$files['fotoPintor']->move($path, $filename);
+					$filename = $data['nombreCuadro'].'.'.$extension;
+					$files['fotoCuadro']->move($path, $filename);
 
-					$descriptor = array(
-						'bio' => $req->request->get('bioPintor'),
-						'foto' => $filename
-					);
-
-		        if ($form->isValid()) {
-		        	$data = $form->getData();
-					if(Modelo::modificaPintor($data, $descriptor)){
+					$descriptorMod = array(
+						'id' => $data['idCuadro'],
+		        		'pintor' => $req->request->get('selpintores'),
+		        		'estilo' => $req->request->get('selestilos'),
+		        		'expo' => $req->request->get('selexpos'),
+		        		'descripcion' => $req->request->get('descCuadro'),
+		        		'foto' => $filename
+		        	);
+					if(Modelo::modificaCuadro($data, $descriptorMod)){
 						return $app['twig']->render('mod.twig', array(
 							'msgCabecera' => 'Operación correcta',
 				    		'sessionId' => $_SESSION['admin'],
 				    		'titulo' => 'Entrada modificada',
-				    		'msgoperacion' => 'Pintor modificado con éxito',
-				    		'seccion' => 'pintores'
+				    		'msgoperacion' => 'Cuadro modificado con éxito',
+				    		'seccion' => 'cuadros'
 						));
 					}else{
 						return $app['twig']->render('mod.twig', array(
 							'msgCabecera' => 'Error',
 				    		'sessionId' => $_SESSION['admin'],
 				    		'titulo' => 'Entrada NO modificada',
-				    		'msgoperacion' => 'Error al modificar el registro Pintor',
-				    		'seccion' => 'pintores'
+				    		'msgoperacion' => 'Error al modificar el registro Cuadro',
+				    		'seccion' => 'cuadros'
 						));
 					}
 		        }
-		    }*/
-			return $app['twig']->render('foto.twig', array(
-				'foto' => $foto,
-				'msgCabecera' => 'Ficha de cuadro',
-				'sessionId' => $_SESSION['admin']
-		    	)
-		    );/*
+		    }
+
 		    return $app['twig']->render('/cuadros/ficha_cuadro.twig', array(
 		    	'form' => $form->createView(),
 		    	'cuadro' => $cuadro,
-		    	'pic' => $cuadro->getfotoCuadro(),
 		    	'pintores' => $pintores,
 		    	'estilos'=> $estilos,
 		    	'exposiciones' => $expos,
 				'msgCabecera' => 'Ficha de cuadro',
 				'sessionId' => $_SESSION['admin']
 		    	)
-		    );*/
+		    );
 		}
 	}
 ?>

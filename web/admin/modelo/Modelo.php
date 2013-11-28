@@ -345,22 +345,119 @@
 		/*---------------------------*/
 
 		/*--- DEVUELVE CUADRO CON ID INDICADA ---*/
-		static function getCuadroPorId($id){
+		static function getDatosCuadro($id){
+			$idCuadro = Modelo:: getIdCuadro($id);
+			$idPintor = Modelo:: getIdPintorCuadro($id);
+			$idExposicion = Modelo:: getIdExposicionCuadro($id);
+			$idEstilo = Modelo:: getIdEstiloCuadro($id);
+			$nombreCuadro = Modelo:: getNombreCuadro($id);
+			$descripcionCuadro = Modelo:: getDescCuadro($id);
+			$fotoCuadro = Modelo:: getFotoCuadro($id);
+
+			$datosCuadro = array(
+				'idCuadro' => $idCuadro,
+				'idPintor' => $idPintor,
+				'idExposicion' => $idExposicion,
+				'idEstilo' => $idEstilo,
+				'nombreCuadro' => $nombreCuadro,
+				'descripcionCuadro' => $descripcionCuadro,
+				'fotoCuadro' => $fotoCuadro
+			);
+
+			return $datosCuadro;
+		}
+
+		static function getDescCuadro($id){
 			$con = Modelo::conectar();
-			$stmt = $con->prepare("SELECT * FROM Cuadro WHERE idCuadro = :idCuadro");
+			$stmt = $con->prepare("SELECT descripcionCuadro FROM Cuadro WHERE idCuadro = :idCuadro");
 
 		    $stmt->bindParam(':idCuadro', $id);
 
 		    $stmt->execute();
 		    $row = $stmt->fetch();
 
-			$cuadro = new Cuadro($row['idCuadro'],$row['idPintor'],$row['idExposicion'],$row['idEstilo'],$row['nombreCuadro'],$row['descripcionCuadro'],$row['fotoCuadro']);
+			$descripcionCuadro = $row['descripcionCuadro'];
 			
-		    return $cuadro;
+		    return $descripcionCuadro;
 			$con = null;
 		}
 
-		static function getFoto($id){
+		static function getNombreCuadro($id){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT nombreCuadro FROM Cuadro WHERE idCuadro = :idCuadro");
+
+		    $stmt->bindParam(':idCuadro', $id);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$nombreCuadro = $row['nombreCuadro'];
+			
+		    return $nombreCuadro;
+			$con = null;
+		}
+
+		static function getIdEstiloCuadro($id){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT idEstilo FROM Cuadro WHERE idCuadro = :idCuadro");
+
+		    $stmt->bindParam(':idCuadro', $id);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$idEstilo = $row['idEstilo'];
+			
+		    return $idEstilo;
+			$con = null;
+		}
+
+		static function getIdExposicionCuadro($id){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT idExposicion FROM Cuadro WHERE idCuadro = :idCuadro");
+
+		    $stmt->bindParam(':idCuadro', $id);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$idExposicion = $row['idExposicion'];
+			
+		    return $idExposicion;
+			$con = null;
+		}
+
+		static function getIdPintorCuadro($id){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT idPintor FROM Cuadro WHERE idCuadro = :idCuadro");
+
+		    $stmt->bindParam(':idCuadro', $id);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$idPintor = $row['idPintor'];
+			
+		    return $idPintor;
+			$con = null;
+		}
+
+		static function getIdCuadro($id){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT idCuadro FROM Cuadro WHERE idCuadro = :idCuadro");
+
+		    $stmt->bindParam(':idCuadro', $id);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$idCuadro = $row['idCuadro'];
+			
+		    return $idCuadro;
+			$con = null;
+		}
+
+		static function getFotoCuadro($id){
 			$con = Modelo::conectar();
 			$stmt = $con->prepare("SELECT fotoCuadro FROM Cuadro WHERE idCuadro = :idCuadro");
 
@@ -369,9 +466,9 @@
 		    $stmt->execute();
 		    $row = $stmt->fetch();
 
-			$cuadro = $row['fotoCuadro'];
+			$fotoCuadro = $row['fotoCuadro'];
 			
-		    return $cuadro;
+		    return $fotoCuadro;
 			$con = null;
 		}
 
@@ -424,6 +521,43 @@
 			}
 
 			$con = null;
+		}
+
+		/*--- MODIFICA UN CUADRO ---*/
+		static function modificaCuadro($cuadro, $descriptor){
+			$idp = Modelo::getIdPintor($descriptor['pintor']);
+			$idex = Modelo::getIdExposicion($descriptor['expo']);
+			$ides = Modelo::getIdEstilo($descriptor['estilo']);
+
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("UPDATE Cuadro SET idPintor = :idp, idEstilo = :ides, idExposicion = :idex, nombreCuadro = :nomc, descripcionCuadro = :descc, fotoCuadro = :fotoc WHERE idCuadro = :idc");
+			
+			$stmt->bindParam(':nomc', $cuadro['nombreCuadro']);
+			$stmt->bindParam(':descc', $descriptor['descripcion']);
+			$stmt->bindParam(':fotoc', $descriptor['foto']);
+			$stmt->bindParam(':idc', $descriptor['id']);
+			$stmt->bindParam(':idp', $idp);
+			$stmt->bindParam(':idex', $idex);
+			$stmt->bindParam(':ides', $ides);
+
+			$stmt->execute();
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows >= 0){
+				$descriptor = array(
+					'op' => 'MODIFICACIÓN [PINTOR]',
+					'sec' => 'Pintor',
+					'id' => $descriptor['id'],
+					'estado' => 'actualizado'
+				);
+				Modelo::insertUpdate($descriptor);
+				return true;
+			}else{
+				return false;
+			}
+
+			$con = null;
+
 		}
 
 		/*--- DEVUELVE EL NOMBRE DE PINTOR DE UN CUADRO ---*/

@@ -10,11 +10,12 @@
 						<tr>
 							<td colspan="4">
 								{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.idCuadro, {'attr': {'value': cuadro.idCuadro }}) }}
 								<table class="bodycrud" rules="all">
 									<tbody>
 										<tr>
 											<td class="perla">
-												{{ form_row(form.nombreCuadro, {'attr': {'value': cuadro.fotoCuadro, 'class': 'txtdcha' }}) }}
+												{{ form_row(form.nombreCuadro, {'attr': {'value': cuadro.nombreCuadro, 'class': 'txtdcha' }}) }}
 											</td>
 											<td class="grey">
 												<label for="">Foto de Cuadro(ACTUAL)</label>
@@ -28,35 +29,44 @@
 											<td class="perla">
 												<label for="selpintores">Pintor</label>
 												<select name="selpintores" id="selpintores">
-													<option value=""></option>
 													{% for pintor in pintores %}
-														<option value="{{pintor.nombrePintor}}">{{pintor.nombrePintor}}</option>
+														{% if cuadro.idPintor == pintor.idPintor %}
+															<option value="{{pintor.idPintor}}" SELECTED>{{pintor.nombrePintor}}</option>
+														{% else %}
+															<option value="{{pintor.idPintor}}">{{pintor.nombrePintor}}</option>
+														{% endif %}
 													{% endfor %}
 												</select>
 												<br>
 												<label for="selestilos">Estilo</label>
 												<select name="selestilos" id="selestilos">
-													<option value=""></option>
 													{% for estilo in estilos %}
-														<option value="{{estilo.nombreEstilo}}">{{estilo.nombreEstilo}}</option>
+														{% if cuadro.idEstilo == estilo.idEstilo %}
+															<option value="{{estilo.idEstilo}}" SELECTED>{{estilo.nombreEstilo}}</option>
+														{% else %}
+															<option value="{{estilo.idEstilo}}">{{estilo.nombreEstilo}}</option>
+														{% endif %}
 													{% endfor %}
 												</select>
 											</td>
 											<td class="grey">
 												<label for="selexpos">Exposicion</label>
 												<select name="selexpos" id="selexpos">
-													<option value=""></option>
 													{% for exposicion in exposiciones %}
-														<option value="{{exposicion.nombreExposicion}}">{{exposicion.nombreExposicion}}</option>
+														{% if cuadro.idExposicion == exposicion.idExposicion %}
+															<option value="{{exposicion.idExposicion}}" SELECTED>{{exposicion.nombreExposicion}}</option>
+														{% else %}
+															<option value="{{exposicion.idExposicion}}">{{exposicion.nombreExposicion}}</option>
+														{% endif %}
 													{% endfor %}
 												</select>
 											</td>
 										</tr>
+										<tr>
 											<td class="perla" colspan="3">
 												<label for="">Descripción del cuadro::</label><br>
-												<textarea name="descCuadro" id="descCuadro" cols="100" rows="20">{{pic}}</textarea>
+												<textarea name="descCuadro" id="descCuadro" cols="100" rows="20">{{cuadro.descripcionCuadro}}</textarea>
 											</td>
-										<tr>
 										</tr>
 										<tr>
 											<td class="grey" colspan="2">
