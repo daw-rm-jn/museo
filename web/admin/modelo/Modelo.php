@@ -23,17 +23,18 @@
 		/*---------------------------------------*/
 
 		/*--- COMPRUEBA SI EL SUSUARIO ENVIADO ES ADMINISTRADOR ---*/
-		static function isAdmin($user, $pass){
+		static function isAdmin($datos){
 			$con = Modelo::conectar();
-			$stmt = $con->prepare("SELECT Rol FROM Usuario WHERE email = :usuario AND clave = :clave");
+			$stmt = $con->prepare("SELECT * FROM Administrador WHERE email = :usuario AND clave = :clave");
 
-		    $stmt->bindParam(':usuario', $user);
-		    $stmt->bindParam(':clave', $pass);
+		    $stmt->bindParam(':usuario', $datos['Usuario']);
+		    $stmt->bindParam(':clave', $datos['Clave']);
 
 		    $stmt->execute();
-		    $row = $stmt->fetch();
+		    $result = $stmt->fetch();
+			$affected_rows = $stmt->rowCount();
 		    
-	        if($row['Rol'] == 'admin'){
+	        if($affected_rows >= 0){
 	        	return true;
 	        }else{
 	        	return false;

@@ -54,16 +54,22 @@
 
 		        if ($form->isValid()) {
 		        	$data = $form->getData();
-		           	$user = $data["Usuario"];
-					$pass = $data["Clave"];
-					if(Modelo::isAdmin($user, $pass)){
-						$_SESSION['admin'] = $user;
+					if(Modelo::isAdmin($data)){
+						$_SESSION['admin'] = $data['Usuario'];
 						return $app->redirect($app['url_generator']->generate('inicio'));
+					}else{
+						return $app['twig']->render('login.twig', array(
+					    	'form' => $form->createView()
+					    	)
+					    );
 					}
 		        }
 		    }
 
-		    return $app['twig']->render('login.twig', array('form' => $form->createView()));
+		    return $app['twig']->render('login.twig', array(
+		    	'form' => $form->createView()
+		    	)
+		    );
 		}
 
 		static function logOut(Application $app){

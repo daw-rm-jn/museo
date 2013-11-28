@@ -27,15 +27,21 @@
 				<li id="limuseo" class="limuseo" name="limuseo" value="limuseo">
 					Museo
 				</li>
-				<li class="liexposiciones">
-					Exposiciones
-				</li>
-				<li class="liplantas">
-					Plantas
-				</li>
-				<li class="lisalas">
-					Salas
-				</li>
+				<a href="{{app.request.basepath}}/exposiciones_museo">
+					<li class="liexposiciones">
+						Exposiciones
+					</li>
+				</a>
+				<a href="{{app.request.basepath}}/plantas_museo">
+					<li class="liplantas">
+						Plantas
+					</li>
+				</a>
+				<a href="{{app.request.basepath}}/salas_museo">
+					<li class="lisalas">
+						Salas
+					</li>
+				</a>
 				<a href="{{app.request.basepath}}/usuarios">
 					<li id="liusuarios" class="liusuarios" name="liusuarios" value="liusuarios">
 					Usuarios
