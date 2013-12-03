@@ -1,0 +1,54 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Añadir Exposicion' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Formulario de alta de Exposicion</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.nombreExposicion) }}
+											</td>
+											<td class="grey">
+												{{form_row(form.fechaInicio)}}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												<label for="selsalas">Sala</label>
+												<select name="selsalas" id="selsalas">
+													<option value=""></option>
+													{% for sala in salas %}
+														<option value="{{sala.idSala}}">{{sala.nombreSala}}</option>
+													{% endfor %}
+												</select>
+											</td>
+											<td class="grey">
+												{{form_row(form.fechaFin)}}
+											</td>
+										</tr>
+											<td class="perla" colspan="3">
+												<label for="">Descripción de la exposicion:</label><br>
+												<textarea name="descExpo" id="descExpo" cols="100" rows="20"></textarea>
+											</td>
+										<tr>
+										</tr>
+										<tr>
+											<td class="grey" colspan="2">
+												{{ form_row(form.guardar) }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

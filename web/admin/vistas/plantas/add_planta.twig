@@ -1,0 +1,29 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Añadir Planta del Museo' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Formulario de alta de Planta</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.numeroPlanta) }}
+											</td>
+											<td class="grey">
+												{{form_row(form.capacidad)}}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

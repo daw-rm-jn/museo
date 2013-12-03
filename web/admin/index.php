@@ -38,6 +38,32 @@
 
 	/*---ENRUTAMIENTO--*/
 
+	/*--- PLANTAS DEL MUSEO ---*/
+	$app->match('/plantas_museo/planta/{id}', function(Request $req, $id) use($app){
+		return controlPlanta::verFichaPlanta($req, $app, $id);
+	})->before($checkAdmin);
+
+	$app->match('/plantas_museo/add', function(Request $req) use ($app){
+		return controlPlanta::addPlanta($req, $app);
+	})->before($checkAdmin);
+
+	$app->match('/plantas_museo', function(Request $req) use ($app){
+		return controlPlanta::verPlantas($req, $app);
+	})->before($checkAdmin);
+
+	/*--- EXPOSICIONES ---*/
+	$app->match('/exposiciones_museo/exposicion/{id}', function(Request $req, $id) use($app){
+		return controlExposicion::verFichaExposicion($req, $app, $id);
+	})->before($checkAdmin);
+
+	$app->match('/exposiciones_museo/add', function(Request $req) use ($app){
+		return controlExposicion::addExposicion($req, $app);
+	})->before($checkAdmin);
+
+	$app->match('/exposiciones_museo', function(Request $req) use ($app){
+		return controlExposicion::verExposiciones($req, $app);
+	})->before($checkAdmin);
+
 	/*--- ESTILOS ---*/
 	$app->match('/estilos/estilo/{id}', function(Request $req, $id) use($app){
 		return controlEstilo::verFichaEstilo($req, $app, $id);
