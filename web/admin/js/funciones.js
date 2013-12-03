@@ -19,6 +19,14 @@ $(document).ready(function(){
 		$('li.liexposiciones').toggle();
 		$('li.liplantas').toggle();
 		$('li.lisalas').toggle();
-/*--- CHECKBOXES ---*/
+
+		$('li#liusuarios') .click(
+			function() {
+				$('li.liclientes').toggle();
+				$('li.liadmins').toggle();
+			}
+		)
+		$('li.liclientes').toggle();
+		$('li.liadmins').toggle();
 
 });
