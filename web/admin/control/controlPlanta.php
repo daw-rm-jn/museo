@@ -7,9 +7,9 @@
 	use Symfony\Component\HttpFoundation\RedirectResponse;
 	use Symfony\Component\Validator\Constraints as Assert;
 
-	class controlEstilo{
-		static function verEstilos(Request $req, Application $app){
-			$estilos = Modelo::getEstilos();
+	class controlPlanta{
+		static function verPlantas(Request $req, Application $app){
+			$plantas = Modelo::getPlantas();
 			$form_borrar = $app['form.factory']->createBuilder('form')
 					->add('Borrar', 'submit', array())
 					->getForm();
@@ -18,13 +18,13 @@
 		        $form_borrar->bind($req);
 		        if ($form_borrar->isValid()) {
 		        	$data = $form_borrar->getData();
-					$idEstilos = $req->request->get('cb_borrar');
-		        	if(Modelo::borrarEstilos($idEstilos)){
+					$idPlantas = $req->request->get('cb_borrar');
+		        	if(Modelo::borrarPlantas($idPlantas)){
 						return $app['twig']->render('mod.twig', array(
 							'msgCabecera' => 'Operación correcta',
 							'titulo' => 'Entrada(s) eliminada(s)',
 							'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
-							'seccion' => 'estilos',
+							'seccion' => 'plantas_museo',
 							'sessionId' => $_SESSION['admin']
 					    	)
 					    );
@@ -33,106 +33,107 @@
 							'msgCabecera' => 'Error',
 							'titulo' => 'Error en la operacion',
 							'msgoperacion' => 'Hubo un error al eliminar las entradas del registro',
-							'seccion' => 'estilos',
+							'seccion' => 'plantas_museo',
 							'sessionId' => $_SESSION['admin']
 					    	)
 					    );
 					}
+					
 		        }
 		    }
 
-			return $app ['twig']->render('/estilos/ver_estilos.twig', array(
+			return $app ['twig']->render('/plantas/ver_plantas.twig', array(
 		    	'form' => $form_borrar->createView(),
-				'estilos' => $estilos,
-				'msgCabecera' => 'Administración de estilos',
+				'plantas' => $plantas,
+				'msgCabecera' => 'Administración de plantas',
 				'sessionId' => $_SESSION['admin']
 				)
 			);
 		}
 
-		static function verFichaEstilo(Request $req, Application $app, $id){
-			$estilo = Modelo::getEstiloPorId($id);
+		static function addPlanta(Request $req, Application $app){
 			$form = $app['form.factory']->createBuilder('form')
-					->add('idEstilo', 'hidden', array())
-			        ->add('nombreEstilo', 'text', array())
+					->add('numeroPlanta','text',array())
+					->add('capacidad','text',array())
 			        ->add('guardar', 'submit', array())
 			        ->getForm();
 
 		   if ('POST' == $req->getMethod()) {
 		        $form->bind($req);
-		        $desc = $req->request->get('descEstilo');
 
 		        if ($form->isValid()) {
+
 		        	$data = $form->getData();
-					if(Modelo::modificaEstilo($data, $desc)){
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Operación correcta',
-				    		'sessionId' => $_SESSION['admin'],
-				    		'titulo' => 'Entrada modificada',
-				    		'msgoperacion' => 'Estilo modificado con éxito',
-				    		'seccion' => 'estilos'
-						));
-					}else{
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Error',
-				    		'sessionId' => $_SESSION['admin'],
-				    		'titulo' => 'Entrada NO modificada',
-				    		'msgoperacion' => 'Error al modificar el registro Estilo',
-				    		'seccion' => 'estilo'
-						));
-					}
-		        }
-		    }
 
-		    return $app['twig']->render('/estilos/ficha_estilo.twig', array(
-		    	'form' => $form->createView(),
-		    	'estilo' => $estilo,
-				'msgCabecera' => 'Ficha de estilo',
-				'sessionId' => $_SESSION['admin']
-		    	)
-		    );
-		}
-
-		static function addEstilo(Request $req, Application $app){
-			$form_add_estilo = $app['form.factory']->createBuilder('form')
-			        ->add('nombreEstilo', 'text', array())
-			        ->add('guardar', 'submit', array())
-			        ->getForm();
-
-		   if ('POST' == $req->getMethod()) {
-		        $form_add_estilo->bind($req);
-		        $desc = $req->request->get('descEstilo');
-
-		        if ($form_add_estilo->isValid()) {
-		        	$data = $form_add_estilo->getData();
-
-					if(Modelo::addEstilo($data, $desc)){
+					if(Modelo::addPlanta($data)){
 						return $app['twig']->render('mod.twig', array(
 							'msgCabecera' => 'Operación correcta',
 				    		'sessionId' => $_SESSION['admin'],
 				    		'titulo' => 'Entrada Añadida',
-				    		'msgoperacion' => 'Estilo añadido con éxito',
-				    		'seccion' => 'estilos'
+				    		'msgoperacion' => 'Exposicion añadido con éxito',
+				    		'seccion' => 'plantas_museo'
 						));
 					}else{
 						return $app['twig']->render('mod.twig', array(
 							'msgCabecera' => 'Error',
 				    		'sessionId' => $_SESSION['admin'],
 				    		'titulo' => 'Entrada NO Añadida',
-				    		'msgoperacion' => 'Error al insertar el registro Estilo',
-				    		'seccion' => 'estilos'
+				    		'msgoperacion' => 'Error al insertar el registro Planta',
+				    		'seccion' => 'plantas_museo'
 						));
 					}
 		        }
 		    }
 
-		    return $app['twig']->render('/estilos/add_estilo.twig', array(
-		    	'form' => $form_add_estilo->createView(),
-				'msgCabecera' => 'Añadir estilo',
+		    return $app['twig']->render('/plantas/add_planta.twig', array(
+		    	'form' => $form->createView(),
+				'msgCabecera' => 'Añadir planta',
+				'sessionId' => $_SESSION['admin']
+		    	)
+		    );
+		}
+
+		static function verFichaPlanta(Request $req, Application $app, $id){
+			$planta = Modelo::getPlantaPorId($id);
+			$form = $app['form.factory']->createBuilder('form')
+					->add('idPlanta', 'hidden', array())
+					->add('numeroPlanta','text',array())
+					->add('capacidad','text',array())
+			        ->add('guardar', 'submit', array())
+			        ->getForm();
+
+		   if ('POST' == $req->getMethod()) {
+		        $form->bind($req);
+
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+					if(Modelo::modificaPlanta($data)){
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Operación correcta',
+				    		'sessionId' => $_SESSION['admin'],
+				    		'titulo' => 'Entrada modificada',
+				    		'msgoperacion' => 'Planta modificado con éxito',
+				    		'seccion' => 'plantas_museo'
+						));
+					}else{
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Error',
+				    		'sessionId' => $_SESSION['admin'],
+				    		'titulo' => 'Entrada NO modificada',
+				    		'msgoperacion' => 'Error al modificar el registro Planta',
+				    		'seccion' => 'plantas_museo'
+						));
+					}
+		        }
+		    }
+
+		    return $app['twig']->render('/plantas/ficha_planta.twig', array(
+		    	'form' => $form->createView(),
+		    	'planta' => $planta,
+				'msgCabecera' => 'Ficha de planta',
 				'sessionId' => $_SESSION['admin']
 		    	)
 		    );
 		}
 	}
-
 ?>
