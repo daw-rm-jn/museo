@@ -73,7 +73,7 @@ ul.listaSec a:hover{
 	color: #E8EEEF;
 }
 
-ul.listaSec li.liexposiciones, ul.listaSec  li.liplantas, ul.listaSec  li.lisalas{
+ul.listaSec li.liexposiciones, ul.listaSec  li.liplantas, ul.listaSec  li.lisalas, ul.listaSec li.liclientes, ul.listaSec li.liadmins{
 	text-align: left;
 	padding-left: 42%;
 	color:#C3967D;
