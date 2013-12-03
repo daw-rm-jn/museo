@@ -1,5 +1,5 @@
 <?php 
-	require 'ListaModelos.php';
+	require 'ListaClases.php';
 
 	class Modelo{
 
@@ -152,13 +152,20 @@
 
 				//Modelo::borraDirectorio(__DIR__.'/../../img/pintores/'. $nombrePintor);
 
-				$descriptor = array(
-					'op' => 'BAJA [PINTOR]',
-					'sec' => 'Pintor',
-					'id' => $idPintores[$i],
-					'estado' => 'eliminado'
-				);
-				Modelo::insertUpdate($descriptor);
+				$affected_rows = $stmt->rowCount();
+
+				if($affected_rows > 0){
+					$descriptor = array(
+						'op' => 'BAJA [PINTOR]',
+						'sec' => 'Pintor',
+						'id' => $idPintores[$i],
+						'estado' => 'eliminado'
+					);
+					Modelo::insertUpdate($descriptor);
+					return true;
+				}else{
+					return false;
+				}
 
 			}
 			$con = null;
@@ -286,13 +293,20 @@
 				$estiloABorrar = Modelo::getEstiloPorId($idEstilos[$i]);
 				$nombreEstilo = $estiloABorrar->getnombreEstilo();
 
-				$descriptor = array(
-					'op' => 'BAJA [ESTILO]',
-					'sec' => 'Estilo',
-					'id' => $idEstilos[$i],
-					'estado' => 'eliminado'
-				);
-				Modelo::insertUpdate($descriptor);
+				$affected_rows = $stmt->rowCount();
+
+				if($affected_rows > 0){
+					$descriptor = array(
+						'op' => 'BAJA [ESTIL]',
+						'sec' => 'Estilo',
+						'id' => $idEstilos[$i],
+						'estado' => 'eliminado'
+					);
+					Modelo::insertUpdate($descriptor);
+					return true;
+				}else{
+					return false;
+				}
 
 			}
 			$con = null;
@@ -546,7 +560,7 @@
 
 			if($affected_rows >= 0){
 				$descriptor = array(
-					'op' => 'MODIFICACIÓN [PINTOR]',
+					'op' => 'MODIFICACIÓN [CUADRO]',
 					'sec' => 'Pintor',
 					'id' => $descriptor['id'],
 					'estado' => 'actualizado'
@@ -590,13 +604,20 @@
 
 				//Modelo::borraDirectorio(__DIR__.'/../../img/cuadros/'.$nombreCuadro.'/');
 
-				$descriptor = array(
-					'op' => 'BAJA [PINTOR]',
-					'sec' => 'Cuadro',
-					'id' => $idCuadros[$i],
-					'estado' => 'eliminado'
-				);
-				Modelo::insertUpdate($descriptor);
+				$affected_rows = $stmt->rowCount();
+
+				if($affected_rows > 0){
+					$descriptor = array(
+						'op' => 'BAJA [CUADRO]',
+						'sec' => 'Cuadro',
+						'id' => $idCuadros[$i],
+						'estado' => 'eliminado'
+					);
+					Modelo::insertUpdate($descriptor);
+					return true;
+				}else{
+					return false;
+				}
 
 			}
 			$con = null;
@@ -623,7 +644,7 @@
 		/*--- FUNCIONES PERTENECIENTES AL MUSEO ---*/
 		/*----------------------------------------*/
 
-		/*--- DEVUELVE LOS NOMBRES DE LAS EXPOSICIONES ---*/
+		/*--- DEVUELVE LAS EXPOSICIONES ---*/
 		static function getExposiciones(){
 			$exposiciones = array();
 			$con = Modelo::conectar();
@@ -652,6 +673,241 @@
 			$id = $row['idExposicion'];
 			
 		    return $id;
+			$con = null;
+		}
+
+		/*--- BORRA UNA O MÁS EXPOSICIONES ---*/
+		static function borrarExposiciones($idExposiciones){
+			$con = Modelo::conectar();
+			for ($i=0; $i < sizeof($idExposiciones); $i++) { 
+				$stmt = $con->prepare("DELETE FROM Exposicion WHERE idExposicion = :id");
+				$stmt->bindParam(':id', $idExposiciones[$i]);
+				$stmt->execute();
+
+				$affected_rows = $stmt->rowCount();
+
+				if($affected_rows > 0){
+					$descriptor = array(
+						'op' => 'BAJA [EXPOSICION]',
+						'sec' => 'Exposicion',
+						'id' => $idExposiciones[$i],
+						'estado' => 'eliminado'
+					);
+					Modelo::insertUpdate($descriptor);
+					return true;
+				}else{
+					return false;
+				}
+
+			}
+			$con = null;
+		}
+
+		/*--- DEVUELVE UNA EXPOSICION CON UNA ID INDICADA ---*/
+		static function getExposicionPorId($idExposicion){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Exposicion WHERE idExposicion = :idExposicion");
+
+		    $stmt->bindParam(':idExposicion', $idExposicion);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$pintor = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFIn'],$row['descripcionExpo']);
+			
+		    return $pintor;
+			$con = null;
+		}
+
+		/*--- AÑADE UNA EXPOSICION ---*/	
+		static function addExposicion($exposicion, $descriptor){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("INSERT INTO Exposicion (idSala,nombreExposicion,fechaInicio,fechaFin,descripcionExpo) VALUES (:salaex,:nomex,:fechinex,:fechfinex,:descex)");
+
+			$stmt->bindParam(':nomex', $exposicion['nombreExposicion']);
+			$stmt->bindParam(':descex', $descriptor['descripcion']);
+			$stmt->bindParam(':fechinex', $exposicion['fechaInicio']);
+			$stmt->bindParam(':fechfinex', $exposicion['fechaFin']);
+			$stmt->bindParam(':salaex', $descriptor['sala']);
+
+			$stmt->execute();
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows >= 0){
+				$descriptor = array(
+					'op' => 'ALTA [EXPOSICION]',
+					'sec' => 'Exposicion',
+					'id' => $con->lastInsertId(),
+					'estado' => 'insertado'
+				);
+				Modelo::insertUpdate($descriptor);
+				return true;
+			}else{
+				return false;
+			}
+
+			$con = null;
+		}
+
+		/*--- MODIFICA UN CUADRO ---*/
+		static function modificaExpo($expo, $descriptor){
+
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("UPDATE Exposicion SET idSala = :salaex, nombreExposicion = :nomex, fechaInicio = :fechinex, fechaFIn = :fechfinex, descripcionExpo = :descex WHERE idExposicion = :idex");
+			
+			$stmt->bindParam(':nomex', $expo['nombreExposicion']);
+			$stmt->bindParam(':descex', $descriptor['descripcion']);
+			$stmt->bindParam(':salaex', $descriptor['sala']);
+			$stmt->bindParam(':idex', $descriptor['id']);
+			$stmt->bindParam(':fechinex', $expo['fechaInicio']);
+			$stmt->bindParam(':fechfinex', $expo['fechaFin']);
+
+			$stmt->execute();
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows >= 0){
+				$descriptor = array(
+					'op' => 'MODIFICACIÓN [EXPOSICION]',
+					'sec' => 'Exposicion',
+					'id' => $descriptor['id'],
+					'estado' => 'actualizado'
+				);
+				Modelo::insertUpdate($descriptor);
+				return true;
+			}else{
+				return false;
+			}
+
+			$con = null;
+
+		}
+
+		/*--- DEVUELVE LAS SALAS DEL MUSEO ---*/
+		static function getSalas(){
+			$salas = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Sala_Museo ORDER BY idSala ASC");
+		    $stmt->execute();
+		    $result = $stmt->fetchAll();
+
+		    foreach($result as $row){
+				$sala = new Sala_Museo($row['idSala'],$row['idPlanta'],$row['nombreSala'],$row['descripcionSala']);
+				$salas[] = $sala;
+		    }
+		    return $salas;
+			$con = null;
+		}
+
+		/*--- DEVUELVE TODAS LAS PLANTAS DEL MUSEO ---*/
+		static function getPlantas(){
+			$plantas = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Planta_Museo ORDER BY idPlanta ASC");
+		    $stmt->execute();
+		    $result = $stmt->fetchAll();
+
+		    foreach($result as $row){
+				$planta = new Planta_Museo($row['idPlanta'],$row['numeroPlanta'],$row['capacidad']);
+				$plantas[] = $planta;
+		    }
+		    return $plantas;
+			$con = null;
+		}
+
+		/*--- BORRA UNA O MÁS PLANTAS ---*/
+		static function borrarPlantas($idPlantas){
+			$con = Modelo::conectar();
+			for ($i=0; $i < sizeof($idPlantas); $i++) { 
+				$stmt = $con->prepare("DELETE FROM Planta_Museo WHERE idPlanta = :id");
+				$stmt->bindParam(':id', $idPlantas[$i]);
+				$stmt->execute();
+				$affected_rows = $stmt->rowCount();
+
+				if($affected_rows > 0){
+					$descriptor = array(
+						'op' => 'BAJA [PLANTA]',
+						'sec' => 'Planta',
+						'id' => $idPlantas[$i],
+						'estado' => 'eliminado'
+					);
+					Modelo::insertUpdate($descriptor);
+					return true;
+				}else{
+					return false;
+				}
+
+			}
+			$con = null;
+		}
+
+		static function addPlanta($planta){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("INSERT INTO Planta_Museo (numeroPlanta,capacidad) VALUES (:nump,:capp)");
+
+			$stmt->bindParam(':nump', $planta['numeroPlanta']);
+			$stmt->bindParam(':capp', $planta['capacidad']);
+
+			$stmt->execute();
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows >= 0){
+				$descriptor = array(
+					'op' => 'ALTA [PLANTA]',
+					'sec' => 'Planta',
+					'id' => $con->lastInsertId(),
+					'estado' => 'insertado'
+				);
+				Modelo::insertUpdate($descriptor);
+				return true;
+			}else{
+				return false;
+			}
+
+			$con = null;
+		}
+
+		/*--- MODIFICA UN CUADRO ---*/
+		static function modificaPlanta($planta){
+
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("UPDATE Planta_Museo SET numeroPlanta = :nump, capacidad = :capp WHERE idPlanta = :idep");
+			
+			$stmt->bindParam(':nump', $planta['numeroPlanta']);
+			$stmt->bindParam(':capp', $planta['capacidad']);
+			$stmt->bindParam(':idep', $planta['idPlanta']);
+
+			$stmt->execute();
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows >= 0){
+				$descriptor = array(
+					'op' => 'MODIFICACIÓN [PLANTA]',
+					'sec' => 'Planta',
+					'id' => $planta['idPlanta'],
+					'estado' => 'actualizado'
+				);
+				Modelo::insertUpdate($descriptor);
+				return true;
+			}else{
+				return false;
+			}
+
+			$con = null;
+
+		}
+
+		static function getPlantaPorId($idPlanta){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Planta_Museo WHERE idPlanta = :idPlanta");
+
+		    $stmt->bindParam(':idPlanta', $idPlanta);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$planta = new Planta_Museo($row['idPlanta'],$row['numeroPlanta'],$row['capacidad']);
+			
+		    return $planta;
 			$con = null;
 		}
 
