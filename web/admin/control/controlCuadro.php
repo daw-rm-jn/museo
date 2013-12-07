@@ -76,7 +76,7 @@
 					$filename = $data['nombreCuadro'].'.'.$extension;
 					$files['fotoCuadro']->move($path, $filename);
 
-		        	$descriptorAdd = array(
+		        	$descriptorAddCuadro = array(
 		        		'pintor' => $req->request->get('selpintores'),
 		        		'estilo' => $req->request->get('selestilos'),
 		        		'expo' => $req->request->get('selexpos'),
@@ -84,7 +84,7 @@
 		        		'foto' => $filename
 		        	);
 
-					if(Modelo::addCuadro($data, $descriptorAdd)){
+					if(Modelo::addCuadro($data, $descriptorAddCuadro)){
 						return $app['twig']->render('mod.twig', array(
 							'msgCabecera' => 'Operación correcta',
 				    		'sessionId' => $_SESSION['admin'],
@@ -142,7 +142,7 @@
 					$filename = $data['nombreCuadro'].'.'.$extension;
 					$files['fotoCuadro']->move($path, $filename);
 
-					$descriptorMod = array(
+					$descriptorModCuadro = array(
 						'id' => $data['idCuadro'],
 		        		'pintor' => $req->request->get('selpintores'),
 		        		'estilo' => $req->request->get('selestilos'),
@@ -150,7 +150,7 @@
 		        		'descripcion' => $req->request->get('descCuadro'),
 		        		'foto' => $filename
 		        	);
-					if(Modelo::modificaCuadro($data, $descriptorMod)){
+					if(Modelo::modificaCuadro($data, $descriptorModCuadro)){
 						return $app['twig']->render('mod.twig', array(
 							'msgCabecera' => 'Operación correcta',
 				    		'sessionId' => $_SESSION['admin'],
