@@ -38,84 +38,24 @@
 
 	/*---ENRUTAMIENTO--*/
 
-	/*--- PLANTAS DEL MUSEO ---*/
-	$app->match('/plantas_museo/planta/{id}', function(Request $req, $id) use($app){
-		return controlPlanta::verFichaPlanta($req, $app, $id);
-	})->before($checkAdmin);
+	/*--- USUARIOS ---*/
+	$app->mount('/usuarios', include __DIR__. '/src/routerUsuarios.php');
 
-	$app->match('/plantas_museo/add', function(Request $req) use ($app){
-		return controlPlanta::addPlanta($req, $app);
-	})->before($checkAdmin);
-
-	$app->match('/plantas_museo', function(Request $req) use ($app){
-		return controlPlanta::verPlantas($req, $app);
-	})->before($checkAdmin);
-
-	/*--- EXPOSICIONES ---*/
-	$app->match('/exposiciones_museo/exposicion/{id}', function(Request $req, $id) use($app){
-		return controlExposicion::verFichaExposicion($req, $app, $id);
-	})->before($checkAdmin);
-
-	$app->match('/exposiciones_museo/add', function(Request $req) use ($app){
-		return controlExposicion::addExposicion($req, $app);
-	})->before($checkAdmin);
-
-	$app->match('/exposiciones_museo', function(Request $req) use ($app){
-		return controlExposicion::verExposiciones($req, $app);
-	})->before($checkAdmin);
-
+	/*--- MUSEO ---*/
+	$app->mount('/museo', include __DIR__ . '/src/routerMuseo.php');
+	
 	/*--- ESTILOS ---*/
-	$app->match('/estilos/estilo/{id}', function(Request $req, $id) use($app){
-		return controlEstilo::verFichaEstilo($req, $app, $id);
-	})->before($checkAdmin);
-
-	$app->match('/estilos/add', function(Request $req) use ($app){
-		return controlEstilo::addEstilo($req, $app);
-	})->before($checkAdmin);
-
-	$app->match('/estilos', function(Request $req) use ($app){
-		return controlEstilo::verEstilos($req, $app);
-	})->before($checkAdmin);
-
+	$app->mount('/estilos', include __DIR__ . '/src/routerEstilos.php');
+	
 	/*--- PINTORES ---*/
-	$app->match('/pintores/pintor/{id}', function(Request $req, $id) use($app){
-		return controlPintor::verFichaPintor($req, $app, $id);
-	})->before($checkAdmin);
-
-	$app->match('/pintores/add', function(Request $req) use ($app){
-		return controlPintor::addPintor($req, $app);
-	})->before($checkAdmin);
-
-	$app->match('/pintores', function(Request $req) use ($app){
-		return controlPintor::verPintores($req, $app);
-	})->before($checkAdmin);
-
+	$app->mount('/pintores', include __DIR__ . '/src/routerPintores.php');
+	
 	/*--- CUADROS ---*/
-	$app->match('/cuadros/cuadro/{id}', function(Request $req, $id) use($app){
-		return controlCuadro::verFichaCuadro($req, $app, $id);
-	})->before($checkAdmin);
-
-	$app->match('/cuadros/add', function(Request $req) use ($app){
-		return controlCuadro::addCuadro($req, $app);
-	})->before($checkAdmin);
-
-	$app->match('/cuadros', function(Request $req) use ($app){
-		return controlCuadro::verCuadros($req, $app);
-	})->before($checkAdmin);
+	$app->mount('/cuadros', include __DIR__ . '/src/routerCuadros.php');	
 
 	/*--- MAIN ---*/
-	$app->match('/logout', function() use($app){
-		return controlAdmin::logOut($app);	
-	})->bind('logout')
-	  ->before($checkAdmin);
-
-	$app->match('/login', function(Request $req) use($app){
-		return controlAdmin::logIn($req, $app);
-	})->bind('login');
-
-	$app->match("/", function() use ($app){
-		return controlAdmin::main($app);
-	})->bind("inicio");
+	$app->mount('/', include __DIR__ . '/src/routerMain.php');	
+	
 
 	$app->run();//ARRANQUE DE LA APLICACION
  ?>
