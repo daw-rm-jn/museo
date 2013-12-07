@@ -1,31 +1,31 @@
 {% extends 'inicio.twig' %}
 
-{% block titulo 'Plantas del Museo' %}
+{% block titulo 'Exposiciones' %}
 
 	{% block action %}
 			<table class="tablacrud">
 					<tr class="trcab" >
 						<th colspan="3">
-							<a href="{{app.request.basepath}}/plantas_museo/add"><input type="button" name="btadd" id="btadd" class="btadd" value="Añadir Registro" /></a>
+							<a href="{{app.request.basepath}}/museo/exposiciones_museo/add"><input type="button" name="btadd" id="btadd" class="btadd" value="Añadir Registro" /></a>
 							{{ form_start(form, {'method': 'POST'}) }}
 							{{ form_row(form.Borrar)}}
 						</th>
 					</tr>
 					<tr class="trcab">
-						<th>Lista de Plantas</th>
+						<th>Lista de Exposiciones</th>
 					</tr>
-					{% for planta in plantas %}
-						<input type="hidden" name="hidid" value="{{planta.idPlanta}}"/>
+					{% for exposicion in exposiciones %}
+						<input type="hidden" name="hidid" value="{{exposicion.idExposicion}}"/>
 						<tr>
 							<td colspan="4">
 								<table class="bodycrud" rules="all">
 									<thead>
 										<tr class="trtit">
 											<th>
-												idPlanta
+												idExposicion
 											</th>
 											<th>
-												numeroPlanta
+												nombreExposicion
 											</th>
 											<th>#</th>
 										</tr>
@@ -33,17 +33,17 @@
 									<tbody>
 										<tr>
 											<td class="perla">
-												<a href="{{app.request.basepath}}/plantas_museo/planta/{{planta.idPlanta}}">
-												{{planta.idPlanta}}
+												<a href="{{app.request.basepath}}/museo/exposiciones_museo/exposicion/{{exposicion.idExposicion}}">
+												{{exposicion.idExposicion}}
 												</a>
 											</td>
 											<td class="grey">
-												<a href="{{app.request.basepath}}/plantas_museo/planta/{{planta.idPlanta}}">
-												{{planta.numeroPlanta}}
+												<a href="{{app.request.basepath}}/museo/exposiciones_museo/exposicion/{{exposicion.idExposicion}}">
+												{{exposicion.nombreExposicion}}
 												</a>
 											</td>
 											<td class="perla">
-												<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{planta.idPlanta}}"/>
+												<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{exposicion.idExposicion}}"/>
 											</td>
 										</tr>
 					{% endfor %}

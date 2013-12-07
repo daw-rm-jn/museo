@@ -1,0 +1,49 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Administradores' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab" >
+						<th colspan="3">
+							<a href="{{app.request.basepath}}/usuarios/admins/add"><input type="button" name="btadd" id="btadd" class="btadd" value="Añadir Registro" /></a>
+							{{ form_start(form, {'method': 'POST'}) }}
+							{{ form_row(form.Borrar)}}
+						</th>
+					</tr>
+					<tr class="trcab">
+						<th>Lista de Administradores</th>
+					</tr>
+					{% for admin in admins %}
+						<input type="hidden" name="hidid" value="{{admin.email}}"/>
+						<tr>
+							<td colspan="4">
+								<table class="bodycrud" rules="all">
+									<thead>
+										<tr class="trtit">
+											<th>
+												email
+											</th>
+											<th>#</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="perla">
+												<a href="{{app.request.basepath}}/usuarios/admins/admin/{{admin.email}}">
+												{{admin.email}}
+												</a>
+											</td>
+											<td class="perla">
+												<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{admin.email}}"/>
+											</td>
+										</tr>
+					{% endfor %}
+									</tbody>
+
+								</table>
+							</td>
+						</tr>
+					{{ form_end(form) }}
+				</table>
+	{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Añadir cliente' %}
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Formulario de alta de Cliente</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.email) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												{{ form_row(form.clave) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.nombre) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												{{ form_row(form.nif) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.dir) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												{{ form_row(form.cp) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.telf) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												{{ form_row(form.guardar) }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

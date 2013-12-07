@@ -1,0 +1,65 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Ficha de cliente' %}
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Cliente {{cliente.email}}</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.email, {'attr': {'value': cliente.email, 'readonly':'readonly' }}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												{{ form_row(form.clave, {'attr': {'value': cliente.clave }}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.nombre, {'attr': {'value': cliente.nombre }}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												{{ form_row(form.nif, {'attr': {'value': cliente.nif }}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.dir, {'attr': {'value': cliente.dir }}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												{{ form_row(form.cp, {'attr': {'value': cliente.cp }}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.telf, {'attr': {'value': cliente.telf }}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.fechaAlta, {'attr': {'value': cliente.fechaAlta, 'readonly':'readonly' }}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												{{ form_row(form.guardar) }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

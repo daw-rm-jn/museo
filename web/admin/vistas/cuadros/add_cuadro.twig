@@ -26,7 +26,7 @@
 												<select name="selpintores" id="selpintores">
 													<option value=""></option>
 													{% for pintor in pintores %}
-														<option value="{{pintor.nombrePintor}}">{{pintor.nombrePintor}}</option>
+														<option value="{{pintor.idPintor}}">{{pintor.nombrePintor}}</option>
 													{% endfor %}
 												</select>
 												<br>
@@ -34,7 +34,7 @@
 												<select name="selestilos" id="selestilos">
 													<option value=""></option>
 													{% for estilo in estilos %}
-														<option value="{{estilo.nombreEstilo}}">{{estilo.nombreEstilo}}</option>
+														<option value="{{estilo.idEstilo}}">{{estilo.nombreEstilo}}</option>
 													{% endfor %}
 												</select>
 											</td>
@@ -43,7 +43,7 @@
 												<select name="selexpos" id="selexpos">
 													<option value=""></option>
 													{% for exposicion in exposiciones %}
-														<option value="{{exposicion.nombreExposicion}}">{{exposicion.nombreExposicion}}</option>
+														<option value="{{exposicion.idExposicion}}">{{exposicion.nombreExposicion}}</option>
 													{% endfor %}
 												</select>
 											</td>
