@@ -7,7 +7,7 @@
 		/*--- FUNCIONES DE LA PÁGINA PRINCIPAL ---*/
 		/*---------------------------------------*/
 
-		/*--- COMPRUEBA SI EL SUSUARIO ENVIADO ES ADMINISTRADOR ---*/
+		/*--- COMPRUEBA SI EL USUARIO ENVIADO ES ADMINISTRADOR ---*/
 		static function isAdmin($datos){
 			return Model_Misc::isAdmin($datos);
 		}
@@ -50,11 +50,6 @@
 			return Model_Pintores::addPintor($pintor, $descriptor);
 		}
 
-		/*--- DEVULVE LA ID DE UN PINTOR ---*/
-		static function getIdPintor($nombre){
-			return Model_Pintores::getIdPintor($nombre);
-		}
-
 		/*-----------------------------*/
 		/*--- FUNCIONES DE ESTILOS ---*/
 		/*---------------------------*/
@@ -83,11 +78,6 @@
 		/*--- AÑADE UN ESTILO ---*/
 		static function addEstilo($estilo, $desc){
 			return Model_Estilos::addEstilo($estilo, $desc);
-		}
-
-		/*--- DEVUELVE LA ID DE UN ESTILO ---*/
-		static function getIdEstilo($nombre){
-			return Model_Estilos::getIdEstilo($nombre);
 		}
 
 		/*-----------------------------*/
@@ -136,60 +126,124 @@
 
 		/*--- DEVUELVE LAS EXPOSICIONES ---*/
 		static function getExposiciones(){
-			return Model_Exposiciones::getExposiciones();
-		}
-
-		/*--- DEVULVE LA ID DE UNA EXPOSICION ---*/
-		static function getIdExposicion($nombre){
-			return Model_Exposiciones::getIdExposicion($nombre);
+			return Model_Museo::getExposiciones();
 		}
 
 		/*--- BORRA UNA O MÁS EXPOSICIONES ---*/
 		static function borrarExposiciones($idExposiciones){
-			return Model_Exposiciones::borrarExposiciones($idExposiciones);
+			return Model_Museo::borrarExposiciones($idExposiciones);
 		}
 
 		/*--- DEVUELVE UNA EXPOSICION CON UNA ID INDICADA ---*/
 		static function getExposicionPorId($idExposicion){
-			return Model_Exposiciones::getExposicionPorId($idExposicion);
+			return Model_Museo::getExposicionPorId($idExposicion);
 		}
 
 		/*--- AÑADE UNA EXPOSICION ---*/	
 		static function addExposicion($exposicion, $descriptor){
-			return Model_Exposiciones::addExposicion($exposicion, $descriptor);
+			return Model_Museo::addExposicion($exposicion, $descriptor);
 		}
 
 		/*--- MODIFICA UNA EXPOSICION ---*/
 		static function modificaExpo($expo, $descriptor){
-			return Model_Exposiciones::modificaExpo($expo, $descriptor);
+			return Model_Museo::modificaExpo($expo, $descriptor);
 		}
 
 		/*--- DEVUELVE LAS SALAS DEL MUSEO ---*/
 		static function getSalas(){
-			return Model_Salas::getSalas();
+			return Model_Museo::getSalas();
+		}
+
+		/*--- BORRA UNA O MÁS SALAS ---*/
+		static function borrarSalas($idSalas){
+			return Model_Museo::borrarSalas($idSalas);
+		}
+
+		/*--- AÑADE UNA SALA ---*/
+		static function addSala($sala, $descriptor){
+			return Model_Museo::addSala($sala, $descriptor);
+		}
+
+		/*--- MODIFICA UNA SALA ---*/
+		static function modificaSala($sala, $descriptor){
+			return Model_Museo::modificaSala($sala, $descriptor);
+		}
+
+		/*--- DEVUELVE UNA SALA CON ID INDICADA ---*/
+		static function getSalaPorId($idSala){
+			return Model_Museo::getSalaPorId($idSala);
 		}
 
 		/*--- DEVUELVE TODAS LAS PLANTAS DEL MUSEO ---*/
 		static function getPlantas(){
-			return Model_Plantas::getPlantas();
+			return Model_Museo::getPlantas();
 		}
 
 		/*--- BORRA UNA O MÁS PLANTAS ---*/
 		static function borrarPlantas($idPlantas){
-			return Model_Plantas::borrarPlantas($idPlantas);
+			return Model_Museo::borrarPlantas($idPlantas);
 		}
 
+		/*--- AÑADE UNA PLANTA ---*/
 		static function addPlanta($planta){
-			return Model_Plantas::addPlanta($planta);
+			return Model_Museo::addPlanta($planta);
 		}
 
 		/*--- MODIFICA UNA PLANTA ---*/
 		static function modificaPlanta($planta){
-			return Model_Plantas::modificaPlanta($planta);
+			return Model_Museo::modificaPlanta($planta);
 		}
 
+		/*--- DEVUELVE UNA PLANTA CON ID INDICADA ---*/
 		static function getPlantaPorId($idPlanta){
-			return Model_Plantas::getPlantaPorId($idPlanta);
+			return Model_Museo::getPlantaPorId($idPlanta);
 		}
+
+		/*------------------------------*/
+		/*--- FUNCIONES DE USUARIOS ---*/
+		/*----------------------------*/
+
+		/*--- CLIENTES ---*/
+		static function getClientes(){
+			return Model_Usuarios::getClientes();
+		}
+
+		static function addCliente($cliente){
+			return Model_Usuarios::addCliente($cliente);
+		}
+
+		static function borrarClientes($emailClientes){
+			return Model_Usuarios::borrarClientes($emailClientes);
+		}
+
+		static function getClientePorId($email){
+			return Model_Usuarios::getClientePorId($email);
+		}
+
+		static function modificaCliente($cliente){
+			return Model_Usuarios::modificaCliente($cliente);
+		}
+
+		/*--- ADMINISTRADORES ---*/
+		static function getAdmins(){
+			return Model_Usuarios::getAdmins();
+		}
+
+		static function addAdmin($admin){
+			return Model_Usuarios::addAdmin($admin);
+		}
+
+		static function borrarAdmins($emailAdmins){
+			return Model_Usuarios::borrarAdmins($emailAdmins);
+		}
+
+		static function getAdminPorId($email){
+			return Model_Usuarios::getAdminPorId($email);
+		}
+
+		static function modificaAdmin($admin){
+			return Model_Usuarios::modificaAdmin($admin);
+		}
+
 	}
 ?>

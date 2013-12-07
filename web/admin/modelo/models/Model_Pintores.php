@@ -124,20 +124,5 @@
 			$con = null;
 		}
 
-		static function getIdPintor($nombre){
-			$con = Model_BD::conectar();
-			$stmt = $con->prepare("SELECT idPintor FROM Pintor WHERE nombrePintor = :nombrePintor");
-
-		    $stmt->bindParam(':nombrePintor', $nombre);
-
-		    $stmt->execute();
-		    $row = $stmt->fetch();
-
-			$id = $row['idPintor'];
-			
-		    return $id;
-			$con = null;
-		}
-
 	}
 ?>

@@ -117,20 +117,5 @@
 
 			$con = null;
 		}
-
-		static function getIdEstilo($nombre){
-			$con = Model_BD::conectar();
-			$stmt = $con->prepare("SELECT idEstilo FROM Estilo WHERE nombreEstilo = :nombreEstilo");
-
-		    $stmt->bindParam(':nombreEstilo', $nombre);
-
-		    $stmt->execute();
-		    $row = $stmt->fetch();
-
-			$id = $row['idEstilo'];
-			
-		    return $id;
-			$con = null;
-		}
 	}
 ?>

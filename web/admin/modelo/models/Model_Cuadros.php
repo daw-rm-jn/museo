@@ -2,7 +2,7 @@
 	require_once 'Model_Misc.php';
 	require_once 'Model_BD.php';
 	require_once 'Model_Pintores.php';
-	require_once 'Model_Exposiciones.php';
+	require_once 'Model_Museo.php';
 	require_once 'Model_Estilos.php';
 
 	class Model_Cuadros{
@@ -148,20 +148,16 @@
 			$con = null;
 		}
 
-		static function addCuadro($cuadro, $descriptor){
-			$idp = Model_Pintores::getIdPintor($descriptor['pintor']);
-			$idex = Model_Exposiciones::getIdExposicion($descriptor['expo']);
-			$ides = Model_Estilos::getIdEstilo($descriptor['estilo']);
-			
+		static function addCuadro($cuadro, $descriptor){			
 			$con = Model_BD::conectar();
 			$stmt = $con->prepare("INSERT INTO Cuadro (idPintor,idExposicion,idEstilo,nombreCuadro,descripcionCuadro,fotoCuadro) VALUES (:idp,:idex,:ides,:nomc,:descc,:fotoc)");
 
 			$stmt->bindParam(':nomc', $cuadro['nombreCuadro']);
 			$stmt->bindParam(':descc', $descriptor['descripcion']);
 			$stmt->bindParam(':fotoc', $descriptor['foto']);
-			$stmt->bindParam(':idp', $idp);
-			$stmt->bindParam(':idex', $idex);
-			$stmt->bindParam(':ides', $ides);
+			$stmt->bindParam(':idp', $descriptor['pintor']);
+			$stmt->bindParam(':idex', $descriptor['expo']);
+			$stmt->bindParam(':ides', $descriptor['estilo']);
 
 			$stmt->execute();
 			$affected_rows = $stmt->rowCount();
@@ -183,10 +179,6 @@
 		}
 
 		static function modificaCuadro($cuadro, $descriptor){
-			$idp = Model_Pintores::getIdPintor($descriptor['pintor']);
-			$idex = Model_Exposiciones::getIdExposicion($descriptor['expo']);
-			$ides = Model_Estilos::getIdEstilo($descriptor['estilo']);
-
 			$con = Model_BD::conectar();
 			$stmt = $con->prepare("UPDATE Cuadro SET idPintor = :idp, idEstilo = :ides, idExposicion = :idex, nombreCuadro = :nomc, descripcionCuadro = :descc, fotoCuadro = :fotoc WHERE idCuadro = :idc");
 			
@@ -194,9 +186,9 @@
 			$stmt->bindParam(':descc', $descriptor['descripcion']);
 			$stmt->bindParam(':fotoc', $descriptor['foto']);
 			$stmt->bindParam(':idc', $descriptor['id']);
-			$stmt->bindParam(':idp', $idp);
-			$stmt->bindParam(':idex', $idex);
-			$stmt->bindParam(':ides', $ides);
+			$stmt->bindParam(':idp', $descriptor['pintor']);
+			$stmt->bindParam(':idex', $descriptor['expo']);
+			$stmt->bindParam(':ides', $descriptor['estilo']);
 
 			$stmt->execute();
 			$affected_rows = $stmt->rowCount();

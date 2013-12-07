@@ -6,4 +6,6 @@
 	require __DIR__ . '/classes/Exposicion.php';
 	require __DIR__ . '/classes/Sala_Museo.php';
 	require __DIR__ . '/classes/Planta_Museo.php';
+	require __DIR__ . '/classes/Usuario.php';
+	require __DIR__ . '/classes/Admin.php';
 ?>
