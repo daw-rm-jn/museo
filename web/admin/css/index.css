@@ -55,7 +55,17 @@ ul.listaSec  li{
 	font-size: 1.075em;
 }
 
-ul.listaSec  li:last-child{
+ul.listaSec li.limenu{
+	background-color: #9EC0C8;
+	color:#000;
+}
+
+ul.listaSec li.limenu:hover{
+	background-color: #9EC0C8;
+	color:#000;
+}
+
+ul.listaSec li.litienda{
 	border-bottom: 1px solid #9EC0C8;
 }
 
@@ -73,7 +83,7 @@ ul.listaSec a:hover{
 	color: #E8EEEF;
 }
 
-ul.listaSec li.liexposiciones, ul.listaSec  li.liplantas, ul.listaSec  li.lisalas, ul.listaSec li.liclientes, ul.listaSec li.liadmins{
+ul.listaSec li.liexposiciones, ul.listaSec  li.liplantas, ul.listaSec  li.lisalas, ul.listaSec li.liclientes, ul.listaSec li.liadmins, ul.listaSec li.licarritos, ul.listaSec li.lipedidos{
 	text-align: left;
 	padding-left: 42%;
 	color:#C3967D;
