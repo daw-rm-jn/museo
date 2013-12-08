@@ -75,7 +75,7 @@
 			        	'constraints' => array(
 				        		new Assert\NotBlank(),
 				        		new Assert\Regex(array(
-						            'pattern' => '/[0-9]{7,8}[A-Z]/'
+						            'pattern' => '/^(X(-|\.)?0?\d{7}(-|\.)?[A-Z]|[A-Z](-|\.)?\d{7}(-|\.)? [0-9A-Z]|\d{8}(-|\.)?[A-Z])$/'
 						        	)
 						        )
 						    )
@@ -86,7 +86,7 @@
 			        	'constraints' => array(
 				        		new Assert\NotBlank(),
 				        		new Assert\Regex(array(
-						            'pattern' => '/^(5[0-2]|[0-4][0-9])[0-9]{3}$/'
+						            'pattern' => '/^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$/'
 						        	)
 						        )
 						    )
@@ -102,6 +102,30 @@
 						    )
 			        	)
 			        )
+			        ->add('numeroTarjeta','text',array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/\d{16}/',
+				        		)
+			        		)
+			        	)
+			        ))
+			        ->add('CCV','text',array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/\d{3}/',
+				        		)
+			        		)
+			        	)
+			        ))
+			        ->add('fechaCaducidad','text',  array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/',
+				        		)
+			        		)
+			        	)
+			        ))
 			        ->add('guardar', 'submit', array())
 			        ->getForm();
 
@@ -141,6 +165,7 @@
 
 		static function verFichaCliente(Request $req, Application $app, $id){
 			$cliente = Modelo::getClientePorId($id);
+			$datosBancarios = Modelo::getDatosBancarios($cliente);
 			$form = $app['form.factory']->createBuilder('form')
 			        ->add('email', "text", array(
 			        	'constraints' => array(
@@ -165,7 +190,7 @@
 			        	'constraints' => array(
 				        		new Assert\NotBlank(),
 				        		new Assert\Regex(array(
-						            'pattern' => '/[0-9]{7,8}[A-Z]/'
+						            'pattern' => '/^(X(-|\.)?0?\d{7}(-|\.)?[A-Z]|[A-Z](-|\.)?\d{7}(-|\.)? [0-9A-Z]|\d{8}(-|\.)?[A-Z])$/'
 						        	)
 						        )
 						    )
@@ -176,7 +201,7 @@
 			        	'constraints' => array(
 				        		new Assert\NotBlank(),
 				        		new Assert\Regex(array(
-						            'pattern' => '/^(5[0-2]|[0-4][0-9])[0-9]{3}$/'
+						            'pattern' => '/^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$/'
 						        	)
 						        )
 						    )
@@ -193,6 +218,30 @@
 			        	)
 			        )
 			        ->add('fechaAlta', 'text', array())
+			        ->add('numeroTarjeta','text',array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/\d{16}/',
+				        		)
+			        		)
+			        	)
+			        ))
+			        ->add('CCV','text',array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/\d{3}/',
+				        		)
+			        		)
+			        	)
+			        ))
+			        ->add('fechaCaducidad','text',  array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/',
+				        		)
+			        		)
+			        	)
+			        ))
 			        ->add('guardar', 'submit', array())
 			        ->getForm();
 
@@ -224,6 +273,7 @@
 		    return $app['twig']->render('/usuarios/ficha_cliente.twig', array(
 		    	'form' => $form->createView(),
 		    	'cliente' => $cliente,
+		    	'datosBancarios' => $datosBancarios,
 				'msgCabecera' => 'Ficha de cliente',
 				'sessionId' => $_SESSION['admin']
 		    	)
