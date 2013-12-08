@@ -38,6 +38,9 @@
 
 	/*---ENRUTAMIENTO--*/
 
+	/*--- TIENDA ---*/
+	//$app->mount('/tienda', include __DIR__. '/src/routerTienda.php');
+
 	/*--- USUARIOS ---*/
 	$app->mount('/usuarios', include __DIR__. '/src/routerUsuarios.php');
 
