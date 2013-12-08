@@ -6,9 +6,8 @@ $(document).ready(function(){
 				$(this) .parents('table.bodycrud') .children('tbody') .toggle();
 			}
 		)
-
 		$('input.btVer').parents('table.bodycrud').children('tbody').toggle();
-/*--- DESPLEGABLE LISTA MUSEO---*/
+/*--- DESPLEGABLES LISTA MUSEO---*/
 		$('li#limuseo') .click(
 			function() {
 				$('li.liexposiciones').toggle();
@@ -28,5 +27,14 @@ $(document).ready(function(){
 		)
 		$('li.liclientes').toggle();
 		$('li.liadmins').toggle();
+
+		$('li#litienda') .click(
+			function() {
+				$('li.licarritos').toggle();
+				$('li.lipedidos').toggle();
+			}
+		)
+		$('li.licarritos').toggle();
+		$('li.lipedidos').toggle();
 
 });
