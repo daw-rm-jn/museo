@@ -205,7 +205,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Datos_Bancarios` (
   `email` VARCHAR(50) NOT NULL ,
-  `numeroTarjeta` INT NOT NULL ,
+  `numeroTarjeta` BIGINT NOT NULL ,
   `CCV` INT NOT NULL ,
   `fechaCaducidad` DATE NOT NULL ,
   INDEX `fk_Datos_Bancarios_Usuario1` (`email` ASC) ,
