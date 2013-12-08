@@ -18,9 +18,30 @@
 			$con = null;
 		}
 
+		static function getDatosBancarios($cliente){
+			$users = array();
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("SELECT numeroTarjeta,CCV,fechaCaducidad FROM Datos_Bancarios WHERE email = :email");
+
+			$stmt->bindParam(':email', $cliente->getemail());
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$datos = array(
+				'numeroTarjeta' => $row['numeroTarjeta'],
+				'CCV' => $row['CCV'],
+				'fechaCaducidad' => $row['fechaCaducidad']
+			);
+			
+		    return $datos;
+			$con = null;
+		}
+
 		static function addCliente($cliente){
 			$con = Model_BD::conectar();
 			$stmt = $con->prepare("INSERT INTO Usuario (email,clave,nombre,nif,dir,cp,telf,fechaAlta) VALUES (:email,:clave,:nombre,:nif,:dir,:cp,:telf,NOW())");
+			$insertdatosbanc = $con->prepare("INSERT INTO Datos_Bancarios VALUES (:emaildb,:numt,:ccvt,:fechacadt)");
 
 			$stmt->bindParam(':email', $cliente['email']);
 			$stmt->bindParam(':clave', $cliente['clave']);
@@ -30,10 +51,18 @@
 			$stmt->bindParam(':cp', $cliente['cp']);
 			$stmt->bindParam(':telf', $cliente['telf']);
 
+			$insertdatosbanc->bindParam(':emaildb', $cliente['email']);
+			$insertdatosbanc->bindParam(':numt', $cliente['numeroTarjeta']);
+			$insertdatosbanc->bindParam(':ccvt', $cliente['CCV']);
+			$insertdatosbanc->bindParam(':fechacadt', $cliente['fechaCaducidad']);
+
 			$stmt->execute();
+			$insertdatosbanc->execute();
+
+			$affected_rows_datosbanc = $insertdatosbanc->rowCount();
 			$affected_rows = $stmt->rowCount();
 
-			if($affected_rows >= 0){
+			if($affected_rows >= 0 && $affected_rows_datosbanc >= 0){
 				$descriptor = array(
 					'op' => 'ALTA [CLIENTE]',
 					'sec' => 'Cliente',
@@ -93,6 +122,7 @@
 		static function modificaCliente($cliente){
 			$con = Model_BD::conectar();
 			$stmt = $con->prepare("UPDATE Usuario SET clave = :clave, nombre = :nombre, nif = :nif, dir = :dir, cp = :cp, telf = :telf WHERE email = :email");
+			$updatedatosbanc = $con->prepare("UPDATE Datos_Bancarios SET numeroTarjeta = :numt, CCV = :ccvt, fechaCaducidad = :fechcadt WHERE email = :emaildb");
 			
 			$stmt->bindParam(':email', $cliente['email']);
 			$stmt->bindParam(':clave', $cliente['clave']);
@@ -102,10 +132,18 @@
 			$stmt->bindParam(':cp', $cliente['cp']);
 			$stmt->bindParam(':telf', $cliente['telf']);
 
+			$updatedatosbanc->bindParam(':emaildb', $cliente['email']);
+			$updatedatosbanc->bindParam(':numt', $cliente['numeroTarjeta']);
+			$updatedatosbanc->bindParam(':ccvt', $cliente['CCV']);
+			$updatedatosbanc->bindParam(':fechcadt', $cliente['fechaCaducidad']);
+
 			$stmt->execute();
+			$updatedatosbanc->execute();
+
+			$affected_rows_datosbanc = $updatedatosbanc->rowCount();
 			$affected_rows = $stmt->rowCount();
 
-			if($affected_rows >= 0){
+			if($affected_rows >= 0 && $affected_rows_datosbanc >= 0){
 				$descriptor = array(
 					'op' => 'MODIFICACIÓN [CLIENTE]',
 					'sec' => 'Cliente',

@@ -208,6 +208,10 @@
 			return Model_Usuarios::getClientes();
 		}
 
+		static function getDatosBancarios($cliente){
+			return Model_Usuarios::getDatosBancarios($cliente);
+		}
+
 		static function addCliente($cliente){
 			return Model_Usuarios::addCliente($cliente);
 		}
