@@ -6,6 +6,9 @@
 					<tr class="trcab">
 						<th>Cliente {{cliente.email}}</th>
 					</tr>
+					<tr class="trcab">
+						<th>Datos personales</th>
+					</tr>
 						<tr>
 							<td colspan="4">
 								{{ form_start(form, {'method': 'POST'}) }}
@@ -15,18 +18,14 @@
 											<td class="perla">
 												{{ form_row(form.email, {'attr': {'value': cliente.email, 'readonly':'readonly' }}) }}
 											</td>
-										</tr>
-										<tr>
-											<td class="grey">
+											<td class="perla">
 												{{ form_row(form.clave, {'attr': {'value': cliente.clave }}) }}
 											</td>
 										</tr>
 										<tr>
-											<td class="perla">
+											<td class="grey">
 												{{ form_row(form.nombre, {'attr': {'value': cliente.nombre }}) }}
 											</td>
-										</tr>
-										<tr>
 											<td class="grey">
 												{{ form_row(form.nif, {'attr': {'value': cliente.nif }}) }}
 											</td>
@@ -35,24 +34,37 @@
 											<td class="perla">
 												{{ form_row(form.dir, {'attr': {'value': cliente.dir }}) }}
 											</td>
-										</tr>
-										<tr>
-											<td class="grey">
+											<td class="perla">
 												{{ form_row(form.cp, {'attr': {'value': cliente.cp }}) }}
 											</td>
 										</tr>
 										<tr>
-											<td class="perla">
+											<td class="grey">
 												{{ form_row(form.telf, {'attr': {'value': cliente.telf }}) }}
 											</td>
+											<td class="grey">
+												{{ form_row(form.fechaAlta, {'attr': {'value': cliente.fechaAlta, 'readonly':'readonly' }}) }}
+											</td>
+										</tr>
+										<tr class="trcab">
+											<th colspan="2">Datos bancarios</th>
 										</tr>
 										<tr>
 											<td class="perla">
-												{{ form_row(form.fechaAlta, {'attr': {'value': cliente.fechaAlta, 'readonly':'readonly' }}) }}
+												{{ form_row(form.numeroTarjeta, {'attr': {'value': datosBancarios.numeroTarjeta}}) }}
+											</td>
+											<td class="perla">
+												{{ form_row(form.CCV, {'attr': {'value': datosBancarios.CCV }}) }}
 											</td>
 										</tr>
 										<tr>
 											<td class="grey">
+												{{ form_row(form.fechaCaducidad, {'attr': {'value': datosBancarios.fechaCaducidad }}) }}
+											</td>
+											<td class="grey"></td>
+										</tr>
+										<tr>
+											<td class="perla" colspan="2">
 												{{ form_row(form.guardar) }}
 											</td>
 										</tr>

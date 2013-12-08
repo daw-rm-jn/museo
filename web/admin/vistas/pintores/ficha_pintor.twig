@@ -23,20 +23,20 @@
 												<hr class="separador">
 												<label for="">Seleccione una nueva foto: </label>{{ form_row(form.fotoPintor) }}
 											</td>
-											<td class="grey pict">												
+											<td class="perla pict">												
 												<label for="">Foto de pintor (ACTUAL):</label>
 												<br>
 												<img class="foto" src="{{app.request.basepath}}/../img/pintores/{{pintor.nombrePintor}}/{{pintor.fotoPintor}}" alt="">
 											</td>
 										</tr>
 										<tr>
-											<td class="perla" colspan="3">
+											<td class="grey" colspan="3">
 												<label for="">Biografía de pintor:</label><br>
 												<textarea name="bioPintor" id="bioPintor" cols="100" rows="20">{{pintor.bioPintor}}</textarea>
 											</td>
 										</tr>
 										<tr>
-											<td class="grey" colspan="3">
+											<td class="perla" colspan="3">
 												{{ form_row(form.guardar) }}
 											</td>
 										</tr>

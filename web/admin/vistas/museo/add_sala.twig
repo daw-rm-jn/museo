@@ -16,7 +16,7 @@
 											<td class="perla">
 												{{ form_row(form.nombreSala) }}
 											</td>
-											<td class="grey">
+											<td class="perla">
 												<label for="selplantas">Planta</label>
 												<select name="selplantas" id="selplantas">
 													<option value=""></option>
@@ -27,10 +27,15 @@
 											</td>
 										</tr>
 										<tr>
-											<td class="perla" colspan="2">
+											<td class="grey" colspan="2">
 												Descripción de sala:
 												<br>
 												<textarea name="descSala" id="descSala" cols="100" rows="20"></textarea>
+											</td>
+										</tr>
+										<tr>
+											<td class="perla" colspan="2">
+												{{form_row(form.guardar)}}
 											</td>
 										</tr>
 									</tbody>

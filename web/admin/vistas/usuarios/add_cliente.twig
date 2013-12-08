@@ -4,7 +4,10 @@
 	{% block action %}
 			<table class="tablacrud">
 					<tr class="trcab">
-						<th>Formulario de alta de Cliente</th>
+						<th>Formulario para añadir un Cliente</th>
+					</tr>
+					<tr class="trcab">
+						<th>Datos personales</th>
 					</tr>
 						<tr>
 							<td colspan="4">
@@ -15,18 +18,14 @@
 											<td class="perla">
 												{{ form_row(form.email) }}
 											</td>
-										</tr>
-										<tr>
-											<td class="grey">
+											<td class="perla">
 												{{ form_row(form.clave) }}
 											</td>
 										</tr>
 										<tr>
-											<td class="perla">
+											<td class="grey">
 												{{ form_row(form.nombre) }}
 											</td>
-										</tr>
-										<tr>
 											<td class="grey">
 												{{ form_row(form.nif) }}
 											</td>
@@ -35,20 +34,36 @@
 											<td class="perla">
 												{{ form_row(form.dir) }}
 											</td>
-										</tr>
-										<tr>
-											<td class="grey">
+											<td class="perla">
 												{{ form_row(form.cp) }}
 											</td>
 										</tr>
 										<tr>
-											<td class="perla">
+											<td class="grey">
 												{{ form_row(form.telf) }}
+											</td>
+											<td class="grey"></td>
+										</tr>
+										<tr class="trcab">
+											<th colspan="2">Datos bancarios</th>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.numeroTarjeta)}}
+											</td>
+											<td class="perla">
+												{{ form_row(form.CCV) }}
 											</td>
 										</tr>
 										<tr>
 											<td class="grey">
-												{{ form_row(form.guardar) }}
+												{{ form_row(form.fechaCaducidad) }} (AAAA-MM-DD)
+											</td>
+											<td class="grey"></td>
+										</tr>
+										<tr>
+											<td class="perla" colspan="2">
+												{{ form_row(form.guardar) }} 
 											</td>
 										</tr>
 									</tbody>
