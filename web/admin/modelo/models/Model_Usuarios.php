@@ -44,7 +44,7 @@
 			$insertdatosbanc = $con->prepare("INSERT INTO Datos_Bancarios VALUES (:emaildb,:numt,:ccvt,:fechacadt)");
 
 			$stmt->bindParam(':email', $cliente['email']);
-			$stmt->bindParam(':clave', $cliente['clave']);
+			$stmt->bindParam(':clave', $cliente['clavecifrada']);
 			$stmt->bindParam(':nombre', $cliente['nombre']);
 			$stmt->bindParam(':nif', $cliente['nif']);
 			$stmt->bindParam(':dir', $cliente['dir']);
@@ -125,7 +125,7 @@
 			$updatedatosbanc = $con->prepare("UPDATE Datos_Bancarios SET numeroTarjeta = :numt, CCV = :ccvt, fechaCaducidad = :fechcadt WHERE email = :emaildb");
 			
 			$stmt->bindParam(':email', $cliente['email']);
-			$stmt->bindParam(':clave', $cliente['clave']);
+			$stmt->bindParam(':clave', $cliente['clavecifrada']);
 			$stmt->bindParam(':nombre', $cliente['nombre']);
 			$stmt->bindParam(':nif', $cliente['nif']);
 			$stmt->bindParam(':dir', $cliente['dir']);
@@ -179,7 +179,7 @@
 			$stmt = $con->prepare("INSERT INTO Administrador (email,clave,fechaAlta) VALUES (:email,:clave,NOW())");
 
 			$stmt->bindParam(':email', $admin['email']);
-			$stmt->bindParam(':clave', $admin['clave']);
+			$stmt->bindParam(':clave', $admin['clavecifrada']);
 
 			$stmt->execute();
 			$affected_rows = $stmt->rowCount();
@@ -245,7 +245,7 @@
 			$con = Model_BD::conectar();
 			$stmt = $con->prepare("UPDATE Administrador SET clave = :clave WHERE email = :email");
 						
-			$stmt->bindParam(':clave', $admin['clave']);
+			$stmt->bindParam(':clave', $admin['clavecifrada']);
 			$stmt->bindParam(':email', $admin['email']);
 
 			$stmt->execute();

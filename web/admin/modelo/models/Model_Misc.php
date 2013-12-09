@@ -7,14 +7,14 @@
 			$con = Model_BD::conectar();
 			$stmt = $con->prepare("SELECT * FROM Administrador WHERE email = :usuario AND clave = :clave");
 
-		    $stmt->bindParam(':usuario', $datos['Usuario']);
-		    $stmt->bindParam(':clave', $datos['Clave']);
+		    $stmt->bindParam(':usuario', $datos['usuario']);
+		    $stmt->bindParam(':clave', $datos['clave']);
 
 		    $stmt->execute();
 		    $result = $stmt->fetch();
 			$affected_rows = $stmt->rowCount();
 		    
-	        if($affected_rows >= 0){
+	        if($affected_rows > 0){
 	        	return true;
 	        }else{
 	        	return false;
