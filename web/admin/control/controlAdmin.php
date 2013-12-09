@@ -32,22 +32,31 @@
 
 		static function logIn(Request $req, Application $app){
 			$form = $app['form.factory']->createBuilder('form')
-			        ->add('Usuario', "text", array(
+			        ->add('usuario', "text", array(
 			        	'constraints' => array(
 				        		new Assert\NotBlank(), 
 				        		new Assert\Email()
 				        		)
 			        	)
-			        )->add('Clave', "password", array(
+			        )
+			        ->add('clave', "password", array(
 			        	'constraints' => array(
-			        			new Assert\NotBlank(),
-			        		)
+				        		new Assert\NotBlank(), 
+				        		new Assert\Length(array(
+						            'min' => 6,
+						            'max' => 50
+						    	    )
+						    	)
+						    )
 			        	)
-					)->add('recordar', 'checkbox', array(
+			        )
+			        ->add("clavecifrada", "hidden", array())
+					->add('recordar', 'checkbox', array(
 					    'label'     => 'Recordar sesión',
 					    'required'  => false,
 							)
-					)->getForm();
+					)
+					->getForm();
 
 		    if ('POST' == $req->getMethod()) {
 		        $form->bind($req);
@@ -55,7 +64,7 @@
 		        if ($form->isValid()) {
 		        	$data = $form->getData();
 					if(Modelo::isAdmin($data)){
-						$_SESSION['admin'] = $data['Usuario'];
+						$_SESSION['admin'] = $data['usuario'];
 						return $app->redirect($app['url_generator']->generate('inicio'));
 					}else{
 						return $app['twig']->render('login.twig', array(

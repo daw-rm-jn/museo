@@ -70,6 +70,7 @@
 						    )
 			        	)
 			        )
+			        ->add("clavecifrada", "hidden", array())
 			        ->add('nombre', "text", array())
 			        ->add('nif', "text", array(
 			        	'constraints' => array(
@@ -185,6 +186,7 @@
 						    )
 			        	)
 			        )
+			        ->add("clavecifrada", "hidden", array())
 			        ->add('nombre', "text", array())
 			        ->add('nif', "text", array(
 			        	'constraints' => array(
@@ -342,6 +344,7 @@
 						    )
 			        	)
 			        )
+			        ->add("clavecifrada", "hidden", array())
 			        ->add('guardar', 'submit', array())
 			        ->getForm();
 
@@ -400,6 +403,7 @@
 						    )
 			        	)
 			        )
+			        ->add("clavecifrada", "hidden", array())
 			        ->add('fechaAlta', 'text', array())
 			        ->add('guardar', 'submit', array())
 			        ->getForm();
