@@ -8,7 +8,7 @@
 			$stmt = $con->prepare("SELECT * FROM Administrador WHERE email = :usuario AND clave = :clave");
 
 		    $stmt->bindParam(':usuario', $datos['usuario']);
-		    $stmt->bindParam(':clave', $datos['clave']);
+		    $stmt->bindParam(':clave', $datos['clavecifrada']);
 
 		    $stmt->execute();
 		    $result = $stmt->fetch();
