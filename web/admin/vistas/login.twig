@@ -8,8 +8,9 @@
 			{% block log %}
 
 				{{ form_start(form, {'method': 'POST'}) }}
-				{{ form_row(form.Usuario) }}
-				{{ form_row(form.Clave) }}
+				{{ form_row(form.usuario) }}
+				{{ form_row(form.clave) }}
+				{{ form_row(form.clavecifrada) }}
 				<br><br>
 				{{ form_row(form.recordar) }}
 				<br>

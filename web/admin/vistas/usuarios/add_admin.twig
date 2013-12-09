@@ -17,11 +17,12 @@
 											</td>
 											<td class="grey">
 												{{ form_row(form.clave) }}
+												{{ form_row(form.clavecifrada) }}
 											</td>
 										</tr>
 										<tr>
 											<td class="grey" colspan="2">
-												{{form_row(form.guardar)}}
+												{{ form_row(form.guardar, {'attr': {'onclick': 'cifrar()' }})  }}
 											</td>
 										</tr>
 									</tbody>

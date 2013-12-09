@@ -20,6 +20,7 @@
 											</td>
 											<td class="perla">
 												{{ form_row(form.clave, {'attr': {'value': cliente.clave }}) }}
+												{{ form_row(form.clavecifrada) }}
 											</td>
 										</tr>
 										<tr>
@@ -65,7 +66,7 @@
 										</tr>
 										<tr>
 											<td class="perla" colspan="2">
-												{{ form_row(form.guardar) }}
+												{{ form_row(form.guardar, {'attr': {'onclick': 'cifrar()' }})  }}
 											</td>
 										</tr>
 									</tbody>

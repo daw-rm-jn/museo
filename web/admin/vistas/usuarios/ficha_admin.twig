@@ -19,6 +19,7 @@
 										<tr>
 											<td class="grey">
 												{{ form_row(form.clave, {'attr': {'value': admin.clave }}) }}
+												{{ form_row(form.clavecifrada) }}
 											</td>
 										<tr>
 											<td class="perla">
@@ -27,7 +28,7 @@
 										</tr>
 										<tr>
 											<td class="grey">
-												{{ form_row(form.guardar) }}
+												{{ form_row(form.guardar, {'attr': {'onclick': 'cifrar()' }})  }}
 											</td>
 										</tr>
 									</tbody>
