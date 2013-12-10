@@ -41,10 +41,24 @@
         $app->match("/cuadros", function() use ($app){
 		return controladorPrincipal::cuadros($app);
 	})->bind("cuadros");
+        
+        $app->match("/tienda", function() use ($app){
+		return controladorPrincipal::tienda($app);
+	})->bind("tienda");
 
 	$app->match("/", function() use ($app){
 		return controladorPrincipal::main($app);
 	})->bind("inicio");
-
+        
+        $app->match("/conectar", function(Request $req) use ($app){
+		return controladorPrincipal::conectar($req, $app);
+	})->bind("conectar");
+        
+        $app->match("/desconectar", function() use ($app){
+		return controladorPrincipal::desconectar($app);
+	})->bind("desconectar");
+        
+        
+var_dump($_SESSION['user']);
 	$app->run();//ARRANQUE DE LA APLICACION
  ?>
