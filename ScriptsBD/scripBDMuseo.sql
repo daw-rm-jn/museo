@@ -178,6 +178,7 @@ CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Linea_Carrito` (
   `idLinea_Carrito` INT NOT NULL ,
   `idCarrito` INT NOT NULL ,
   `idCopia_Cuadro` INT NOT NULL ,
+  `imagenProducto` VARCHAR(150) NULL ,
   `nombreProducto` VARCHAR(50) NULL ,
   `unidades` INT NULL ,
   `precio` INT NULL ,
