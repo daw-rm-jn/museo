@@ -249,5 +249,45 @@
 			return Model_Usuarios::modificaAdmin($admin);
 		}
 
+		/*-------------------------------*/
+		/*--- FUNCIONES DE LA TIENDA ---*/
+		/*-----------------------------*/
+
+		static function getCarritos(){
+			return Model_Tienda::getCarritos();
+		}
+
+		static function addCarrito($carrito){
+			return Model_Tienda::addCarrito($carrito);
+		}
+
+		static function borrarCarritos($idCarritos){
+			return Model_Tienda::borrarCarritos($idCarritos);
+		}
+
+		static function borrarLineasCarrito($idLineas, $idCarrito){
+			return Model_Tienda::borrarLineasCarrito($idLineas, $idCarrito);
+		}
+
+		static function modificaLineaCarrito($linea){
+			return Model_Tienda::modificaLineaCarrito($linea);
+		}
+
+		static function getCarritoPorId($idCarrito){
+			return Model_Tienda::getCarritoPorId($idCarrito);
+		}
+
+		static function getLineasCarrito($idCarrito){
+			return Model_Tienda::getLineasCarrito($idCarrito);
+		}
+
+		static function getLineaCarritoPorId($id, $idLinea){
+			return Model_Tienda::getLineaCarritoPorId($id, $idLinea);
+		}
+
+		static function addLineaCarrito($carrito){
+			return Model_Tienda::addLineaCarrito($carrito);
+		}
+
 	}
 ?>

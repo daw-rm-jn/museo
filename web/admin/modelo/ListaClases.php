@@ -8,4 +8,6 @@
 	require __DIR__ . '/classes/Planta_Museo.php';
 	require __DIR__ . '/classes/Usuario.php';
 	require __DIR__ . '/classes/Admin.php';
+	require __DIR__ . '/classes/Carrito.php';
+	require __DIR__ . '/classes/Pedido.php';
 ?>
