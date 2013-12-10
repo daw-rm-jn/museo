@@ -175,7 +175,7 @@ ENGINE = InnoDB;
 -- Table `bd_Museo`.`Linea_Carrito`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Linea_Carrito` (
-  `idLinea_Carrito` INT NOT NULL ,
+  `idLinea_Carrito` INT NOT NULL AUTO_INCREMENT,
   `idCarrito` INT NOT NULL ,
   `idCopia_Cuadro` INT NOT NULL ,
   `nombreProducto` VARCHAR(50) NULL ,
