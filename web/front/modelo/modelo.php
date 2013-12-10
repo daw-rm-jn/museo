@@ -9,7 +9,8 @@
 	class Modelo{
 
 		public static function abrirConexion(){
-			$mysql_server = "localhost";
+		/*	
+                    $mysql_server = "localhost";
 			$mysql_user = "root";
 			$mysql_password = "";
 			$mysql_db = "bd_Museo";
@@ -20,6 +21,19 @@
 			}
 			$mysqli->set_charset("utf8");
 			return $mysqli;
+                 * 
+                 */
+                    $host = 'localhost';
+			$usuario = 'root';
+			$clave = '';
+
+			try {
+			    $con = new PDO("mysql:host=$host;dbname=bd_Museo;charset=utf8", $usuario, $clave);
+			    return $con;
+			}
+			catch(PDOException $e){
+			    echo $e->getMessage();
+			}
 		}
                 public function existeUser($user){
                     $con = Modelo::abrirConexion();
@@ -70,6 +84,25 @@
 		    }
 		    return $cuadros;
 			$con = null;
+		}
+                
+                public static function isUser($datos){
+			$con = Modelo::abrirConexion();
+			$stmt = $con->prepare("SELECT * FROM usuario WHERE email = :usuario AND clave = :clave");
+
+		    $stmt->bindParam(':usuario', $datos['Usuario']);
+		    $stmt->bindParam(':clave', $datos['Clave']);
+
+		    $stmt->execute();
+		    $result = $stmt->fetch();
+			$affected_rows = $stmt->rowCount();
+		    
+	        if($affected_rows >= 0){
+	        	return true;
+	        }else{
+	        	return false;
+	        }
+		    $con = null;
 		}
 
 

@@ -1,0 +1,31 @@
+{% extends 'plantilla.twig' %}
+
+{% block titulo 'Museo' %}
+
+{% block contenido %}
+
+<div id="cont" class="cont">
+    
+
+    <div id="action" class="action">
+
+ {% block log %}
+
+				{{ form_start(form, {'method': 'POST'}) }}
+				{{ form_row(form.Usuario) }}
+				{{ form_row(form.Clave) }}
+				<br><br>
+				{{ form_row(form.recordar) }}
+				<br>
+				<input type="submit" name="btLogin" id="btLogin" value="Acceder">
+				{{ form_end(form) }}
+				
+			{% endblock %}     
+    </div>
+       
+     
+</div> 
+
+
+
+{% endblock %}
