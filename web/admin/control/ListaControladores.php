@@ -5,4 +5,5 @@
 	require 'controlEstilo.php';
 	require 'controlMuseo.php';
 	require 'controlUsuarios.php';
+	require 'controlTienda.php';
 ?>

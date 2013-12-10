@@ -243,7 +243,7 @@
 							'msgCabecera' => 'Operación correcta',
 				    		'sessionId' => $_SESSION['admin'],
 				    		'titulo' => 'Entrada Añadida',
-				    		'msgoperacion' => 'Exposicion añadido con éxito',
+				    		'msgoperacion' => 'Planta añadida con éxito',
 				    		'seccion' => 'museo/plantas_museo'
 						));
 					}else{
