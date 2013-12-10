@@ -2,7 +2,7 @@
 
 div.titulo{
     position:fixed;
-    width:432px;
+    width:550px;
     left:30%;
     height:12%;
     //border: 2px solid #9EC0C8;
@@ -13,7 +13,7 @@ div.titulo{
 div.panelcontrol{
     font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
     position:block;
-    width:430px;
+    width:510px;
     height:auto;
     right:0%;
     top:0%;

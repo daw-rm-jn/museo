@@ -45,6 +45,11 @@
         $app->match("/tienda", function() use ($app){
 		return controladorPrincipal::tienda($app);
 	})->bind("tienda");
+        
+        $app->match("/carrito", function() use ($app){
+		return controladorPrincipal::carrito($app);
+	})->bind("carrito");
+
 
 	$app->match("/", function() use ($app){
 		return controladorPrincipal::main($app);

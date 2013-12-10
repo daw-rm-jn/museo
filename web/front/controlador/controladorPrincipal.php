@@ -80,6 +80,11 @@ $form = $app['form.factory']->createBuilder('form')
         return $app['twig']->render('tienda.twig', array(
                     'cuadros' => $cuadros));
     }
+    public static function carrito(Application $app) {
+      //  $cuadros = Modelo::getCarrito();
+        return $app['twig']->render('carrito.twig', array(
+                    'carrito' => $carrito));
+    }
 static function desconectar(Application $app){
 			session_destroy();
 			return $app['twig']->render('index.twig', array());
