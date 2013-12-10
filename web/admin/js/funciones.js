@@ -9,8 +9,6 @@ function cifrar(){
     document.getElementById("form_clavecifrada").value = clavecif;
 
 };
-
-
 /*---ACORDEÓN TABLA ÚLTIMOS CAMBIOS---*/
 $(document).ready(function(){
 /*--- OCULTAR/MOSTRAR DESCRIPCION DE ACTUALIZACIONES ---*/
@@ -45,8 +43,18 @@ $(document).ready(function(){
 			function() {
 				$('li.licarritos').toggle();
 				$('li.lipedidos').toggle();
+				$('li.liproductos').toggle();
 			}
 		)
 		$('li.licarritos').toggle();
 		$('li.lipedidos').toggle();
+		$('li.liproductos').toggle();
+
+		/*---MOSTRAR FECHA DE CREACION Y EXPIRACION DE LOS CARRITOS ACTIVOS ---*/
+		var hoy = new Date();
+		var hoymasdiez = new Date();
+		hoymasdiez.setDate(hoy.getDate() + 10);
+
+		$('input#form_fechaCreacion').val(hoy.getFullYear() + '-' + hoy.getMonth() + '-' + hoy.getDate());
+		$('input#form_fechaExpir').val(hoymasdiez.getFullYear() + '-' + hoymasdiez.getMonth() + '-' + hoymasdiez.getDate());
 });
