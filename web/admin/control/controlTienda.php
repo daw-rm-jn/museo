@@ -50,9 +50,29 @@
 
 		static function addCarrito(Request $req, Application $app){
 			$form = $app['form.factory']->createBuilder('form')
-					->add('email','text',array())
-					->add('fechaCreacion','text',array())
-					->add('fechaExpir','text',array())
+					->add('email','text', array(
+			        	'constraints' => array(
+				        		new Assert\NotBlank(), 
+				        		new Assert\Email()
+				        		)
+			        	)
+			        )
+					->add('fechaCreacion','text',  array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/',
+				        		)
+			        		)
+			        	)
+			        ))
+					->add('fechaExpir','text',  array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/',
+				        		)
+			        		)
+			        	)
+			        ))
 			        ->add('guardar', 'submit', array())
 			        ->getForm();
 
@@ -85,7 +105,7 @@
 
 		    return $app['twig']->render('/tienda/add_carrito.twig', array(
 		    	'form' => $form->createView(),
-				'msgCabecera' => 'Añadir planta',
+				'msgCabecera' => 'Añadir carrito',
 				'sessionId' => $_SESSION['admin']
 		    	)
 		    );
@@ -100,9 +120,29 @@
 			}
 			$form = $app['form.factory']->createBuilder('form')
 					->add('idCarrito','hidden',array())
-					->add('email','text',array())
-					->add('fechaCreacion','text',array())
-					->add('fechaExpir','text',array())
+					->add('email','text', array(
+			        	'constraints' => array(
+				        		new Assert\NotBlank(), 
+				        		new Assert\Email()
+				        		)
+			        	)
+			        )
+					->add('fechaCreacion','text',  array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/',
+				        		)
+			        		)
+			        	)
+			        ))
+					->add('fechaExpir','text',  array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/',
+				        		)
+			        		)
+			        	)
+			        ))
 					->add('idCopia_Cuadro','text',array(
 						"required" => false
 						)
@@ -125,6 +165,7 @@
 					)
 			        ->add('borrarLineas', 'submit', array())
 			        ->add('addLinea', 'submit', array())
+			        ->add('guardar', 'submit', array())
 			        ->getForm();
 
 		   if ('POST' == $req->getMethod()) {
@@ -158,6 +199,24 @@
 								'msgCabecera' => 'Operación correcta',
 					    		'sessionId' => $_SESSION['admin'],
 					    		'titulo' => 'Entrada modificada',
+					    		'msgoperacion' => 'Linea de Carrito eliminada con éxito',
+					    		'seccion' => 'tienda/carritos'
+							));
+						}else{
+							return $app['twig']->render('mod.twig', array(
+								'msgCabecera' => 'Error',
+					    		'sessionId' => $_SESSION['admin'],
+					    		'titulo' => 'Entrada NO modificada',
+					    		'msgoperacion' => 'Error al eliminar el registro Linea de Carrito',
+					    		'seccion' => 'tienda/carritos'
+							));
+						}
+		        	}else if($form->get("guardar")->isClicked()){
+		        		if(Modelo::modificaCarrito($data)){
+							return $app['twig']->render('mod.twig', array(
+								'msgCabecera' => 'Operación correcta',
+					    		'sessionId' => $_SESSION['admin'],
+					    		'titulo' => 'Entrada modificada',
 					    		'msgoperacion' => 'Carrito modificado con éxito',
 					    		'seccion' => 'tienda/carritos'
 							));
@@ -170,7 +229,7 @@
 					    		'seccion' => 'tienda/carritos'
 							));
 						}
-		        	}					
+		        	}
 		        }
 		    }
 
@@ -225,6 +284,291 @@
 		    }
 
 		    return $app['twig']->render('/tienda/ver_linea_carrito.twig', array(
+		    	'form' => $form->createView(),
+		    	'linea' => $linea,
+				'msgCabecera' => 'Ficha de administrador',
+				'sessionId' => $_SESSION['admin']
+		    	)
+		    );
+		}
+
+		static function verPedidos(Request $req, Application $app){
+			$pedidos = Modelo::getPedidos();
+			$form_borrar = $app['form.factory']->createBuilder('form')
+					->add('Borrar', 'submit', array())
+					->getForm();
+
+			if ('POST' == $req->getMethod()) {
+		        $form_borrar->bind($req);
+		        if ($form_borrar->isValid()) {
+		        	$data = $form_borrar->getData();
+					$idPedidos = $req->request->get('cb_borrar');
+		        	if(Modelo::borrarPedidos($idPedidos)){
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Operación correcta',
+							'titulo' => 'Entrada(s) eliminada(s)',
+							'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
+							'seccion' => 'tienda/pedidos',
+							'sessionId' => $_SESSION['admin']
+					    	)
+					    );
+					}else{
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Error',
+							'titulo' => 'Error en la operacion',
+							'msgoperacion' => 'Hubo un error al eliminar las entradas del registro',
+							'seccion' => 'tienda/pedidos',
+							'sessionId' => $_SESSION['admin']
+					    	)
+					    );
+					}
+		        }
+		    }
+
+			return $app ['twig']->render('/tienda/ver_pedidos.twig', array(
+		    	'form' => $form_borrar->createView(),
+				'pedidos' => $pedidos,
+				'msgCabecera' => 'Administración de pedidos',
+				'sessionId' => $_SESSION['admin']
+				)
+			);
+		}
+
+		static function addPedido(Request $req, Application $app){
+			$form = $app['form.factory']->createBuilder('form')
+					->add('email','text', array(
+			        	'constraints' => array(
+				        		new Assert\NotBlank(), 
+				        		new Assert\Email()
+				        		)
+			        	)
+			        )
+					->add('fecha','text',  array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/',
+				        		)
+			        		)
+			        	)
+			        ))
+			        ->add('guardar', 'submit', array())
+			        ->getForm();
+
+		   if ('POST' == $req->getMethod()) {
+		        $form->bind($req);
+
+		        if ($form->isValid()) {
+
+		        	$data = $form->getData();
+
+					if(Modelo::addPedido($data)){
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Operación correcta',
+				    		'sessionId' => $_SESSION['admin'],
+				    		'titulo' => 'Entrada Añadida',
+				    		'msgoperacion' => 'Pedido añadido con éxito',
+				    		'seccion' => 'tienda/pedidos'
+						));
+					}else{
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Error',
+				    		'sessionId' => $_SESSION['admin'],
+				    		'titulo' => 'Entrada NO Añadida',
+				    		'msgoperacion' => 'Error al insertar el registro Pedido',
+				    		'seccion' => 'tienda/pedidos'
+						));
+					}
+		        }
+		    }
+
+		    return $app['twig']->render('/tienda/add_pedido.twig', array(
+		    	'form' => $form->createView(),
+				'msgCabecera' => 'Añadir pedido',
+				'sessionId' => $_SESSION['admin']
+		    	)
+		    );
+		}
+
+		static function verFichaPedido(Request $req, Application $app, $id){
+			$pedido = Modelo::getPedidoPorId($id);
+			$lineas = Modelo::getLineasPedido($id);
+			$estados = array(
+				'En Espera'   => 'En Espera',
+				'Confirmado' => 'Confirmado',
+				'Enviado'   => 'Enviado',
+				'Entregado'   => 'Entregado',
+			);
+			$isLineas = false;
+			if($lineas != null){
+				$isLineas = true;
+			}
+			$form = $app['form.factory']->createBuilder('form')
+					->add('idPedido','hidden',array())
+					->add('email','text', array(
+			        	'constraints' => array(
+				        		new Assert\NotBlank(), 
+				        		new Assert\Email()
+				        		)
+			        	)
+			        )
+					->add('fecha','text',  array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/',
+				        		)
+			        		)
+			        	)
+			        ))
+					->add('precioTotal','text',array(
+						"required" => false
+						)
+					)
+					->add('idCopia_Cuadro','text',array(
+						"required" => false
+						)
+					)
+					->add('nombreProducto','text',array(
+						"required" => false
+						)
+					)
+					->add('unidades','text',array(
+						"required" => false
+						)
+					)
+					->add('precio','text',array(
+						"required" => false
+						)
+					)
+					->add('IVA','text',array(
+						"required" => false
+						)
+					)
+			        ->add('borrarLineas', 'submit', array())
+			        ->add('addLinea', 'submit', array())
+			        ->add('guardar', 'submit', array())
+			        ->getForm();
+
+		   if ('POST' == $req->getMethod()) {
+		        $form->bind($req);
+
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+					$idLineas = $req->request->get('cb_borrarLineas');
+
+					$descriptorModPedido = array(
+						'estado' =>$req->request->get('selestados')
+					);
+
+		        	if ($form->get("addLinea")->isClicked()){
+		        		if(Modelo::addLineaPedido($data)){
+							return $app['twig']->render('mod.twig', array(
+								'msgCabecera' => 'Operación correcta',
+					    		'sessionId' => $_SESSION['admin'],
+					    		'titulo' => 'Entrada añadida',
+					    		'msgoperacion' => 'Línea añadida con éxito',
+					    		'seccion' => 'tienda/pedidos'
+							));
+						}else{
+							return $app['twig']->render('mod.twig', array(
+								'msgCabecera' => 'Error',
+					    		'sessionId' => $_SESSION['admin'],
+					    		'titulo' => 'Entrada NO añadida',
+					    		'msgoperacion' => 'Error al añadir Línea al Pedido',
+					    		'seccion' => 'tienda/pedidos'
+							));
+						}
+		        	}else if($form->get("borrarLineas")->isClicked()){
+		        		if(Modelo::borrarLineasPedido($idLineas, $data['idPedido'])){
+							return $app['twig']->render('mod.twig', array(
+								'msgCabecera' => 'Operación correcta',
+					    		'sessionId' => $_SESSION['admin'],
+					    		'titulo' => 'Entrada modificada',
+					    		'msgoperacion' => 'Pedido modificado con éxito',
+					    		'seccion' => 'tienda/pedidos'
+							));
+						}else{
+							return $app['twig']->render('mod.twig', array(
+								'msgCabecera' => 'Error',
+					    		'sessionId' => $_SESSION['admin'],
+					    		'titulo' => 'Entrada NO modificada',
+					    		'msgoperacion' => 'Error al modificar el registro Pedido',
+					    		'seccion' => 'tienda/pedidos'
+							));
+						}
+		        	}else if($form->get("guardar")->isClicked()){
+		        		if(Modelo::modificaPedido($data, $descriptorModPedido)){
+							return $app['twig']->render('mod.twig', array(
+								'msgCabecera' => 'Operación correcta',
+					    		'sessionId' => $_SESSION['admin'],
+					    		'titulo' => 'Entrada modificada',
+					    		'msgoperacion' => 'Carrito modificado con éxito',
+					    		'seccion' => 'tienda/pedidos'
+							));
+						}else{
+							return $app['twig']->render('mod.twig', array(
+								'msgCabecera' => 'Error',
+					    		'sessionId' => $_SESSION['admin'],
+					    		'titulo' => 'Entrada NO modificada',
+					    		'msgoperacion' => 'Error al modificar el registro Carrito',
+					    		'seccion' => 'tienda/pedidos'
+							));
+						}
+		        	}					
+		        }
+		    }
+
+		    return $app['twig']->render('/tienda/ficha_pedido.twig', array(
+		    	'form' => $form->createView(),
+		    	'pedido' => $pedido,
+		    	'isLineas' => $isLineas,
+		    	'lineas' => $lineas,
+		    	'estados' => $estados,
+				'msgCabecera' => 'Ficha de pedido',
+				'sessionId' => $_SESSION['admin']
+		    	)
+		    );
+		}
+
+		static function verLinea_Pedido(Request $req, Application $app, $id, $idLinea){
+			$linea = Modelo::getLineaPedidoPorId($id, $idLinea);
+			$form = $app['form.factory']->createBuilder('form')
+					->add('idLinea_Pedido', 'hidden', array())			        
+					->add('idPedido', 'hidden', array())			        
+					->add('idCopia_Cuadro','text',array())
+					->add('nombreProducto','text',array())
+					->add('unidades','text',array())
+					->add('precio','text',array())
+					->add('IVA','text',array())
+					->add('totalLinea','text',array())
+			        ->add('guardar', 'submit', array())
+			        ->getForm();
+
+		   if ('POST' == $req->getMethod()) {
+		        $form->bind($req);		       
+
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+					if(Modelo::modificaLineaPedido($data)){
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Operación correcta',
+				    		'sessionId' => $_SESSION['admin'],
+				    		'titulo' => 'Entrada modificada',
+				    		'msgoperacion' => 'Linea de Pedido modificada con éxito',
+				    		'seccion' => 'tienda/pedidos'
+						));
+					}else{
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Error',
+				    		'sessionId' => $_SESSION['admin'],
+				    		'titulo' => 'Entrada NO modificada',
+				    		'msgoperacion' => 'Error al modificar el registro Linea de Pedido',
+				    		'seccion' => 'tienda/pedidos'
+						));
+					}
+		        }
+		    }
+
+		    return $app['twig']->render('/tienda/ver_linea_pedido.twig', array(
 		    	'form' => $form->createView(),
 		    	'linea' => $linea,
 				'msgCabecera' => 'Ficha de administrador',
