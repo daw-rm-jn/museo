@@ -50,7 +50,7 @@
 				$affected_rows_borrar = $borrarLineas->rowCount();
 				$affected_rows = $stmt->rowCount();
 
-				if($affected_rows > 0 && $affected_rows_borrar > 0){
+				if($affected_rows > 0 && $affected_rows_borrar >= 0){
 					return true;
 				}else{
 					return false;
@@ -77,9 +77,10 @@
 
 		static function modificaCarrito($carrito){
 			$con = Model_BD::conectar();
-			$stmt = $con->prepare("UPDATE Carrito SET email = :email WHERE idCarrito = :idCarrito");
+			$stmt = $con->prepare("UPDATE Carrito SET email = :email, fechaExpir = :fechaExpir WHERE idCarrito = :idCarrito");
 						
 			$stmt->bindParam(':email', $carrito['email']);
+			$stmt->bindParam(':fechaExpir', $carrito['fechaExpir']);
 			$stmt->bindParam(':idCarrito', $carrito['idCarrito']);
 
 			$stmt->execute();
@@ -94,10 +95,13 @@
 			$con = null;
 		}
 
-		static function getLineasCarrito(){
+		static function getLineasCarrito($idCarrito){
 			$lineas = array();
 			$con = Model_BD::conectar();
-			$stmt = $con->prepare("SELECT * FROM Linea_Carrito ORDER BY idLinea_Carrito ASC");
+			$stmt = $con->prepare("SELECT * FROM Linea_Carrito WHERE idCarrito = :idCarrito ORDER BY idLinea_Carrito ASC");
+
+			$stmt->bindParam(':idCarrito',$idCarrito);
+
 		    $stmt->execute();
 		    $result = $stmt->fetchAll();
 
@@ -203,6 +207,269 @@
 
 			$updatelinea->bindParam(':idLinea',$linea['idLinea_Carrito']);
 			$updatelinea->bindParam(':idCarrito',$linea['idCarrito']);
+			$updatelinea->bindParam(':idCopia_Cuadro',$linea['idCopia_Cuadro']);
+			$updatelinea->bindParam(':nombreProducto',$linea['nombreProducto']);
+			$updatelinea->bindParam(':unidades',$linea['unidades']);
+			$updatelinea->bindParam(':precio',$linea['precio']);
+			$updatelinea->bindParam(':IVA',$linea['IVA']);
+			$updatelinea->bindParam(':totalLinea',$totalLinea);
+
+			$updatelinea->execute();
+			$affected_rows = $updatelinea->rowCount();
+
+			if($affected_rows >= 0){
+				return true;
+			}else{
+				return false;
+			}
+			$con = null;
+		}
+
+		static function getPedidos(){
+			$pedidos = array();
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("SELECT * FROM Pedido ORDER BY fecha ASC");
+		    $stmt->execute();
+		    $result = $stmt->fetchAll();
+
+		    foreach($result as $row){
+				$pedido = new Pedido($row['email'],$row['idPedido'],$row['fecha'],$row['precioTotal'],$row['estado']);
+				$pedidos[] = $pedido;
+		    }
+		    return $pedidos;
+			$con = null;
+		}
+
+		static function getPrecioTotalPedido($idPedido){
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("SELECT SUM(totalLinea) AS precioTotalPedido FROM Linea_Pedido WHERE idPedido = :idPedido");
+
+			$stmt->bindParam(':idPedido', $idPedido);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$precioTotal = $row['precioTotalPedido'];
+			
+		    return $precioTotal;
+			$con = null;
+		}
+
+		static function setPrecioTotalPedido($idPedido){
+			$precioTotal = Model_Tienda::getPrecioTotalPedido($idPedido);
+			if($precioTotal == null){
+				$precioTotal = 0;
+			}
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("UPDATE Pedido SET precioTotal = :precioTotal WHERE idPedido = :idPedido");
+
+			$stmt->bindParam(':idPedido', $idPedido);
+			$stmt->bindParam(':precioTotal', $precioTotal);
+
+		    $stmt->execute();
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows >= 0){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+		static function borrarPedidos($idPedidos){
+			$con = Model_BD::conectar();
+			for ($i=0; $i < sizeof($idPedidos); $i++) { 
+				$stmt = $con->prepare("DELETE FROM Pedido WHERE idPedido = :id");
+				$borrarLineas = $con->prepare("DELETE FROM Linea_Pedido WHERE idPedido = :id");
+				
+				$borrarLineas->bindParam(':id', $idPedidos[$i]);
+				$stmt->bindParam(':id', $idPedidos[$i]);
+
+				$borrarLineas->execute();
+				$stmt->execute();
+
+				$affected_rows_borrar = $borrarLineas->rowCount();
+				$affected_rows = $stmt->rowCount();
+
+				if($affected_rows > 0 && $affected_rows_borrar >= 0){
+					return true;
+				}else{
+					return false;
+				}
+
+			}
+			$con = null;
+		}
+
+		static function addPedido($pedido){
+			$con = Model_BD::conectar();
+			$insertpedido = $con->prepare("INSERT INTO Pedido (email,fecha,precioTotal,estado) VALUES (:email,:fecha,0, 'En Espera')");
+
+			$insertpedido->bindParam(':email', $pedido['email']);
+			$insertpedido->bindParam(':fecha', $pedido['fecha']);
+
+			$insertpedido->execute();
+			$affected_rows = $insertpedido->rowCount();
+
+			if($affected_rows >= 0){
+				return true;
+			}else{
+				return false;
+			}
+			$con = null;
+		}
+
+		static function getPedidoPorId($idPedido){
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("SELECT * FROM Pedido WHERE idPedido = :idPedido");
+
+		    $stmt->bindParam(':idPedido', $idPedido);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$pedido = new Pedido($row['email'],$row['idPedido'],$row['fecha'],$row['precioTotal'],$row['estado']);
+			
+		    return $pedido;
+			$con = null;
+		}
+
+		static function modificaPedido($pedido, $descriptor){
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("UPDATE Pedido SET email = :email,fecha = :fecha,precioTotal = :precioTotal,estado = :estado WHERE idPedido = :idPedido");
+						
+			$stmt->bindParam(':email', $pedido['email']);
+			$stmt->bindParam(':idPedido', $pedido['idPedido']);
+			$stmt->bindParam(':fecha', $pedido['fecha']);
+			$stmt->bindParam(':precioTotal', $pedido['precioTotal']);
+			$stmt->bindParam(':estado', $descriptor['estado']);
+
+			$stmt->execute();
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows >= 0){
+				return true;
+			}else{
+				return false;
+			}
+
+			$con = null;
+		}
+
+		static function getLineasPedido($idPedido){
+			$lineas = array();
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("SELECT * FROM Linea_Pedido WHERE idPedido = :idPedido ORDER BY idLinea_Pedido ASC");
+
+			$stmt->bindParam(':idPedido',$idPedido);
+
+		    $stmt->execute();
+		    $result = $stmt->fetchAll();
+
+		    foreach($result as $row){
+				$linea = array(
+					'idLinea_Pedido' => $row['idLinea_Pedido'],
+					'idPedido' => $row['idPedido'],
+					'idCopia_Cuadro' => $row['idCopia_Cuadro'],
+					'nombreProducto' => $row['nombreProducto'],
+					'unidades' => $row['unidades'],
+					'precio' => $row['precio'],
+					'IVA' => $row['IVA'],
+					'totalLinea' => $row['totalLinea']
+				);
+				$lineas[] = $linea;
+		    }
+		    return $lineas;
+			$con = null;
+		}
+
+		static function addLineaPedido($pedido){
+			$con = Model_BD::conectar();
+			$insertlinea = $con->prepare("INSERT INTO Linea_Pedido VALUES (:idLinea,:idPedido,:idCopia_Cuadro,:nombreProducto,:unidades,:precio,:IVA,:totalLinea)");
+
+			$totalLinea =  ($pedido['precio'] + (($pedido['precio'] * $pedido['IVA'])/100)) * $pedido['unidades'];
+			$lineasDelPedido = Modelo::getLineasPedido($pedido['idPedido']);
+			if(sizeof($lineasDelPedido) > 0){
+				$sigLinea = sizeof($lineasDelPedido) + 1;
+			}else{
+				$sigLinea = 1;
+			}			
+
+			$insertlinea->bindParam(':idLinea',$sigLinea);
+			$insertlinea->bindParam(':idPedido',$pedido['idPedido']);
+			$insertlinea->bindParam(':idCopia_Cuadro',$pedido['idCopia_Cuadro']);
+			$insertlinea->bindParam(':nombreProducto',$pedido['nombreProducto']);
+			$insertlinea->bindParam(':unidades',$pedido['unidades']);
+			$insertlinea->bindParam(':precio',$pedido['precio']);
+			$insertlinea->bindParam(':IVA',$pedido['IVA']);
+			$insertlinea->bindParam(':totalLinea',$totalLinea);
+
+			$insertlinea->execute();
+			$affected_rows = $insertlinea->rowCount();
+
+			if($affected_rows >= 0){
+				Model_Tienda::setPrecioTotalPedido($pedido['idPedido']);
+				return true;
+			}else{
+				return false;
+			}
+			$con = null;
+		}
+
+		static function borrarLineasPedido($idLineas, $idPedido){
+			$con = Model_BD::conectar();
+			for ($i=0; $i < sizeof($idLineas); $i++) { 
+				$stmt = $con->prepare("DELETE FROM Linea_Pedido WHERE idLinea_Pedido = :idLinea AND idPedido = :idPedido");
+
+				$stmt->bindParam(':idLinea', $idLineas[$i]);
+				$stmt->bindParam(':idPedido', $idPedido);
+				$stmt->execute();
+
+				$affected_rows = $stmt->rowCount();
+
+				if($affected_rows > 0){
+					Model_Tienda::setPrecioTotalPedido($idPedido);
+					return true;
+				}else{
+					return false;
+				}
+
+			}
+			$con = null;
+		}
+
+		static function getLineaPedidoPorId($idPedido, $idLinea){
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("SELECT * FROM Linea_Pedido WHERE idLinea_Pedido = :idLinea AND idPedido = :idPedido");
+
+		    $stmt->bindParam(':idLinea', $idLinea);
+		    $stmt->bindParam(':idPedido', $idPedido);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$linea = array(
+					'idLinea_Pedido' => $row['idLinea_Pedido'],
+					'idPedido' => $row['idPedido'],
+					'idCopia_Cuadro' => $row['idCopia_Cuadro'],
+					'nombreProducto' => $row['nombreProducto'],
+					'unidades' => $row['unidades'],
+					'precio' => $row['precio'],
+					'IVA' => $row['IVA'],
+					'totalLinea' => $row['totalLinea']
+				);
+		    return $linea;
+			$con = null;
+		}
+
+		static function modificaLineaPedido($linea){
+			$con = Model_BD::conectar();
+			$updatelinea = $con->prepare("UPDATE Linea_Pedido SET idCopia_Cuadro = :idCopia_Cuadro,nombreProducto = :nombreProducto,unidades = :unidades,precio = :precio,IVA = :IVA,totalLinea = :totalLinea WHERE idLinea_Pedido = :idLinea AND idPedido = :idPedido");
+
+			$totalLinea =  ($linea['precio'] + (($linea['precio'] * $linea['IVA'])/100)) * $linea['unidades'];		
+
+			$updatelinea->bindParam(':idLinea',$linea['idLinea_Pedido']);
+			$updatelinea->bindParam(':idPedido',$linea['idPedido']);
 			$updatelinea->bindParam(':idCopia_Cuadro',$linea['idCopia_Cuadro']);
 			$updatelinea->bindParam(':nombreProducto',$linea['nombreProducto']);
 			$updatelinea->bindParam(':unidades',$linea['unidades']);

@@ -261,6 +261,10 @@
 			return Model_Tienda::addCarrito($carrito);
 		}
 
+		static function modificaCarrito($carrito){
+			return Model_Tienda::modificaCarrito($carrito);
+		}
+
 		static function borrarCarritos($idCarritos){
 			return Model_Tienda::borrarCarritos($idCarritos);
 		}
@@ -287,6 +291,46 @@
 
 		static function addLineaCarrito($carrito){
 			return Model_Tienda::addLineaCarrito($carrito);
+		}
+
+		static function getPedidos(){
+			return Model_Tienda::getPedidos();
+		}
+
+		static function addPedido($pedido){
+			Model_Tienda::addPedido($pedido);
+		}
+
+		static function borrarPedidos($idPedidos){
+			return Model_Tienda::borrarPedidos($idPedidos);
+		}
+
+		static function borrarLineasPedido($idLineas, $idPedido){
+			return Model_Tienda::borrarLineasPedido($idLineas, $idPedido);
+		}
+
+		static function modificaLineaPedido($linea){
+			return Model_Tienda::modificaLineaPedido($linea);
+		}
+
+		static function getPedidoPorId($idPedido){
+			return Model_Tienda::getPedidoPorId($idPedido);
+		}
+
+		static function getLineasPedido($idPedido){
+			return Model_Tienda::getLineasPedido($idPedido);
+		}
+
+		static function getLineaPedidoPorId($id, $idLinea){
+			return Model_Tienda::getLineaPedidoPorId($id, $idLinea);
+		}
+
+		static function addLineaPedido($pedido){
+			return Model_Tienda::addLineaPedido($pedido);
+		}
+
+		static function modificaPedido($pedido, $descriptor){
+			return Model_Tienda::modificaPedido($pedido, $descriptor);
 		}
 
 	}
