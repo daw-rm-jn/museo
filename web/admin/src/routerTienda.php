@@ -22,7 +22,7 @@
 	})->before($checkAdmin);
 
 	$tienda->match('/pedidos/pedido/{id}/linea/{idLinea}', function(Request $req, $id, $idLinea) use($app){
-		return controlTienda::verLinea_Pedidoo($req, $app, $id, $idLinea);
+		return controlTienda::verLinea_Pedido($req, $app, $id, $idLinea);
 	})->before($checkAdmin);
 
 	$tienda->match('/pedidos/pedido/{id}', function(Request $req, $id) use($app){
