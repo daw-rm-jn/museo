@@ -1,64 +1,76 @@
 {% extends 'inicio.twig' %}
 
-{% block titulo 'Ficha de Carrito' %}
+{% block titulo 'Ficha de Pedido' %}
 
 	{% block action %}
 			<table class="tablacrud">
 					<tr class="trcab">
-						<th>Detalles de Carrito #{{carrito.idCarrito}}</th>
+						<th>Detalles de Pedido #{{pedido.idPedido}}</th>
 					</tr>
 						<tr>
 							<td colspan="4">
 								{{ form_start(form, {'method': 'POST'}) }}
-								{{ form_row(form.idCarrito, {'attr': {'value': carrito.idCarrito }}) }}
+								{{ form_row(form.idPedido, {'attr': {'value': pedido.idPedido }}) }}
 								<table class="bodycrud" rules="all">
 									<tbody>
 										<tr>
 											<td class="perla" colspan="3">
-												{{ form_row(form.email, {'attr': {'value': carrito.email }}) }}
+												{{ form_row(form.email, {'attr': {'value': pedido.email }}) }}
 											</td>
 											<td class="grey">
-												{{ form_row(form.fechaCreacion, {'attr': {'readonly':'readonly' ,'value': carrito.fechaCreacion}}) }}
+												{{ form_row(form.fecha, {'attr': {'value': pedido.fecha}}) }}
 											</td>
 											<td class="perla">
-												{{ form_row(form.fechaExpir, {'attr': {'value': carrito.fechaExpir}}) }}
+												{{ form_row(form.precioTotal, {'attr': {'value': pedido.precioTotal, 'readonly':'readonly'}}) }}
+											</td>
+											<td class="grey">
+												<select name="selestados" id="selestados">
+													{% for estado in estados %}
+														{% if estado == pedido.estado %}
+															<option value="{{estado}}" SELECTED>{{estado}}</option>
+														{% else %}
+															<option value="{{estado}}">{{estado}}</option>
+														{% endif %}
+													{% endfor %}
+												</select>
 											</td>
 										</tr>
 										<tr>
-											<td class="grey" colspan="5">
+											<td class="grey" colspan="6">
 												{{ form_row(form.guardar) }}												
 											</td>
 										</tr>
 										<tr class="trcab">
-											<th colspan="7">Lineas del Carrito</th>
+											<th colspan="7">Lineas del Pedido</th>
 										</tr>
 										{% if isLineas %}
 											{% for linea in lineas %}
 											<tr>
 												<td class="grey" colspan="2">
-													<a href="{{app.request.basepath}}/tienda/carritos/carrito/{{carrito.idCarrito}}/linea/{{linea.idLinea_Carrito}}">
-														Línea #{{linea.idLinea_Carrito}}
+													<a href="{{app.request.basepath}}/tienda/pedidos/pedido/{{pedido.idPedido}}/linea/{{linea.idLinea_Pedido}}">
+														Línea #{{linea.idLinea_Pedido}}
 													</a>
 												</td>
 												<td class="grey" colspan="2">
-													<a href="{{app.request.basepath}}/tienda/carritos/carrito/{{carrito.idCarrito}}/linea/{{linea.idLinea_Carrito}}">
+													<a href="{{app.request.basepath}}/tienda/pedidos/pedido/{{pedido.idPedido}}/linea/{{linea.idLinea_Pedido}}">
 														Total Línea: {{linea.totalLinea}}
 													</a>
 												</td>												
-												<td class="grey">
-													<input type="checkbox" name="cb_borrarLineas[]" id="cb_borrarLineas[]" value="{{linea.idLinea_Carrito}}"/>
+												<td class="grey" colspan="2">
+													<input type="checkbox" name="cb_borrarLineas[]" id="cb_borrarLineas[]" value="{{linea.idLinea_Pedido}}"/>
 												</td>
 											<tr>
 											{% endfor %}
 										{% endif %}
-											<td class="grey" colspan="5">
+											<td class="grey" colspan="6">
 												{{form_row(form.borrarLineas)}}
 											</td>
 										</tr>
 										<tr class="trcab">
-											<th colspan="5">Añadir línea al carrito</th>
+											<th colspan="6">Añadir línea al pedido</th>
 										</tr>
 										<tr>
+											<td class="perla">Detalles de Linea:</td>
 											<td class="grey">{{ form_row(form.idCopia_Cuadro) }}</td>
 											<td class="perla">{{ form_row(form.nombreProducto) }}</td>
 											<td class="grey">{{ form_row(form.unidades) }}</td>
@@ -66,7 +78,7 @@
 											<td class="grey">{{ form_row(form.IVA) }}</td>
 										</tr>
 										<tr>
-											<td class="grey" colspan="5">
+											<td class="grey" colspan="6">
 												{{form_row(form.addLinea)}}
 											</td>
 										</tr>
