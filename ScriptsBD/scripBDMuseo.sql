@@ -133,6 +133,7 @@ CREATE  TABLE IF NOT EXISTS `bd_Museo`.`Copia_Cuadro` (
   `fechaAlta` DATE NOT NULL ,
   `descripcion` VARCHAR(200) NULL ,
   `precio` INT NOT NULL ,
+  `fotoCuadro` VARCHAR(150) NULL ,
   PRIMARY KEY (`idCopia_Cuadro`) )
 ENGINE = InnoDB;
 
