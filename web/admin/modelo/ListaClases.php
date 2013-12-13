@@ -10,4 +10,5 @@
 	require __DIR__ . '/classes/Admin.php';
 	require __DIR__ . '/classes/Carrito.php';
 	require __DIR__ . '/classes/Pedido.php';
+	require __DIR__ . '/classes/Copia_Cuadro.php';
 ?>

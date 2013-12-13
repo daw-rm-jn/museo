@@ -487,5 +487,102 @@
 			}
 			$con = null;
 		}
+
+		static function getProductos(){
+			$productos = array();
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("SELECT * FROM Copia_Cuadro ORDER BY idCopia_cuadro ASC");
+		    $stmt->execute();
+		    $result = $stmt->fetchAll();
+
+		    foreach($result as $row){
+				$producto = new Copia_Cuadro($row['idCopia_Cuadro'],$row['nombreProducto'],$row['autor'],$row['estilo'],$row['fechaAlta'],$row['descripcion'],$row['precio'],$row['fotoCuadro']);
+				$productos[] = $producto;
+		    }
+		    return $productos;
+			$con = null;
+		}
+
+		static function addProducto($producto, $descriptor){			
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("INSERT INTO Copia_Cuadro (nombreProducto,autor,estilo,fechaAlta,descripcion,precio,fotoCuadro) VALUES (:nomp,:idp,:ide,NOW(),:descp,:preciop,:imgp)");
+
+			$stmt->bindParam(':nomp', $producto['nombreProducto']);
+			$stmt->bindParam(':idp', $descriptor['pintor']);
+			$stmt->bindParam(':ide', $descriptor['estilo']);
+			$stmt->bindParam(':descp', $descriptor['descripcion']);
+			$stmt->bindParam(':preciop', $producto['precio']);
+			$stmt->bindParam(':imgp', $descriptor['foto']);
+
+			$stmt->execute();
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows >= 0){
+				return true;
+			}else{
+				return false;
+			}
+
+			$con = null;
+		}
+
+		static function borrarProductos($idProductos){
+			$con = Model_BD::conectar();
+			for ($i=0; $i < sizeof($idProductos); $i++) { 
+				$stmt = $con->prepare("DELETE FROM Copia_Cuadro WHERE idCopia_Cuadro = :idLinea");
+
+				$stmt->bindParam(':idLinea', $idProductos[$i]);
+				$stmt->execute();
+
+				$affected_rows = $stmt->rowCount();
+
+				if($affected_rows > 0){
+					return true;
+				}else{
+					return false;
+				}
+
+			}
+			$con = null;
+		}
+
+		static function getProductoPorId($idProducto){
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("SELECT * FROM Copia_Cuadro WHERE idCopia_Cuadro = :idCopia_Cuadro");
+
+		    $stmt->bindParam(':idCopia_Cuadro', $idProducto);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$producto = new Copia_Cuadro($row['idCopia_Cuadro'],$row['nombreProducto'],$row['autor'],$row['estilo'],$row['fechaAlta'],$row['descripcion'],$row['precio'],$row['fotoCuadro']);
+						
+		    return $producto;
+			$con = null;
+		}
+
+		static function modificaProducto($producto, $descriptor){			
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("UPDATE Copia_Cuadro SET nombreProducto = :nomp,autor = :idp,estilo = :ide,descripcion = :descp,precio = :preciop,fotoCuadro = :imgp WHERE idCopia_Cuadro = :idcc");
+
+			$stmt->bindParam(':idcc', $producto['idCopia_Cuadro']);
+			$stmt->bindParam(':nomp', $producto['nombreProducto']);
+			$stmt->bindParam(':idp', $descriptor['pintor']);
+			$stmt->bindParam(':ide', $descriptor['estilo']);
+			$stmt->bindParam(':descp', $descriptor['descripcion']);
+			$stmt->bindParam(':preciop', $producto['precio']);
+			$stmt->bindParam(':imgp', $descriptor['foto']);
+
+			$stmt->execute();
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows >= 0){
+				return true;
+			}else{
+				return false;
+			}
+
+			$con = null;
+		}
 	}
 ?>

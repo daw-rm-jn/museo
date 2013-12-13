@@ -333,5 +333,25 @@
 			return Model_Tienda::modificaPedido($pedido, $descriptor);
 		}
 
+		static function getProductos(){
+			return Model_Tienda::getProductos();
+		}
+
+		static function addProducto($producto, $descriptor){
+			return Model_Tienda::addProducto($producto, $descriptor);
+		}
+
+		static function borrarProductos($idProductos){
+			return Model_Tienda::borrarProductos($idProductos);
+		}
+
+		static function getProductoPorId($id){
+			return Model_Tienda::getProductoPorId($id);
+		}
+
+		static function modificaProducto($producto, $descriptor){
+			return Model_Tienda::modificaProducto($producto, $descriptor);
+		}
+
 	}
 ?>
