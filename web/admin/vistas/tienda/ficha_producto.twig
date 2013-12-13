@@ -1,0 +1,75 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Ficha de producto' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Producto #{{producto.idCopia_Cuadro}}</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.idCopia_Cuadro, {'attr': {'value': producto.idCopia_Cuadro }}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla" colspan="2">
+												{{ form_row(form.nombreProducto, {'attr': {'value': producto.nombreProducto }}) }}
+											</td>
+											<td class="perla">
+												<label for="">Foto de Producto(ACTUAL)</label>
+												<br>
+												<img class="foto" src="{{app.request.basepath}}/../img/productos/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" alt="">
+												<br>
+												{{ form_row(form.fotoCuadro)  }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey" colspan="2">
+												{{ form_row(form.precio, {'attr': {'value': producto.precio }})  }}
+											</td>
+											<td class="grey">
+												<label for="selpintores">Pintor</label>
+												<select name="selpintores" id="selpintores">
+													<option value=""></option>
+													{% for pintor in pintores %}
+														{% if producto.autor == pintor.idPintor %}
+															<option value="{{pintor.idPintor}}" SELECTED>{{pintor.nombrePintor}}</option>
+														{% else %}
+															<option value="{{pintor.idPintor}}">{{pintor.nombrePintor}}</option>
+														{% endif %}
+													{% endfor %}
+												</select>
+												<br>
+												<label for="selestilos">Estilo</label>
+												<select name="selestilos" id="selestilos">
+													<option value=""></option>
+													{% for estilo in estilos %}
+														{% if producto.estilo == estilo.idEstilo %}
+															<option value="{{estilo.idEstilo}}" SELECTED>{{estilo.nombreEstilo}}</option>
+														{% else %}
+															<option value="{{estilo.idEstilo}}">{{estilo.nombreEstilo}}</option>
+														{% endif %}
+													{% endfor %}
+												</select>
+											</td>
+										</tr>
+											<td class="perla" colspan="3">
+												<label for="">Descripción del cuadro:</label><br>
+												<textarea name="descProducto" id="descProducto" cols="100" rows="20">{{producto.descripcion}}</textarea>
+											</td>
+										<tr>
+										</tr>
+										<tr>
+											<td class="grey" colspan="3">
+												{{ form_row(form.guardar) }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}
