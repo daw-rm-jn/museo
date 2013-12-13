@@ -576,5 +576,180 @@
 		    	)
 		    );
 		}
+
+		static function verProductos(Request $req, Application $app){
+			$productos = Modelo::getProductos();
+			$form_borrar = $app['form.factory']->createBuilder('form')
+					->add('Borrar', 'submit', array())
+					->getForm();
+
+			if ('POST' == $req->getMethod()) {
+		        $form_borrar->bind($req);
+		        if ($form_borrar->isValid()) {
+		        	$data = $form_borrar->getData();
+					$idProductos = $req->request->get('cb_borrar');
+		        	if(Modelo::borrarProductos($idProductos)){
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Operación correcta',
+							'titulo' => 'Entrada(s) eliminada(s)',
+							'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
+							'seccion' => 'tienda/productos',
+							'sessionId' => $_SESSION['admin']
+					    	)
+					    );
+					}else{
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Error',
+							'titulo' => 'Error en la operacion',
+							'msgoperacion' => 'Hubo un error al eliminar las entradas del registro',
+							'seccion' => 'tienda/productos',
+							'sessionId' => $_SESSION['admin']
+					    	)
+					    );
+					}
+		        }
+		    }
+
+			return $app ['twig']->render('/tienda/ver_productos.twig', array(
+		    	'form' => $form_borrar->createView(),
+				'productos' => $productos,
+				'msgCabecera' => 'Administración de productos',
+				'sessionId' => $_SESSION['admin']
+				)
+			);
+		}
+
+		static function addProducto(Request $req, Application $app){
+			$pintores = Modelo::getPintores();
+			$estilos = Modelo::getEstilos();
+			$form = $app['form.factory']->createBuilder('form')
+					->add('nombreProducto','text',array())
+					->add('precio','text',array())
+					->add('fotoCuadro','file',array())
+			        ->add('guardar', 'submit', array())
+			        ->getForm();
+
+		   if ('POST' == $req->getMethod()) {
+		        $form->bind($req);
+
+		        if ($form->isValid()) {
+
+		        	$data = $form->getData();
+
+		        	$files = $req->files->get($form->getName());
+		            $path = __DIR__.'/../../img/productos/'.$data['nombreProducto'];
+
+		            $extension = $files['fotoCuadro']->guessExtension();
+					if (!$extension) {
+					    $extension = 'bin';
+					}
+
+					$filename = $data['nombreProducto'].'.'.$extension;
+					$files['fotoCuadro']->move($path, $filename);
+
+		        	$descriptorAddProd = array(
+		        		'pintor' => $req->request->get('selpintores'),
+		        		'estilo' => $req->request->get('selestilos'),
+		        		'descripcion' => $req->request->get('descProducto'),
+		        		'foto' => $filename
+		        	);
+
+					if(Modelo::addProducto($data, $descriptorAddProd)){
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Operación correcta',
+				    		'sessionId' => $_SESSION['admin'],
+				    		'titulo' => 'Entrada Añadida',
+				    		'msgoperacion' => 'Producto añadido con éxito',
+				    		'seccion' => 'tienda\productos'
+						));
+					}else{
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Error',
+				    		'sessionId' => $_SESSION['admin'],
+				    		'titulo' => 'Entrada NO Añadida',
+				    		'msgoperacion' => 'Error al insertar el registro Producto',
+				    		'seccion' => 'tienda\productos'
+						));
+					}
+		        }
+		    }
+
+		    return $app['twig']->render('/tienda/add_producto.twig', array(
+		    	'form' => $form->createView(),
+		    	'pintores' => $pintores,
+		    	'estilos' => $estilos,
+				'msgCabecera' => 'Añadir producto',
+				'sessionId' => $_SESSION['admin']
+		    	)
+		    );
+		}
+
+		static function verFichaProducto(Request $req, Application $app, $id){
+			$producto = Modelo::getProductoPorId($id);
+			$pintores = Modelo::getPintores();
+			$estilos = Modelo::getEstilos();
+			$form = $app['form.factory']->createBuilder('form')
+					->add('idCopia_Cuadro','hidden',array())
+					->add('nombreProducto','text',array())
+					->add('precio','text',array())
+					->add('fotoCuadro','file',array())
+			        ->add('guardar', 'submit', array())
+			        ->getForm();
+
+		   if ('POST' == $req->getMethod()) {
+		        $form->bind($req);
+
+		        if ($form->isValid()) {
+
+		        	$data = $form->getData();
+
+		        	$files = $req->files->get($form->getName());
+		        		$path = __DIR__.'/../../img/productos/'.$data['nombreProducto'];
+
+			            $extension = $files['fotoCuadro']->guessExtension();
+						if (!$extension) {
+						    $extension = 'bin';
+						}
+
+						$filename = $data['nombreProducto'].'.'.$extension;
+						$files['fotoCuadro']->move($path, $filename);
+
+		        	$descriptoModProd = array(
+		        		'pintor' => $req->request->get('selpintores'),
+		        		'estilo' => $req->request->get('selestilos'),
+		        		'descripcion' => $req->request->get('descProducto'),
+		        		'foto' => $filename
+		        	); 
+
+					if(Modelo::modificaProducto($data, $descriptoModProd)){
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Operación correcta',
+				    		'sessionId' => $_SESSION['admin'],
+				    		'titulo' => 'Entrada modificada',
+				    		'msgoperacion' => 'Producto modificado con éxito',
+				    		'seccion' => 'tienda\productos'
+						));
+					}else{
+						return $app['twig']->render('mod.twig', array(
+							'msgCabecera' => 'Error',
+				    		'sessionId' => $_SESSION['admin'],
+				    		'titulo' => 'Entrada NO modificada',
+				    		'msgoperacion' => 'Error al modificar el registro Producto',
+				    		'seccion' => 'tienda\productos'
+						));
+					}
+		        }
+		    }
+
+		    return $app['twig']->render('/tienda/ficha_producto.twig', array(
+		    	'form' => $form->createView(),
+		    	'pintores' => $pintores,
+		    	'estilos'=> $estilos,
+		    	'producto'=> $producto,
+				'msgCabecera' => 'Ficha de cuadro',
+				'sessionId' => $_SESSION['admin']
+		    	)
+		    );
+		}
 	}
 ?>
