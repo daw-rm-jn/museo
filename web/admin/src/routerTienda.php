@@ -5,6 +5,18 @@
 	
 	$tienda = $app['controllers_factory'];
 
+	$tienda->match('/productos/producto/{id}', function(Request $req, $id) use($app){
+		return controlTienda::verFichaProducto($req, $app, $id);
+	})->before($checkAdmin);
+
+	$tienda->match('/productos/add', function(Request $req) use ($app){
+		return controlTienda::addProducto($req, $app);
+	})->before($checkAdmin);
+
+	$tienda->match('/productos', function(Request $req) use ($app){
+		return controlTienda::verProductos($req, $app);
+	})->before($checkAdmin);
+
 	$tienda->match('/carritos/carrito/{id}/linea/{idLinea}', function(Request $req, $id, $idLinea) use($app){
 		return controlTienda::verLinea_Carrito($req, $app, $id, $idLinea);
 	})->before($checkAdmin);
