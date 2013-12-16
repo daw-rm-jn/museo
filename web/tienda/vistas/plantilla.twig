@@ -1,0 +1,14 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>{% block titulo '' %}</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="{{app.request.basepath}}/css/style.css" />
+	</head>
+
+	<body>
+		{% block cuerpo %}{% endblock %}
+
+		<script type="text/javascript" src="{{app.request.basepath}}/js/jquery-1.10.2.min.js"></script>
+	</body>
+</html>
