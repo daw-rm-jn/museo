@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`copia_cuadro` (
   `autor` VARCHAR(50) NULL DEFAULT NULL,
   `estilo` VARCHAR(50) NULL DEFAULT NULL,
   `fechaAlta` DATE NOT NULL,
-  `descripcion` VARCHAR(200) NULL DEFAULT NULL,
+  `descripcion` VARCHAR(3000) NULL DEFAULT NULL,
   `precio` INT(11) NOT NULL,
   `fotoCuadro` VARCHAR(150) NULL DEFAULT NULL,
   PRIMARY KEY (`idCopia_Cuadro`))
@@ -146,8 +146,8 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`exposicion` (
   `idSala` INT(11) NOT NULL,
   `nombreExposicion` VARCHAR(50) NULL DEFAULT NULL,
   `fechaInicio` DATE NULL DEFAULT NULL,
-  `fechaFIn` DATE NULL DEFAULT NULL,
-  `descripcionExpo` VARCHAR(100) NULL DEFAULT NULL,
+  `fechaFin` DATE NULL DEFAULT NULL,
+  `descripcionExpo` VARCHAR(2000) NULL DEFAULT NULL,
   PRIMARY KEY (`idExposicion`),
   INDEX `fk_Exposicion_Sala_Museo1` (`idSala` ASC),
   CONSTRAINT `fk_Exposicion_Sala_Museo1`
@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`cuadro` (
   `idExposicion` INT(11) NOT NULL,
   `idEstilo` INT(11) NOT NULL,
   `nombreCuadro` VARCHAR(100) NULL DEFAULT NULL,
-  `descripcionCuadro` VARCHAR(100) NULL DEFAULT NULL,
+  `descripcionCuadro` VARCHAR(4000) NULL DEFAULT NULL,
   `fotoCuadro` VARCHAR(150) NULL DEFAULT NULL,
   PRIMARY KEY (`idCuadro`),
   INDEX `fk_Cuadro_Pintor` (`idPintor` ASC),
