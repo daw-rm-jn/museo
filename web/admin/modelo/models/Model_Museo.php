@@ -28,13 +28,12 @@
 				$affected_rows = $stmt->rowCount();
 
 				if($affected_rows > 0){
-					$descriptor = array(
-						'op' => 'BAJA [EXPOSICION]',
-						'sec' => 'Exposicion',
-						'id' => $idExposiciones[$i],
-						'estado' => 'eliminado'
+					$act = array(
+						'titulo' => 'BAJA [EXPOSICION]',
+						'descripcion' => 'Se ha borrado el registro Exposicion con id '. $idExposiciones[$i] . '.',
+						'user' => $_SESSION['admin']
 					);
-					Model_Misc::insertUpdate($descriptor);
+					Modelo::insertUpdate($act);
 					return true;
 				}else{
 					return false;
@@ -73,13 +72,13 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'ALTA [EXPOSICION]',
-					'sec' => 'Exposicion',
-					'id' => $con->lastInsertId(),
-					'estado' => 'insertado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+				$lastId = $con->lastInsertId();
+					$act = array(
+						'titulo' => 'ALTA [EXPOSICION]',
+						'descripcion' => 'Se ha insertado el registro Exposicion con id ' . $lastId . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -103,13 +102,12 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'MODIFICACIÓN [EXPOSICION]',
-					'sec' => 'Exposicion',
-					'id' => $descriptor['id'],
-					'estado' => 'actualizado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+				$act = array(
+						'titulo' => 'MODIFICACION [EXPOSICION]',
+						'descripcion' => 'Se ha modificado el registro Exposicion con id ' . $descriptor['id'] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -143,13 +141,12 @@
 				$affected_rows = $stmt->rowCount();
 
 				if($affected_rows > 0){
-					$descriptor = array(
-						'op' => 'BAJA [PLANTA]',
-						'sec' => 'Planta',
-						'id' => $idPlantas[$i],
-						'estado' => 'eliminado'
+					$act = array(
+						'titulo' => 'BAJA [PLANTA_MUSEO]',
+						'descripcion' => 'Se ha borrado el registro Planta_Museo con id '. $idPlantas[$i] . '.',
+						'user' => $_SESSION['admin']
 					);
-					Model_Misc::insertUpdate($descriptor);
+					Modelo::insertUpdate($act);
 					return true;
 				}else{
 					return false;
@@ -170,13 +167,13 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'ALTA [PLANTA]',
-					'sec' => 'Planta',
-					'id' => $con->lastInsertId(),
-					'estado' => 'insertado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+				$lastId = $con->lastInsertId();
+					$act = array(
+						'titulo' => 'ALTA [PLANTA_MUSEO]',
+						'descripcion' => 'Se ha insertado el registro Planta_Museo con id ' . $lastId . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -198,13 +195,12 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'MODIFICACIÓN [PLANTA]',
-					'sec' => 'Planta',
-					'id' => $planta['idPlanta'],
-					'estado' => 'actualizado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+				$act = array(
+						'titulo' => 'MODIFICACION [PLANTA_MUSEO]',
+						'descripcion' => 'Se ha modificado el registro Planta_Museo con id ' . $planta['idPlanta'] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -253,13 +249,12 @@
 				$affected_rows = $stmt->rowCount();
 
 				if($affected_rows > 0){
-					$descriptor = array(
-						'op' => 'BAJA [SALA]',
-						'sec' => 'Sala',
-						'id' => $idSalas[$i],
-						'estado' => 'eliminado'
+					$act = array(
+						'titulo' => 'BAJA [SALA_MUSEO]',
+						'descripcion' => 'Se ha borrado el registro Sala_Museo con id '. $idSalas[$i] . '.',
+						'user' => $_SESSION['admin']
 					);
-					Model_Misc::insertUpdate($descriptor);
+					Modelo::insertUpdate($act);
 					return true;
 				}else{
 					return false;
@@ -281,13 +276,13 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'ALTA [SALA]',
-					'sec' => 'Sala',
-					'id' => $con->lastInsertId(),
-					'estado' => 'insertado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+				$lastId = $con->lastInsertId();
+					$act = array(
+						'titulo' => 'ALTA [SALA_MUSEO]',
+						'descripcion' => 'Se ha insertado el registro Sala_Museo con id ' . $lastId . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -324,13 +319,12 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'MODIFICACIÓN [SALA]',
-					'sec' => 'Sala',
-					'id' => $sala['idSala'],
-					'estado' => 'actualizado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+				$act = array(
+						'titulo' => 'MODIFICACION [SALA_MUSEO]',
+						'descripcion' => 'Se ha modificado el registro Sala_Museo con id ' . $sala['idSala'] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;

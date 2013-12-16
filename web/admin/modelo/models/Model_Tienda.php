@@ -28,6 +28,13 @@
 			$affected_rows = $insertcarrito->rowCount();
 
 			if($affected_rows >= 0){
+				$lastId = $con->lastInsertId();
+					$act = array(
+						'titulo' => 'ALTA [CARRITO]',
+						'descripcion' => 'Se ha insertado el registro Carrito con id ' . $lastId . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 					return true;
 			}else{
 				return false;
@@ -51,6 +58,12 @@
 				$affected_rows = $stmt->rowCount();
 
 				if($affected_rows > 0 && $affected_rows_borrar >= 0){
+					$act = array(
+						'titulo' => 'BAJA [CARRITO]',
+						'descripcion' => 'Se ha borrado el registro Carrito con id '. $idCarritos[$i] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 					return true;
 				}else{
 					return false;
@@ -87,6 +100,12 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
+				$act = array(
+						'titulo' => 'MODIFICACION [CARRITO]',
+						'descripcion' => 'Se ha modificado el registro Carrito con id ' . $carrito['idCarrito'] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -292,6 +311,12 @@
 				$affected_rows = $stmt->rowCount();
 
 				if($affected_rows > 0 && $affected_rows_borrar >= 0){
+					$act = array(
+						'titulo' => 'BAJA [PEDIDO]',
+						'descripcion' => 'Se ha borrado el registro Pedido con id '. $idPedidos[$i] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 					return true;
 				}else{
 					return false;
@@ -312,6 +337,13 @@
 			$affected_rows = $insertpedido->rowCount();
 
 			if($affected_rows >= 0){
+				$lastId = $con->lastInsertId();
+					$act = array(
+						'titulo' => 'ALTA [PEDIDO]',
+						'descripcion' => 'Se ha insertado el registro Pedido con id ' . $lastId . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -348,6 +380,12 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
+				$act = array(
+						'titulo' => 'MODIFICACION [PEDIDO]',
+						'descripcion' => 'Se ha modificado el registro Pedido con id ' . $pedido['idPedido'] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -518,6 +556,13 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
+				$lastId = $con->lastInsertId();
+					$act = array(
+						'titulo' => 'ALTA [PRODUCTO]',
+						'descripcion' => 'Se ha insertado el registro Producto con id ' . $lastId . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -537,6 +582,12 @@
 				$affected_rows = $stmt->rowCount();
 
 				if($affected_rows > 0){
+					$act = array(
+						'titulo' => 'BAJA [PRODUCTO]',
+						'descripcion' => 'Se ha borrado el registro Producto con id '. $idProductos[$i] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 					return true;
 				}else{
 					return false;
@@ -577,6 +628,12 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
+				$act = array(
+						'titulo' => 'MODIFICACION [PRODUCTO]',
+						'descripcion' => 'Se ha modificado el registro Producto con id ' . $producto['idCopia_Cuadro'] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;

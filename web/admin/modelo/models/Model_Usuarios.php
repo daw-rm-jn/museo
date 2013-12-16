@@ -63,13 +63,12 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0 && $affected_rows_datosbanc >= 0){
-				$descriptor = array(
-					'op' => 'ALTA [CLIENTE]',
-					'sec' => 'Cliente',
-					'id' => $con->lastInsertId(),
-					'estado' => 'insertado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+					$act = array(
+						'titulo' => 'ALTA [CLIENTE]',
+						'descripcion' => 'Se ha insertado el registro Cliente con email ' . $cliente['email'] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -82,19 +81,23 @@
 			$con = Model_BD::conectar();
 			for ($i=0; $i < sizeof($emailClientes); $i++) { 
 				$stmt = $con->prepare("DELETE FROM Usuario WHERE email = :email");
+				$borrarDatosBanc = $con->prepare("DELETE FROM Datos_Bancarios WHERE email = :email");
+
 				$stmt->bindParam(':email', $emailClientes[$i]);
+				$borrarDatosBanc->bindParam(':email', $emailClientes[$i]);
+
+				$borrarDatosBanc->execute();
 				$stmt->execute();
 
 				$affected_rows = $stmt->rowCount();
 
 				if($affected_rows > 0){
-					$descriptor = array(
-						'op' => 'BAJA [PINTOR]',
-						'sec' => 'Pintor',
-						'id' => $emailClientes[$i],
-						'estado' => 'eliminado'
+					$act = array(
+						'titulo' => 'BAJA [CLIENTE]',
+						'descripcion' => 'Se ha borrado el registro Cliente con email '. $emailClientes[$i] . '.',
+						'user' => $_SESSION['admin']
 					);
-					Model_Misc::insertUpdate($descriptor);
+					Modelo::insertUpdate($act);
 					return true;
 				}else{
 					return false;
@@ -144,13 +147,12 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0 && $affected_rows_datosbanc >= 0){
-				$descriptor = array(
-					'op' => 'MODIFICACIÓN [CLIENTE]',
-					'sec' => 'Cliente',
-					'id' => $cliente['email'],
-					'estado' => 'actualizado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+				$act = array(
+						'titulo' => 'MODIFICACION [CLIENTE]',
+						'descripcion' => 'Se ha modificado el registro Cliente con id ' . $cliente['email'] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -185,13 +187,12 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'ALTA [ADMIN]',
-					'sec' => 'Administrador',
-					'id' => $con->lastInsertId(),
-					'estado' => 'insertado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+					$act = array(
+						'titulo' => 'ALTA [ADMIN]',
+						'descripcion' => 'Se ha insertado el registro Administrador con email ' . $admin['email'] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -210,13 +211,13 @@
 				$affected_rows = $stmt->rowCount();
 
 				if($affected_rows > 0){
-					$descriptor = array(
-						'op' => 'BAJA [ADMIN]',
-						'sec' => 'Administrador',
-						'id' => $emailAdmins[$i],
-						'estado' => 'eliminado'
+					$act = array(
+						'titulo' => 'BAJA [ADMIN]',
+						'descripcion' => 'Se ha borrado el registro Administrador con email '. $emailAdmins[$i] . '.',
+						'user' => $_SESSION['admin']
 					);
-					Model_Misc::insertUpdate($descriptor);
+					Modelo::insertUpdate($act);
+
 					return true;
 				}else{
 					return false;
@@ -252,13 +253,12 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'MODIFICACIÓN [ADMIN]',
-					'sec' => 'Administrador',
-					'id' => $admin['email'],
-					'estado' => 'actualizado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+				$act = array(
+						'titulo' => 'MODIFICACION [ADMIN]',
+						'descripcion' => 'Se ha modificado el registro Administrador con email ' . $admin['email'] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;

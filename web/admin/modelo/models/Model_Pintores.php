@@ -49,13 +49,12 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'MODIFICACIÓN [PINTOR]',
-					'sec' => 'Pintor',
-					'id' => $pintor['idPintor'],
-					'estado' => 'actualizado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+				$act = array(
+						'titulo' => 'MODIFICACION [PINTOR]',
+						'descripcion' => 'Se ha modificado el registro Pintor con id ' . $pintor['idPintor'] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -71,21 +70,15 @@
 				$stmt->bindParam(':id', $idPintores[$i]);
 				$stmt->execute();
 
-				$pintorABorrar = Modelo::getPintorPorId($idPintores[$i]);
-				$nombrePintor = $pintorABorrar->getnombrePintor();
-
-				//Modelo::borraDirectorio(__DIR__.'/../../img/pintores/'. $nombrePintor);
-
 				$affected_rows = $stmt->rowCount();
 
 				if($affected_rows > 0){
-					$descriptor = array(
-						'op' => 'BAJA [PINTOR]',
-						'sec' => 'Pintor',
-						'id' => $idPintores[$i],
-						'estado' => 'eliminado'
+					$act = array(
+						'titulo' => 'BAJA [PINTOR]',
+						'descripcion' => 'Se ha borrado el registro Pintor con id '. $idPintores[$i] . '.',
+						'user' => $_SESSION['admin']
 					);
-					Model_Misc::insertUpdate($descriptor);
+					Modelo::insertUpdate($act);
 					return true;
 				}else{
 					return false;
@@ -109,13 +102,13 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'ALTA [PINTOR]',
-					'sec' => 'Pintor',
-					'id' => $con->lastInsertId(),
-					'estado' => 'insertado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+				$lastId = $con->lastInsertId();
+					$act = array(
+						'titulo' => 'ALTA [PINTOR]',
+						'descripcion' => 'Se ha insertado el registro Pintor con id ' . $lastId . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;

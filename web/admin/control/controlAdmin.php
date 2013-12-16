@@ -51,11 +51,6 @@
 			        	)
 			        )
 			        ->add("clavecifrada", "hidden", array())
-					->add('recordar', 'checkbox', array(
-					    'label'     => 'Recordar sesión',
-					    'required'  => false,
-							)
-					)
 					->getForm();
 
 		    if ('POST' == $req->getMethod()) {

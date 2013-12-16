@@ -17,8 +17,8 @@
 			return Model_Misc::getUpdates();
 		}
 
-		static function insertUpdate($descriptor){
-			return Model_Misc::insertUpdate($descriptor);
+		static function insertUpdate($actualizacion){
+			return Model_Misc::insertUpdate($actualizacion);
 		}
 
 		/*-----------------------------*/

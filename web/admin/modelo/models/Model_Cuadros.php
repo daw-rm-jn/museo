@@ -163,13 +163,13 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'ALTA [CUADRO]',
-					'sec' => 'Cuadro',
-					'id' => $con->lastInsertId(),
-					'estado' => 'insertado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+				$lastId = $con->lastInsertId();
+					$act = array(
+						'titulo' => 'ALTA [CUADRO]',
+						'descripcion' => 'Se ha insertado el registro Cuadro con id ' . $lastId . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -194,13 +194,12 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'MODIFICACIÓN [CUADRO]',
-					'sec' => 'Pintor',
-					'id' => $descriptor['id'],
-					'estado' => 'actualizado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+					$act = array(
+						'titulo' => 'MODIFICACION [CUADRO]',
+						'descripcion' => 'Se ha modificado el registro Cuadro con id ' . $descriptor['id'] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;
@@ -232,21 +231,15 @@
 				$stmt->bindParam(':id', $idCuadros[$i]);
 				$stmt->execute();
 
-				/*$cuadroABorrar = Modelo::getCuadroPorId($idCuadros[$i]);
-				$nombreCuadro = $cuadroABorrar->getnombreCuadro();*/
-
-				//Modelo::borraDirectorio(__DIR__.'/../../img/cuadros/'.$nombreCuadro.'/');
-
 				$affected_rows = $stmt->rowCount();
 
 				if($affected_rows > 0){
-					$descriptor = array(
-						'op' => 'BAJA [CUADRO]',
-						'sec' => 'Cuadro',
-						'id' => $idCuadros[$i],
-						'estado' => 'eliminado'
+					$act = array(
+						'titulo' => 'BAJA [CUADRO]',
+						'descripcion' => 'Se ha borrado el registro Cuadro con id '. $idCuadros[$i] . '.',
+						'user' => $_SESSION['admin']
 					);
-					Model_Misc::insertUpdate($descriptor);
+					Modelo::insertUpdate($act);
 					return true;
 				}else{
 					return false;

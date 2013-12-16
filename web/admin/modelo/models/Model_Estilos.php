@@ -47,13 +47,12 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'MODIFICACIÓN [ESTILO]',
-					'sec' => 'Estilo',
-					'id' => $estilo['idEstilo'],
-					'estado' => 'actualizado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+					$act = array(
+						'titulo' => 'MODIFICACION [ESTILO]',
+						'descripcion' => 'Se ha modificado el registro Estilo con id ' . $estilo['idEstilo'] . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);				
 				return true;
 			}else{
 				return false;
@@ -70,19 +69,15 @@
 				$stmt->bindParam(':id', $idEstilos[$i]);
 				$stmt->execute();
 
-				$estiloABorrar = Modelo::getEstiloPorId($idEstilos[$i]);
-				$nombreEstilo = $estiloABorrar->getnombreEstilo();
-
 				$affected_rows = $stmt->rowCount();
 
 				if($affected_rows > 0){
-					$descriptor = array(
-						'op' => 'BAJA [ESTIL]',
-						'sec' => 'Estilo',
-						'id' => $idEstilos[$i],
-						'estado' => 'eliminado'
+					$act = array(
+						'titulo' => 'BAJA [ESTILO]',
+						'descripcion' => 'Se ha borrado el registro Estilo con id '. $idEstilos[$i] . '.',
+						'user' => $_SESSION['admin']
 					);
-					Model_Misc::insertUpdate($descriptor);
+					Modelo::insertUpdate($act);
 					return true;
 				}else{
 					return false;
@@ -103,13 +98,13 @@
 			$affected_rows = $stmt->rowCount();
 
 			if($affected_rows >= 0){
-				$descriptor = array(
-					'op' => 'ALTA [ESTILO]',
-					'sec' => 'Estilo',
-					'id' => $con->lastInsertId(),
-					'estado' => 'insertado'
-				);
-				Model_Misc::insertUpdate($descriptor);
+				$lastId = $con->lastInsertId();
+					$act = array(
+						'titulo' => 'ALTA [ESTILO]',
+						'descripcion' => 'Se ha insertado el registro Estilo con id ' . $lastId . '.',
+						'user' => $_SESSION['admin']
+					);
+					Modelo::insertUpdate($act);
 				return true;
 			}else{
 				return false;

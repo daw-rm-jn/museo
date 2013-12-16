@@ -37,38 +37,17 @@
 			$con = null;
 		}
 
-		static function insertUpdate($descriptor){
+		static function insertUpdate($actualizacion){
 			$con = Model_BD::conectar();
-			$update = $con->prepare("INSERT INTO Actualizacion (tituloActualizacion, fechaActualizacion, descActualizacion, Usuario_email) VALUES (:op, NOW(), 'El registro de tipo " . $descriptor['sec'] . " con id #" . $descriptor['id'] . " ha sido " . $descriptor['estado'] ."', :user)");
+			$stmt = $con->prepare("INSERT INTO Actualizacion (tituloActualizacion,fechaActualizacion,descActualizacion,Usuario_email) VALUES (:tit,NOW(),:desca,:user)");
 
-			$update->bindParam(':op', $descriptor['op']);
-			$update->bindParam(':user', $_SESSION['admin']);
+			$stmt->bindParam(':tit',$actualizacion['titulo']);
+			$stmt->bindParam(':desca',$actualizacion['descripcion']);
+			$stmt->bindParam(':user',$actualizacion['user']);
 
-			$update->execute();
-			$affected_rows = $update->rowCount();
+		    $stmt->execute();
 
-			$con = null;
-		}
-		
-		/*----------------*/
-		/*--- HELPERS ---*/
-		/*--------------*/
-
-		/*--- BORRA UN DIRECTORIO ASOCIADO A UN REGISTRO ELIMINADO ---*/
-		static function borraDirectorio($dir){
-			$it = new RecursiveDirectoryIterator($dir);
-			$files = new RecursiveIteratorIterator($it,RecursiveIteratorIterator::CHILD_FIRST);
-			foreach($files as $file) {
-			    if ($file->getFilename() === '.' || $file->getFilename() === '..') {
-			        continue;
-			    }
-			    if ($file->isDir()){
-			        rmdir($file->getRealPath());
-			    } else {
-			        unlink($file->getRealPath());
-			    }
-			}
-			rmdir($dir);
+		    $con = null;
 		}
 	}
 ?>
