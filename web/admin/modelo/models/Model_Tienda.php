@@ -534,7 +534,7 @@
 		    $result = $stmt->fetchAll();
 
 		    foreach($result as $row){
-				$producto = new Copia_Cuadro($row['idCopia_Cuadro'],$row['nombreProducto'],$row['autor'],$row['estilo'],$row['fechaAlta'],$row['descripcion'],$row['precio'],$row['fotoCuadro']);
+				$producto = new Copia_Cuadro($row['idCopia_Cuadro'],$row['nombreProducto'],$row['autor'],$row['estilo'],$row['orientacion'],$row['anioCuadro'],$row['fechaAlta'],$row['descripcion'],$row['precio'],$row['fotoCuadro']);
 				$productos[] = $producto;
 		    }
 		    return $productos;
@@ -543,9 +543,11 @@
 
 		static function addProducto($producto, $descriptor){			
 			$con = Model_BD::conectar();
-			$stmt = $con->prepare("INSERT INTO Copia_Cuadro (nombreProducto,autor,estilo,fechaAlta,descripcion,precio,fotoCuadro) VALUES (:nomp,:idp,:ide,NOW(),:descp,:preciop,:imgp)");
+			$stmt = $con->prepare("INSERT INTO Copia_Cuadro (nombreProducto,autor,estilo,orientacion,anioCuadro,fechaAlta,descripcion,precio,fotoCuadro) VALUES (:nomp,:idp,:ide,:orc,:anioc,NOW(),:descp,:preciop,:imgp)");
 
 			$stmt->bindParam(':nomp', $producto['nombreProducto']);
+			$stmt->bindParam(':orc', $producto['orientacion']);
+			$stmt->bindParam(':anioc', $producto['anioCuadro']);
 			$stmt->bindParam(':idp', $descriptor['pintor']);
 			$stmt->bindParam(':ide', $descriptor['estilo']);
 			$stmt->bindParam(':descp', $descriptor['descripcion']);
@@ -606,7 +608,7 @@
 		    $stmt->execute();
 		    $row = $stmt->fetch();
 
-			$producto = new Copia_Cuadro($row['idCopia_Cuadro'],$row['nombreProducto'],$row['autor'],$row['estilo'],$row['fechaAlta'],$row['descripcion'],$row['precio'],$row['fotoCuadro']);
+			$producto = new Copia_Cuadro($row['idCopia_Cuadro'],$row['nombreProducto'],$row['autor'],$row['estilo'],$row['orientacion'],$row['anioCuadro'],$row['fechaAlta'],$row['descripcion'],$row['precio'],$row['fotoCuadro']);
 						
 		    return $producto;
 			$con = null;
@@ -614,10 +616,12 @@
 
 		static function modificaProducto($producto, $descriptor){			
 			$con = Model_BD::conectar();
-			$stmt = $con->prepare("UPDATE Copia_Cuadro SET nombreProducto = :nomp,autor = :idp,estilo = :ide,descripcion = :descp,precio = :preciop,fotoCuadro = :imgp WHERE idCopia_Cuadro = :idcc");
+			$stmt = $con->prepare("UPDATE Copia_Cuadro SET nombreProducto = :nomp,autor = :idp,estilo = :ide,orientacion = :orc, anioCuadro = anioc,descripcion = :descp,precio = :preciop,fotoCuadro = :imgp WHERE idCopia_Cuadro = :idcc");
 
 			$stmt->bindParam(':idcc', $producto['idCopia_Cuadro']);
 			$stmt->bindParam(':nomp', $producto['nombreProducto']);
+			$stmt->bindParam(':orc', $producto['orientacion']);
+			$stmt->bindParam(':anioc', $producto['anioCuadro']);
 			$stmt->bindParam(':idp', $descriptor['pintor']);
 			$stmt->bindParam(':ide', $descriptor['estilo']);
 			$stmt->bindParam(':descp', $descriptor['descripcion']);

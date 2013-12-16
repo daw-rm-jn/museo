@@ -13,6 +13,8 @@
 			$idEstilo = Model_Cuadros::getIdEstiloCuadro($id);
 			$nombreCuadro = Model_Cuadros::getNombreCuadro($id);
 			$descripcionCuadro = Model_Cuadros::getDescCuadro($id);
+			$orientacion = Model_Cuadros::getOrientacionCuadro($id);
+			$anioCuadro = Model_Cuadros::getAnioCuadro($id);
 			$fotoCuadro = Model_Cuadros::getFotoCuadro($id);
 
 			$datosCuadro = array(
@@ -22,10 +24,42 @@
 				'idEstilo' => $idEstilo,
 				'nombreCuadro' => $nombreCuadro,
 				'descripcionCuadro' => $descripcionCuadro,
+				'orientacion' => $orientacion,
+				'anioCuadro' => $anioCuadro,
 				'fotoCuadro' => $fotoCuadro
 			);
 
 			return $datosCuadro;
+		}
+
+		static function getAnioCuadro($id){
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("SELECT anioCuadro FROM Cuadro WHERE idCuadro = :idCuadro");
+
+		    $stmt->bindParam(':idCuadro', $id);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$anioCuadro = $row['anioCuadro'];
+			
+		    return $anioCuadro;
+			$con = null;
+		}
+
+		static function getOrientacionCuadro($id){
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("SELECT orientacion FROM Cuadro WHERE idCuadro = :idCuadro");
+
+		    $stmt->bindParam(':idCuadro', $id);
+
+		    $stmt->execute();
+		    $row = $stmt->fetch();
+
+			$orientacion = $row['orientacion'];
+			
+		    return $orientacion;
+			$con = null;
 		}
 
 		static function getDescCuadro($id){
@@ -141,7 +175,7 @@
 		    $result = $stmt->fetchAll();
 
 		    foreach($result as $row){
-				$cuadro = new Cuadro($row['idCuadro'],$row['idPintor'],$row['idExposicion'],$row['idEstilo'],$row['nombreCuadro'],$row['descripcionCuadro'],$row['fotoCuadro']);
+				$cuadro = new Cuadro($row['idCuadro'],$row['idPintor'],$row['idExposicion'],$row['idEstilo'],$row['nombreCuadro'],$row['descripcionCuadro'],$row['orientacion'],$row['anioCuadro'],$row['fotoCuadro']);
 				$cuadros[] = $cuadro;
 		    }
 		    return $cuadros;
@@ -150,9 +184,11 @@
 
 		static function addCuadro($cuadro, $descriptor){			
 			$con = Model_BD::conectar();
-			$stmt = $con->prepare("INSERT INTO Cuadro (idPintor,idExposicion,idEstilo,nombreCuadro,descripcionCuadro,fotoCuadro) VALUES (:idp,:idex,:ides,:nomc,:descc,:fotoc)");
+			$stmt = $con->prepare("INSERT INTO Cuadro (idPintor,idExposicion,idEstilo,nombreCuadro,descripcionCuadro,orientacion,anioCuadro,fotoCuadro) VALUES (:idp,:idex,:ides,:nomc,:descc,:orc,:anioc,:fotoc)");
 
 			$stmt->bindParam(':nomc', $cuadro['nombreCuadro']);
+			$stmt->bindParam(':orc', $cuadro['orientacion']);
+			$stmt->bindParam(':anioc', $cuadro['anioCuadro']);
 			$stmt->bindParam(':descc', $descriptor['descripcion']);
 			$stmt->bindParam(':fotoc', $descriptor['foto']);
 			$stmt->bindParam(':idp', $descriptor['pintor']);
@@ -180,9 +216,11 @@
 
 		static function modificaCuadro($cuadro, $descriptor){
 			$con = Model_BD::conectar();
-			$stmt = $con->prepare("UPDATE Cuadro SET idPintor = :idp, idEstilo = :ides, idExposicion = :idex, nombreCuadro = :nomc, descripcionCuadro = :descc, fotoCuadro = :fotoc WHERE idCuadro = :idc");
+			$stmt = $con->prepare("UPDATE Cuadro SET idPintor = :idp, idEstilo = :ides, idExposicion = :idex, nombreCuadro = :nomc, descripcionCuadro = :descc, orientacion = :orc, anioCuadro = :anioc, fotoCuadro = :fotoc WHERE idCuadro = :idc");
 			
 			$stmt->bindParam(':nomc', $cuadro['nombreCuadro']);
+			$stmt->bindParam(':orc', $cuadro['orientacion']);
+			$stmt->bindParam(':anioc', $cuadro['anioCuadro']);
 			$stmt->bindParam(':descc', $descriptor['descripcion']);
 			$stmt->bindParam(':fotoc', $descriptor['foto']);
 			$stmt->bindParam(':idc', $descriptor['id']);

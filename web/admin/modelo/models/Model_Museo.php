@@ -11,7 +11,7 @@
 		    $result = $stmt->fetchAll();
 
 		    foreach($result as $row){
-				$exposicion = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFIn'],$row['descripcionExpo']);
+				$exposicion = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFin'],$row['descripcionExpo']);
 				$exposiciones[] = $exposicion;
 		    }
 		    return $exposiciones;
@@ -52,9 +52,9 @@
 		    $stmt->execute();
 		    $row = $stmt->fetch();
 
-			$pintor = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFIn'],$row['descripcionExpo']);
+			$expo = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFin'],$row['descripcionExpo']);
 			
-		    return $pintor;
+		    return $expo;
 			$con = null;
 		}
 
@@ -89,7 +89,7 @@
 
 		static function modificaExpo($expo, $descriptor){
 			$con = Model_BD::conectar();
-			$stmt = $con->prepare("UPDATE Exposicion SET idSala = :salaex, nombreExposicion = :nomex, fechaInicio = :fechinex, fechaFIn = :fechfinex, descripcionExpo = :descex WHERE idExposicion = :idex");
+			$stmt = $con->prepare("UPDATE Exposicion SET idSala = :salaex, nombreExposicion = :nomex, fechaInicio = :fechinex, fechaFin = :fechfinex, descripcionExpo = :descex WHERE idExposicion = :idex");
 			
 			$stmt->bindParam(':nomex', $expo['nombreExposicion']);
 			$stmt->bindParam(':descex', $descriptor['descripcion']);

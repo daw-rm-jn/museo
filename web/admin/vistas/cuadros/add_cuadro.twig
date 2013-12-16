@@ -15,6 +15,7 @@
 										<tr>
 											<td class="perla">
 												{{ form_row(form.nombreCuadro) }}
+												{{ form_row(form.anioCuadro) }}
 											</td>
 											<td class="perla">
 												{{ form_row(form.fotoCuadro) }}
@@ -37,6 +38,7 @@
 														<option value="{{estilo.idEstilo}}">{{estilo.nombreEstilo}}</option>
 													{% endfor %}
 												</select>
+												{{ form_row(form.orientacion) }}
 											</td>
 											<td class="grey">
 												<label for="selexpos">Exposicion</label>

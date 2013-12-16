@@ -624,6 +624,14 @@
 			$estilos = Modelo::getEstilos();
 			$form = $app['form.factory']->createBuilder('form')
 					->add('nombreProducto','text',array())
+					->add('orientacion', 'choice', array(
+					    'choices'   => array(
+					        ''   => '',
+					        'horizontal'   => 'horizontal',
+					        'vertical' => 'vertical',
+					    ),
+					))
+					->add('anioCuadro', 'text', array())
 					->add('precio','text',array())
 					->add('fotoCuadro','file',array())
 			        ->add('guardar', 'submit', array())
@@ -691,6 +699,14 @@
 			$form = $app['form.factory']->createBuilder('form')
 					->add('idCopia_Cuadro','hidden',array())
 					->add('nombreProducto','text',array())
+					->add('orientacion', 'choice', array(
+					    'choices'   => array(
+					        ''   => '',
+					        'horizontal'   => 'horizontal',
+					        'vertical' => 'vertical',
+					    ),
+					))
+					->add('anioCuadro', 'text', array())
 					->add('precio','text',array())
 					->add('fotoCuadro','file',array())
 			        ->add('guardar', 'submit', array())

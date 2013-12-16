@@ -7,15 +7,19 @@
 		private $idEstilo;
 		private $nombreCuadro;
 		private $descripcionCuadro;
+		private $orientacion;
+		private $anioCuadro;
 		private $fotoCuadro;
 
-		public function Cuadro($idCuadro,$idPintor,$idExposicion,$idEstilo,$nombreCuadro,$descripcionCuadro,$fotoCuadro){
+		public function Cuadro($idCuadro,$idPintor,$idExposicion,$idEstilo,$nombreCuadro,$descripcionCuadro,$orientacion,$anioCuadro,$fotoCuadro){
 			$this->idCuadro = $idCuadro;
 			$this->idPintor = $idPintor;
 			$this->idExposicion = $idExposicion;
 			$this->idEstilo = $idEstilo;
 			$this->nombreCuadro = $nombreCuadro;
 			$this->descripcionCuadro = $descripcionCuadro;
+			$this->orientacion = $orientacion;
+			$this->anioCuadro = $anioCuadro;
 			$this->fotoCuadro = $fotoCuadro;
 		}
 
@@ -71,6 +75,28 @@
 		public function setdescripcionCuadro($descripcionCuadro){
 			$this->descripcionCuadro = $descripcionCuadro;
 			return $this;
+		}
+
+		public function getorientacion()
+		{
+		    return $this->orientacion;
+		}
+		
+		public function setorientacion($orientacion)
+		{
+		    $this->orientacion = $orientacion;
+		    return $this;
+		}
+
+		public function getanioCuadro()
+		{
+		    return $this->anioCuadro;
+		}
+		
+		public function setanioCuadro($anioCuadro)
+		{
+		    $this->anioCuadro = $anioCuadro;
+		    return $this;
 		}
 
 		public function getfotoCuadro(){

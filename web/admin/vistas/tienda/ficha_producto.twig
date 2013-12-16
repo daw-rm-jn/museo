@@ -16,11 +16,17 @@
 										<tr>
 											<td class="perla" colspan="2">
 												{{ form_row(form.nombreProducto, {'attr': {'value': producto.nombreProducto }}) }}
+												{{ form_row(form.anioCuadro, {'attr': {'value': producto.anioCuadro }}) }}
+												{{ form_row(form.orientacion) }} (ACTUAL : {{producto.orientacion}})
 											</td>
 											<td class="perla">
 												<label for="">Foto de Producto(ACTUAL)</label>
 												<br>
-												<img class="foto" src="{{app.request.basepath}}/../img/productos/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" alt="">
+												{% if producto.orientacion == 'vertical' %}
+													<img class="fotoVer" src="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" alt="">
+												{% elseif producto.orientacion == 'horizontal' %}
+													<img class="fotoHor" src="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" alt="">
+												{% endif %}
 												<br>
 												{{ form_row(form.fotoCuadro)  }}
 											</td>

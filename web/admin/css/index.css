@@ -234,9 +234,14 @@ input[type="text"].txtdcha, button#form_Borrar{
 	float:right;
 }
 
-img.foto{
-	max-width: 20%;
-	max-height: 20%;
+img.fotoVer{
+	width: 170px;
+	height: 200px;
+}
+
+img.fotoHor{
+	width: 200px;
+	height: 170px;
 }
 
 hr.separador{

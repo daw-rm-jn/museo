@@ -54,6 +54,14 @@
 			$expos = Modelo::getExposiciones();
 			$form = $app['form.factory']->createBuilder('form')
 					->add('nombreCuadro', 'text', array())
+					->add('orientacion', 'choice', array(
+					    'choices'   => array(
+					        ''   => '',
+					        'horizontal'   => 'horizontal',
+					        'vertical' => 'vertical',
+					    ),
+					))
+					->add('anioCuadro', 'text', array())
 					->add('fotoCuadro', 'file', array())
 					->add('guardar', 'submit', array())
 			        ->getForm();
@@ -122,6 +130,14 @@
 			$form = $app['form.factory']->createBuilder('form')
 					->add('idCuadro', 'hidden', array())
 					->add('nombreCuadro', 'text', array())
+					->add('orientacion', 'choice', array(
+					    'choices'   => array(
+					        ''   => '',
+					        'horizontal'   => 'horizontal',
+					        'vertical' => 'vertical',
+					    ),
+					))
+					->add('anioCuadro', 'text', array())
 					->add('fotoCuadro', 'file', array())
 					->add('guardar', 'submit', array())
 			        ->getForm();

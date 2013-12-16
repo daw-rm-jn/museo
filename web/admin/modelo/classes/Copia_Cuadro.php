@@ -4,16 +4,20 @@
 		private $nombreProducto;
 		private $autor;
 		private $estilo;
+		private $orientacion;
+		private $anioCuadro;
 		private $fechaAlta;
 		private $descripcion;
 		private $precio;
 		private $fotoCuadro;
 
-		public function Copia_Cuadro($idCopia_Cuadro,$nombreProducto,$autor,$estilo,$fechaAlta,$descripcion,$precio,$fotoCuadro){
+		public function Copia_Cuadro($idCopia_Cuadro,$nombreProducto,$autor,$estilo,$orientacion,$anioCuadro,$fechaAlta,$descripcion,$precio,$fotoCuadro){
 			$this->idCopia_Cuadro = $idCopia_Cuadro;
 			$this->nombreProducto = $nombreProducto;
 			$this->autor = $autor;
 			$this->estilo = $estilo;
+			$this->orientacion = $orientacion;
+			$this->anioCuadro = $anioCuadro;
 			$this->fechaAlta = $fechaAlta;
 			$this->descripcion = $descripcion;
 			$this->precio = $precio;
@@ -61,6 +65,28 @@
 		public function setestilo($estilo)
 		{
 		    $this->estilo = $estilo;
+		    return $this;
+		}
+
+		public function getorientacion()
+		{
+		    return $this->orientacion;
+		}
+		
+		public function setorientacion($orientacion)
+		{
+		    $this->orientacion = $orientacion;
+		    return $this;
+		}
+
+		public function getanioCuadro()
+		{
+		    return $this->anioCuadro;
+		}
+		
+		public function setanioCuadro($anioCuadro)
+		{
+		    $this->anioCuadro = $anioCuadro;
 		    return $this;
 		}
 

@@ -16,11 +16,17 @@
 										<tr>
 											<td class="perla">
 												{{ form_row(form.nombreCuadro, {'attr': {'value': cuadro.nombreCuadro, 'class': 'txtdcha' }}) }}
+												<br>
+												{{ form_row(form.anioCuadro, {'attr': {'value': cuadro.anioCuadro, 'class': 'txtdcha' }}) }}
 											</td>
 											<td class="perla">
 												<label for="">Foto de Cuadro(ACTUAL)</label>
 												<br>
-												<img class="foto" src="{{app.request.basepath}}/../img/cuadros/{{cuadro.nombreCuadro}}/{{cuadro.fotoCuadro}}" alt="">
+												{% if cuadro.orientacion == 'vertical' %}
+													<img class="fotoVer" src="{{app.request.basepath}}/../img/cuadros/{{cuadro.nombreCuadro}}/{{cuadro.fotoCuadro}}" alt="">
+												{% elseif cuadro.orientacion == 'horizontal' %}
+													<img class="fotoHor" src="{{app.request.basepath}}/../img/cuadros/{{cuadro.nombreCuadro}}/{{cuadro.fotoCuadro}}" alt="">
+												{% endif %}
 												<br>
 												{{ form_row(form.fotoCuadro) }}
 											</td>
@@ -47,7 +53,8 @@
 															<option value="{{estilo.idEstilo}}">{{estilo.nombreEstilo}}</option>
 														{% endif %}
 													{% endfor %}
-												</select>
+												</select>												
+												{{ form_row(form.orientacion) }} (ACTUAL: {{cuadro.orientacion}})
 											</td>
 											<td class="grey">
 												<label for="selexpos">Exposicion</label>
