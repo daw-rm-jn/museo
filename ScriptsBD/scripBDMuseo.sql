@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`actualizacion` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
+AUTO_INCREMENT = 10
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`planta_museo` (
   `capacidad` INT(3) NOT NULL,
   PRIMARY KEY (`idPlanta`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -186,6 +186,7 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`cuadro` (
   `idEstilo` INT(11) NOT NULL,
   `nombreCuadro` VARCHAR(100) NULL DEFAULT NULL,
   `descripcionCuadro` VARCHAR(4000) NULL DEFAULT NULL,
+  `anioCuadro` VARCHAR(4) NOT NULL,
   `fotoCuadro` VARCHAR(150) NULL DEFAULT NULL,
   PRIMARY KEY (`idCuadro`),
   INDEX `fk_Cuadro_Pintor` (`idPintor` ASC),
@@ -207,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`cuadro` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 20
+AUTO_INCREMENT = 21
 DEFAULT CHARACTER SET = latin1;
 
 
