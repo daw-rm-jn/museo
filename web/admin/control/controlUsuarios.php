@@ -64,7 +64,7 @@
 				        		new Assert\NotBlank(), 
 				        		new Assert\Length(array(
 						            'min' => 6,
-						            'max' => 50
+						            'max' => 12
 						    	    )
 						    	)
 						    )
@@ -180,7 +180,7 @@
 				        		new Assert\NotBlank(), 
 				        		new Assert\Length(array(
 						            'min' => 6,
-						            'max' => 50
+						            'max' => 12
 						    	    )
 						    	)
 						    )
@@ -338,7 +338,7 @@
 				        		new Assert\NotBlank(), 
 				        		new Assert\Length(array(
 						            'min' => 6,
-						            'max' => 50
+						            'max' => 12
 						    	    )
 						    	)
 						    )
@@ -397,7 +397,7 @@
 				        		new Assert\NotBlank(), 
 				        		new Assert\Length(array(
 						            'min' => 6,
-						            'max' => 50
+						            'max' => 12
 						    	    )
 						    	)
 						    )
