@@ -31,21 +31,37 @@
 	));//Traductor para los mensajes de los formularios
 	$app->register(new Silex\Provider\ValidatorServiceProvider());//Validador para los campos de los formularios
 
-	$checkAdmin = function (Request $request) {
-				    if(!isset($_SESSION['admin'])){
-				    	return controlAdmin::noAuth();
+	$checkCliente = function (Request $request) use ($app){
+				    if(!isset($_SESSION['cliente'])){
+				    	return Controller::noAuth($app);
 				    }
 				};//Función para comprobar si se ha iniciado sesión y restringir el acceso
 
 	/*---ENRUTAMIENTO--*/
 
-	$app->match('/item', function() use ($app){
-		return controller::item($app);
+	$app->match('/mi_cuenta', function(Request $req) use ($app){
+		return Controller::verDatosCuenta($req, $app);
+	})->before($checkCliente);
+
+	$app->match('/sign', function(Request $req) use ($app){
+		return Controller::signIn($req, $app);
+	});
+
+	$app->match('/logout', function() use ($app){
+		return Controller::logout($app);
+	});
+
+	$app->match('/login', function(Request $req) use ($app){
+		return Controller::logIn($req,$app);
+	})->bind('login');
+
+	$app->match('/item/{id}', function($id) use ($app){
+		return Controller::item($app);
 	});
 
 	$app->match('/', function() use ($app){
-		return controller::main($app);
-	});
+		return Controller::main($app);
+	})->bind('inicio');
 
 	$app->run();//ARRANQUE DE LA APLICACION
  ?>

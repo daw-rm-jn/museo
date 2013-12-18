@@ -12,13 +12,14 @@
 				<img src="images/header2.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />	
 			{% endif %}																																									
 			<ul id="menu">
-				<li><a href="index.html" class="but_active">Inicio</a></li>
+				<li><a href="{{app.request.basepath}}" class="but_active">Inicio</a></li>
 				{% if logged %}				
-					<li><a href="index2.html" class="but">Mi cuenta</a></li>
-					<li><a href="index2.html" class="but">Mi Carrito</a></li>
+					<li><a href="{{app.request.basepath}}/mi_cuenta" class="but">Mi cuenta</a></li>
+					<li><a href="{{app.request.basepath}}/ver_carrito" class="but">Mi Carrito</a></li>
+					<li><a href="{{app.request.basepath}}/logout" class="but">Salir</a></li>
 				{% else %}			
-					<li><a href="index2.html" class="but">Acceder</a></li>
-					<li><a href="index2.html" class="but">Registrarse</a></li>					
+					<li><a href="{{app.request.basepath}}/login" class="but">Acceder</a></li>
+					<li><a href="{{app.request.basepath}}/sign" class="but">Registrarse</a></li>					
 				{% endif %}
 			</ul>
 		</div>
@@ -29,32 +30,26 @@
 			<div id="sidebar">
 				<h2>Menú</h2>																																																																			
 				<ul id="list">
-					<li class="color"><a href="#">Illum secundum</a></li>
-					<li><a href="#">Tamen causa ut diam</a></li>
-					<li class="color"><a href="#">Appellatio vel hos autem</a></li>
-					<li><a href="#">Consequat</a></li>
-					<li class="color"><a href="#">Nibh valde tincidunt</a></li>
-					<li><a href="#">Illum secundum</a></li>
-					<li class="color"><a href="#">Appellatio vel</a></li>
-					<li><a href="#">Illum secundum</a></li>
-					<li class="color"><a href="#">Nibh valde</a></li>
-					<li><a href="#">Consequat</a></li>
-					<li class="color"><a href="#">Nibh valde tincidunt</a></li>
-					<li><a href="#">Appellatio vel</a></li>
-					<li class="color"><a href="#">Illum secundum</a></li>
-					<li><a href="#">Consequat</a></li>
-					<li class="color"><a href="#">Appellatio vel</a></li>
-					<li><a href="#">Illum secundum</a></li>
-					<li class="color"><a href="#">Nibh valde</a></li>
+					<li class="color"><a href="{{app.request.basepath}}/ver_cuadros">Todos los cuadros</a></li>
+					<li><a href="{{app.request.basepath}}/ver_pintores">Pintores</a></li>
+					<li class="color"><a href="{{app.request.basepath}}/ver_estilos">Estilos</a></li>
+					<li><a href="{{app.request.basepath}}/ver_expos">Exposiciones</a></li>
+					<li class="color"><a href="{{app.request.basepath}}/../front/">Volver al Museo</a></li>
 				</ul>
 			</div>
-			{% block contenido %}
 			<div id="main_block">
 				<div class="about">
+				{% block about %}
 					<h2>Sobre la tienda</h2><br />
 					<p>Bienvenido a la tienda del Museo. Aquí encontrará disponibles para su compra copias de los cuadros expuestos en el Museo, ya sean propiedad del mimso o formen parte de alguna exposición actual o pasada. </p>
+				{% endblock %}
+				</div>
+				<div class="news">
+				{% block info %}
+				{% endblock %}
 				</div>
 				<div id="items">
+				{% block contenido %}
 				<h2>Nuevos productos</h2>
 				<br>
 				{% for producto in productos %}
@@ -69,31 +64,30 @@
 						<p class="nombreProd"><a href="">{{producto.nombreProducto}}</a> ({{producto.anioCuadro}}),</p>
 						<p class="nombreProd">de <a href="">{{producto.autor}}</a></p>
 						<br>
-						<span class="precio">${{producto.precio}}</span><a href="{{app.request.basepath}}/item" class="view">Ver</a><a href="#" class="buy">Comprar</a>
+						<span class="precio">${{producto.precio}}</span><a href="{{app.request.basepath}}/item/{{producto.idCopia_Cuadro}}" class="view">Ver</a><a href="#" class="buy">Comprar</a>
 					</div>
 				{% endfor %}
+			{% endblock %}
 				</div>
 			</div>
-			{% endblock %}
 		</div>
 	</div>
 	<br>
 	<div id="footer">
 		<div id="footer_inside">
 			<ul class="footer_menu">
-				<li><a href="index.html">Página principal</a>|</li>
-				<li><a href="index2.html">Sobre Nosotros</a>|</li>
-				<li><a href="index2.html">Mi cuenta</a>|</li>
-				<li><a href="index2.html">Contacto</a></li>
+				<li><a href="{{app.request.basepath}}">Página principal</a>|</li>
+				<li><a href="{{app.request.basepath}}/about_us">Sobre Nosotros</a>|</li>
+				<li><a href="{{app.request.basepath}}/mi_cuenta">Mi cuenta</a>|</li>
+				<li><a href="{{app.request.basepath}}/contacto">Contacto</a></li>
 			</ul><br /><br />																																																									
 		</div>
 	</div>
 	{% if logged %}
     <map name="Map">
-       <area shape="rect" coords="78,45,312,119" href="index.html">
-       <area shape="poly" coords="670,87,719,78,727,123,677,130" href="#">
-       <area shape="poly" coords="776,124,818,152,793,189,751,160" href="#">
-       <area shape="poly" coords="834,52,885,61,878,105,828,96" href="#">
+       <area shape="poly" coords="670,87,719,78,727,123,677,130" href="{{app.request.basepath}}">
+       <area shape="poly" coords="776,124,818,152,793,189,751,160" href="{{app.request.basepath}}/logout">
+       <area shape="poly" coords="834,52,885,61,878,105,828,96" href="{{app.request.basepath}}/mi_carrito">
 	</map>
 	{% endif %}
 {% endblock %}

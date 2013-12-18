@@ -1,0 +1,133 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Tienda :: Datos de cliente' %}
+	
+	{% block about %}
+		<h2>Modificar datos de cuenta</h2>		
+	{% endblock %}
+
+	{% block info %}
+		<h2>Información:</h2>
+		<p>En esta sección puede modificar los datos de su cuenta</p>
+		<br>
+		<p>Los datos personales son <span class="required">obligatorios</span>, los datos bancarios podrá rellenarlos más adelante.</p>
+		<br>
+		<p id="info"></p>
+	{% endblock %}
+
+	{% block contenido %}
+		<div class="login">
+			<table border="0" width="241">
+			<tr>
+				<th>Datos personales</th>
+			</tr>
+			{{ form_start(form, {'method': 'POST'}) }}
+			<tr>
+				<td class="form" colspan="2">
+					Email: {{cliente.email}}
+					{{ form_row(form.email, {'attr': {'value': cliente.email }}) }}
+				</td>
+			</tr>
+			<tr>
+				<td class="form" colspan="2">
+					{{ form_row(form.claveActual) }}
+					{{ form_row(form.claveactualcifrada) }}
+				</td>
+			</tr>
+			<tr>
+				<td class="form" colspan="2">
+					{{ form_row(form.claveNueva) }}
+					{{ form_row(form.clavenuevacifrada) }}					
+				</td>
+			</tr>
+			<tr>
+				<td class="form" colspan="2">{{ form_row(form.nombre, {'attr': {'value': cliente.nombre }}) }}</td>
+			</tr>
+			<tr>
+				<td class="form" colspan="2">{{ form_row(form.nif, {'attr': {'value': cliente.nif }}) }}</td>
+			</tr>
+			<tr>
+				<td class="form" colspan="2">{{ form_row(form.direccion, {'attr': {'value': cliente.dir }}) }}</td>
+			</tr>
+			<tr>
+				<td class="form" colspan="2">{{ form_row(form.codigoPostal, {'attr': {'value': cliente.cp }}) }}</td>
+			</tr>
+			<tr>
+				<td class="form" colspan="2">{{ form_row(form.telf, {'attr': {'value': cliente.telf }}) }}</td>
+			</tr>
+			<tr>
+				<th>Datos bancarios</th>
+			</tr>
+			<tr>
+				<td class="form" colspan="2">{{ form_row(form.numeroTarjeta, {'attr': {'value': datosBanc.numeroTarjeta }}) }}</td>
+			</tr>
+			<tr>
+				<td class="form" colspan="2">{{ form_row(form.CCV, {'attr': {'value': datosBanc.CCV }}) }}</td>
+			</tr>
+			<tr>				
+				<td class="form" colspan="2">Fecha de caducidad: 
+				{% if fechCad[0] != "" and fechCad[1] != "" %}				
+					<select name="selfechCadAnio" id="selfechCadAnio">
+						<option value="">-</option>
+						{% if curYear == fechCad[0] %}
+							<option value="{{curYear}}" SELECTED>{{curYear}}</option>
+						{% else %}
+							<option value="{{curYear}}">{{curYear}}</option>
+						{% endif %}
+						{% for i in curYear..(curYear+10) %}
+							{% if curYear+loop.index == fechCad[0] %}
+								<option value="{{curYear+loop.index}}" SELECTED>{{curYear+loop.index}}</option>
+							{% else %}
+								<option value="{{curYear+loop.index}}">{{curYear+loop.index}}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+					/
+					<select name="selfechCadMes" id="selfechCadMes">
+						<option value="">-</option>
+						{% for i in 1..12 %}
+							{% if loop.index == fechCad[1] %}
+								<option value="{{loop.index}}" SELECTED>{{loop.index}}</option>
+							{% else %}
+								<option value="{{loop.index}}">{{loop.index}}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+				{% else %}
+					<select name="selfechCadAnio" id="selfechCadAnio">
+						<option value="">-</option>
+						<option value="{{curYear}}">{{curYear}}</option>
+						{% for i in curYear..(curYear+10) %}
+							<option value="{{curYear+loop.index}}">{{curYear+loop.index}}</option>
+						{% endfor %}
+					</select>
+					/
+					<select name="selfechCadMes" id="selfechCadMes">
+						<option value="">-</option>
+						{% for i in 1..12 %}
+							<option value="{{loop.index}}">{{loop.index}}</option>
+						{% endfor %}
+					</select>
+				{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td class="cent">
+					{{ form_row(form.guardar, {'attr': {'onclick':'cifrarMod()' }}) }}
+				</td>
+				<td class="cent">
+					{{ form_row(form.borrarCuenta)}}
+				</td>
+			</tr>		
+			{{ form_end(form) }}
+			</table>			
+		</div>
+	{% endblock %}
+
+
+
+
+
+
+
+

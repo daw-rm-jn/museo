@@ -3,5 +3,13 @@
 {% block titulo 'Tienda :: Item' %}
 
 	{% block contenido %}
-		<h1>WORKS</h1>
+		<select name="" id="">
+			{% for i in 0..10 %}
+				{% if loop.index is divisibleby(2) %}
+					<option value="PAR" class="par">PAR</option>
+				{% else %}
+					<option value="IMPAR" class="impar">IMPAR</option>
+				{% endif %}
+			{% endfor %}
+		</select>
 	{% endblock %}

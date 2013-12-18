@@ -1,0 +1,41 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Tienda :: Acceder' %}
+	
+	{% block about %}
+		<h2>Acceda a su cuenta de cliente.</h2>
+		<span class="msgerr">{{msgerr}}</span>
+	{% endblock %}
+
+	{% block info %}
+		<h2>Información:</h2>
+		<p>Introduzca sus datos de usuario para acceder a su cuenta.</p>
+	{% endblock %}
+
+	{% block contenido %}
+		<div class="login">
+			<table border="0" width="241">
+			{{ form_start(form, {'method': 'POST'}) }}
+			<tr>
+				<td class="form">
+					{{ form_row(form.usuario) }}
+				</td>
+			</tr>
+			<tr>
+				<td class="form">
+					{{ form_row(form.clave) }}
+					{{ form_row(form.clavecifrada) }}
+				</td>
+			</tr>
+			<tr>
+				<td class="cent">
+					{{ form_row(form.acceder, {'attr': {'onclick':'cifrar()' }}) }}
+				</td>
+			</tr>		
+			{{ form_end(form) }}
+			<tr>
+				<td class="cent">Si no tiene una cuenta, puede <a href="{{app.request.basepath}}/sign">registrarse aquí</a>.</td>
+			</tr>
+			</table>			
+		</div>
+	{% endblock %}
