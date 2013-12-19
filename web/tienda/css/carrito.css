@@ -5,7 +5,7 @@
 	padding:0 12px 15px 0;
 	display:inline;
 }
-table.table-show-carr{
+.table-show-carr{
 	border-top:1px solid #aaa;
 	border-bottom:1px solid #aaa;	
 	border-left:1px solid #aaa;	
@@ -13,15 +13,22 @@ table.table-show-carr{
 	border-collapse: collapse;
 	font-size: 12px;
 }
-th.th-show-carr{
+.th-show-carr{
 	background-color: #9DBFC8;
 	font-size: 13px;
+	padding: 0.2% 0.2% 0.2% 0.2%;
 }
-td.td-show-carr{
+.td-show-carr{
 	padding: 1% 1% 1% 1%;
 	text-align: center;
 }
-td.td-opt-carr{
+.td-opt-carr{
 	padding: 1% 1% 1% 1%;
 	text-align: right	
+}
+.td-show-ped{
+	padding: 1% 1% 1% 1%;
+	text-align: center;
+	border: 1px solid #aaa;	
+	background-color: white;
 }

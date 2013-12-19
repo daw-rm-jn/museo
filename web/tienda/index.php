@@ -39,9 +39,19 @@
 
 	/*---ENRUTAMIENTO--*/
 
+	$app->match('/pedidos/pedido/{id}', function(Request $req, $id) use ($app){
+		return Controller::verDetallesPedido($req, $app, $id);
+	})->before($checkCliente);
+
+	$app->match('/ver_pedidos', function() use ($app){
+		return Controller::verPedidos($app);
+	})->bind("ver_pedidos")
+	  ->before($checkCliente);
+
 	$app->match('/ver_carrito', function(Request $req) use ($app){
 		return Controller::verCarrito($req, $app);
-	})->before($checkCliente);
+	})->bind("ver_carrito")
+	  ->before($checkCliente);
 
 	$app->match('/mi_cuenta', function(Request $req) use ($app){
 		return Controller::verDatosCuenta($req, $app);

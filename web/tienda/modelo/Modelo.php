@@ -325,15 +325,31 @@
 			$con = null;
 		}
 
+		static function getUltimaLineaCarrito($idCarrito){
+			$lineas = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT MAX(idLinea_Carrito) AS maxLinea FROM Linea_Carrito WHERE idCarrito = :idCarrito");
+
+			$stmt->bindParam(':idCarrito',$idCarrito);
+
+		    $stmt->execute();
+		    $result = $stmt->fetch();
+
+		    $maxLinea = $result['maxLinea'];
+
+		    return $maxLinea;
+			$con = null;
+		}
+
 		static function addLineaCarrito($linea,$uds){
 			$con = Modelo::conectar();
 			$stmt = $con->prepare("INSERT INTO Linea_Carrito VALUES (:idlc,:idc,:idcc,:nomp,:uds,:precio,:iva,:total)");
 
 			$idCarrito = Modelo::getIdCarrito($linea['cliente']);
 
-			$lineasDelCarrito = Modelo::getLineasCarrito($idCarrito);
-			if(sizeof($lineasDelCarrito) > 0){
-				$sigLinea = sizeof($lineasDelCarrito) + 1;
+			$ultimaLinea = Modelo::getUltimaLineaCarrito($idCarrito);
+			if($ultimaLinea != ""){
+				$sigLinea = $ultimaLinea + 1;
 			}else{
 				$sigLinea = 1;
 			}	
@@ -376,6 +392,198 @@
 		    return $idCarrito;
 
 		    $con = null;
+		}
+
+		static function getTotalCarrito($idCarrito){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT SUM(totalLinea) AS totalCarrito FROM Linea_Carrito WHERE idCarrito = :idCarrito");
+
+			$stmt->bindParam(':idCarrito',$idCarrito);
+
+			$stmt->execute();
+			$row = $stmt->fetch();
+
+			$totalCarrito = $row['totalCarrito'];
+
+			return $totalCarrito;
+
+			$con = null;
+		}
+
+		static function borrarLineasCarrito($idLineas, $idCarrito){
+			$con = Modelo::conectar();
+			for ($i=0; $i < sizeof($idLineas); $i++) { 
+				$stmt = $con->prepare("DELETE FROM Linea_Carrito WHERE idLinea_Carrito = :id AND idCarrito = :idCarrito");
+
+				$stmt->bindParam(':id', $idLineas[$i]);
+				$stmt->bindParam(':idCarrito', $idCarrito);
+
+				$stmt->execute();
+
+				$affected_rows = $stmt->rowCount();
+			}
+			$con = null;
+		}
+
+		static function vaciarCarrito($idCarrito){
+			$con = Modelo::conectar();
+			$borraLineasCarrito = $con->prepare("DELETE FROM Linea_Carrito WHERE idCarrito = :idCarrito");
+
+			$borraLineasCarrito->bindParam(':idCarrito', $idCarrito);
+
+			$borraLineasCarrito->execute();
+
+			$affected_rows = $borraLineasCarrito->rowCount();
+
+			if($affected_rows > 0){
+				return true;
+			}else{
+				return false;
+			}
+
+			$con = null;
+		}
+
+		static function crearPedido($datos){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("INSERT INTO Pedido (email,fecha,precioTotal,estado) VALUES (:email,NOW(),:precioTotal,'En Espera')");
+
+			$stmt->bindParam(':email', $datos['cliente']);
+			$stmt->bindParam(':precioTotal', $datos['totalCarrito']);
+
+			$stmt->execute();
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows > 0){
+				Modelo::addLineasPedido($con->lastInsertId(),$datos['idCarrito']);
+				return true;
+			}else{
+				return false;
+			}
+
+			$con = null;
+		}
+
+		static function getUltimaLineaPedido($idPedido){
+			$lineas = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT MAX(idLinea_Pedido) AS maxLinea FROM Linea_Pedido WHERE idPedido = :idPedido");
+
+			$stmt->bindParam(':idPedido',$idPedido);
+
+		    $stmt->execute();
+		    $result = $stmt->fetch();
+
+		    $maxLinea = $result['maxLinea'];
+
+		    return $maxLinea;
+			$con = null;
+		}
+
+		static function addLineasPedido($idPedido,$idCarrito){			
+			$con = Modelo::conectar();
+			$lineasCarrito = Modelo::getLineasCarrito($idCarrito);
+
+			foreach ($lineasCarrito as $linea) {
+				$stmt = $con->prepare("INSERT INTO Linea_Pedido VALUES (:idl,:idp,:idc,:nomp,:uds,:precio,:iva,:total)");
+
+				$ultimaLinea = Modelo::getUltimaLineaPedido($idPedido);
+				if($ultimaLinea != ""){
+					$sigLinea = $ultimaLinea + 1;
+				}else{
+					$sigLinea = 1;
+				}
+
+				$stmt->bindParam(':idl', $sigLinea);
+				$stmt->bindParam(':idp', $idPedido);
+				$stmt->bindParam(':idc', $linea['idCopia_Cuadro']);
+				$stmt->bindParam(':nomp', $linea['nombreProducto']);
+				$stmt->bindParam(':uds', $linea['unidades']);
+				$stmt->bindParam(':precio', $linea['precio']);
+				$stmt->bindParam(':iva', $linea['IVA']);
+				$stmt->bindParam(':total', $linea['totalLinea']);
+
+				$stmt->execute();
+			}
+
+			$con = null;
+		}
+
+		static function getPedidos($email){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Pedido WHERE email = :email");
+
+			$stmt->bindParam('email',$email);
+
+			$stmt->execute();			
+		    $result = $stmt->fetchAll();
+
+		    foreach($result as $row){
+				$pedido = new Pedido($row['email'],$row['idPedido'],$row['fecha'],$row['precioTotal'],$row['estado']);
+				$pedidos[] = $pedido;
+		    }
+
+		    return $pedidos;
+			$con = null;
+		}
+
+		static function getLineasPedido($idPedido){
+			$lineas = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Linea_Pedido WHERE idPedido = :idPedido ORDER BY idLinea_Pedido ASC");
+
+			$stmt->bindParam(':idPedido',$idPedido);
+
+		    $stmt->execute();
+		    $result = $stmt->fetchAll();
+
+		    foreach($result as $row){
+				$linea = array(
+					'idLinea_Pedido' => $row['idLinea_Pedido'],
+					'idPedido' => $row['idPedido'],
+					'idCopia_Cuadro' => $row['idCopia_Cuadro'],
+					'nombreProducto' => $row['nombreProducto'],
+					'unidades' => $row['unidades'],
+					'precio' => $row['precio'],
+					'IVA' => $row['IVA'],
+					'totalLinea' => $row['totalLinea']
+				);
+				$lineas[] = $linea;
+		    }
+		    return $lineas;
+			$con = null;
+		}
+
+		static function getTotalPedido($idPedido){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT SUM(totalLinea) AS totalPedido FROM Linea_Pedido WHERE idPedido = :idPedido");
+
+			$stmt->bindParam(':idPedido',$idPedido);
+
+			$stmt->execute();
+			$row = $stmt->fetch();
+
+			$totalPedido = $row['totalPedido'];
+
+			return $totalPedido;
+
+			$con = null;
+		}
+
+		static function getEstadoDePedido($idPedido){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT estado FROM Pedido WHERE idPedido = :idPedido");
+
+			$stmt->bindParam('idPedido', $idPedido);
+
+			$stmt->execute();
+			$row = $stmt->fetch();
+
+			$estado = $row['estado'];
+
+			return $estado;
+
+			$con = null;
 		}
 	}
 ?>

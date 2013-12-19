@@ -1,0 +1,40 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Tienda :: Mis Pedidos' %}
+	
+	{% block about %}
+		<h2>Mis pedidos</h2>
+		<p>Aquí puede ver los pedidos que ha realizado, los detalles de los mismos y el estado en el que se encuentran</p>
+	{% endblock %}
+
+	{% block info %}
+	{% endblock %}
+
+	{% block contenido %}
+		<div class="showCarr">
+			<table style="width:100%;" class="table-show-carr">
+			<tr>
+				<th class="th-show-carr">#</th>
+				<th class="th-show-carr">Fecha</th>
+				<th class="th-show-carr">Importe</th>
+				<th class="th-show-carr">Estado</th>
+			</tr>
+				{% for pedido in pedidos %}
+				<tr>
+					<td class="td-show-ped">
+						{{loop.index}}
+					</td>
+					<td class="td-show-ped">
+						<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">{{pedido.fecha}}</a>
+					</td>
+					<td class="td-show-ped">
+						<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">{{pedido.precioTotal}}€</a>
+					</td>
+					<td class="td-show-ped">
+						<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">{{pedido.estado}}</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+	{% endblock %}

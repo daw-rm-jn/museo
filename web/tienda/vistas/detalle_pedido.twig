@@ -1,10 +1,9 @@
 {% extends 'inicio.twig' %}
 
-{% block titulo 'Tienda :: Mi Carrito' %}
+{% block titulo 'Tienda :: Detalle de Pedido' %}
 	
 	{% block about %}
-		<h2>Mi carrito</h2>
-		<p>Estos son los productos actualmente en su carrito. Cuando termine de elegir productos, confirme el carrito para realizar el pedido.</p>
+		<h2>Detalles de pedido</h2>
 	{% endblock %}
 
 	{% block info %}
@@ -13,19 +12,15 @@
 	{% block contenido %}
 		<div class="showCarr">
 			<table style="width:100%;" class="table-show-carr">
-			{{ form_start(form, {'method': 'POST'}) }}
-			{{ form_row(form.cliente, {'attr': {'value': cliente }}) }}
-			{{ form_row(form.idCarrito, {'attr': {'value': idCarrito }}) }}
 			<tr>
 				<th class="th-show-carr">Nombre</th>
 				<th class="th-show-carr">Precio</th>
 				<th class="th-show-carr">Unidades</th>
 				<th class="th-show-carr">IVA</th>
 				<th class="th-show-carr">Total</th>
-				<th class="th-show-carr">#</th>
 			</tr>
 				{% for linea in lineas %}
-				{% if linea.idLinea_Carrito is divisibleby(2) %}
+				{% if linea.idLinea_Pedido is divisibleby(2) %}
 				<tr>
 					<td class="td-show-carr par">
 						<a href="{{app.request.basepath}}/item/{{linea.idCopia_Cuadro}}">{{linea.nombreProducto}}</a>
@@ -41,9 +36,6 @@
 					</td>
 					<td class="td-show-carr par">
 						{{linea.totalLinea}}€
-					</td>
-					<td class="td-show-carr par">
-						<input type="checkbox" name="cb_borrarLineas[]" id="cb_borrarLineas[]" value="{{linea.idLinea_Carrito}}"/>
 					</td>
 				</tr>
 				{% else %}
@@ -63,32 +55,27 @@
 					<td class="td-show-carr impar">
 						{{linea.totalLinea}}€
 					</td>
-					<td class="td-show-carr impar">
-						<input type="checkbox" name="cb_borrarLineas[]" id="cb_borrarLineas[]" value="{{linea.idLinea_Carrito}}"/>
-					</td>
 				</tr>
 				{% endif %}
 				{% endfor %}
 				<tr>
 					<td colspan="3"></td>
-					<th class="th-show-carr">
-						TOTAL:
-					</th>
-					<th class="th-show-carr">
-						{{totalCarrito}}€
-						{{ form_row(form.totalCarrito, {'attr': {'value': totalCarrito}}) }}
-					</th>
+					<td class="td-show-carr">
+						Estado del Pedido:
+					</td>
+					<td class="td-show-carr">
+						{{estado}}
+					</td>
 				</tr>
 				<tr>
-					<td class="td-opt-carr" colspan="3"></td>
-					<td class="td-opt-carr">
-						{{ form_row(form.confirmar) }}
-					</td>
-					<td class="td-opt-carr">
-						{{ form_row(form.borrarLineas) }}
-					</td>
+					<td colspan="3"></td>
+					<th class="th-show-carr">
+						IMPORTE TOTAL:
+					</th>
+					<th class="th-show-carr">
+						{{totalPedido}}€
+					</th>
 				</tr>
-			{{ form_end(form) }}
 			</table>
 		</div>
 	{% endblock %}

@@ -69,7 +69,7 @@ $(document).ready(function(){
             duration: 300 
         }
     });
-
+    /*--- VENTANA EMERGENTE PARA AÑADIR PRODUCTOS AL CARRITO ---*/
      $( "#buyForm" ).dialog({
         title: "Añadir producto al carrito",
         closeOnEscape: true,
