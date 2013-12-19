@@ -19,7 +19,8 @@ div.loginout input#form_usuario{
 	color:#9DBFC8;
 }
 
-div.loginout input#form_usuario:focus, div.loginout input#form_clave:focus{
+div.loginout input#form_usuario:focus, 
+div.loginout input#form_clave:focus{
 	box-shadow: 0 0 3px 3px #ffa853;
 	color: #666;
 	outline: none;
@@ -47,7 +48,8 @@ input[type="submit"]:hover{
 	background-color: #C9CFD0;
 }
 
-div.loginout label[for=form_clave], div.loginout label[for=form_usuario]{
+div.loginout label[for=form_clave], 
+div.loginout label[for=form_usuario]{
 	position:relative;
 	font-weight: bold;
 	color:#9DBFC8;

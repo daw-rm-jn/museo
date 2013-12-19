@@ -83,7 +83,14 @@ ul.listaSec a:hover{
 	color: #E8EEEF;
 }
 
-ul.listaSec li.liexposiciones, ul.listaSec  li.liplantas, ul.listaSec  li.lisalas, ul.listaSec li.liclientes, ul.listaSec li.liadmins, ul.listaSec li.licarritos, ul.listaSec li.lipedidos, ul.listaSec li.liproductos{
+ul.listaSec li.liexposiciones, 
+ul.listaSec li.liplantas, 
+ul.listaSec li.lisalas, 
+ul.listaSec li.liclientes, 
+ul.listaSec li.liadmins, 
+ul.listaSec li.licarritos, 
+ul.listaSec li.lipedidos,
+ul.listaSec li.liproductos{
 	text-align: left;
 	padding-left: 42%;
 	color:#C3967D;
@@ -136,7 +143,8 @@ ul.listaControl li{
 	padding-right: 4%;
 	padding-left: 0%;
 }
-ul.listaControl li a, a:visited{
+ul.listaControl li a, 
+a:visited{
 	color: #C3967D;
 	text-decoration:underline;
 }
@@ -188,7 +196,9 @@ table.tablacrud tr.trcab th{
 	background-color: #9EC0C8;
 }
 
-table.tablacrud td.grey, td.perla, span.spdesc{
+table.tablacrud td.grey, 
+td.perla, 
+span.spdesc{
 	font-size: 0.875em;
 }
 
@@ -230,7 +240,8 @@ input.btborrar, input.btadd{
 	float:right;
 }
 
-input[type="text"].txtdcha, button#form_Borrar{
+input[type="text"].txtdcha, 
+button#form_Borrar{
 	float:right;
 }
 
