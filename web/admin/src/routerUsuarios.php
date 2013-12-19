@@ -15,7 +15,8 @@
 
 	$usuarios->match('/clientes', function(Request $req) use ($app){
 		return controlUsuarios::verClientes($req, $app);
-	})->before($checkAdmin);
+	})->bind("ver_clientes")
+	  ->before($checkAdmin);
 
 	$usuarios->match('/admins/admin/{id}', function(Request $req, $id) use($app){
 		return controlUsuarios::verFichaAdmin($req, $app, $id);
@@ -27,7 +28,8 @@
 
 	$usuarios->match('/admins', function(Request $req) use ($app){
 		return controlUsuarios::verAdmins($req, $app);
-	})->before($checkAdmin);
+	})->bind("admins")
+	  ->before($checkAdmin);
 
 	return $usuarios;
 ?>

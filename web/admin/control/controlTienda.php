@@ -17,25 +17,8 @@
 		        if ($form_borrar->isValid()) {
 		        	$data = $form_borrar->getData();
 					$idCarritos = $req->request->get('cb_borrar');
-		        	if(Modelo::borrarCarritos($idCarritos)){
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Operación correcta',
-							'titulo' => 'Entrada(s) eliminada(s)',
-							'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
-							'seccion' => 'tienda/carritos',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}else{
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Error',
-							'titulo' => 'Error en la operacion',
-							'msgoperacion' => 'Hubo un error al eliminar las entradas del registro',
-							'seccion' => 'tienda/carritos',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}
+		        	Modelo::borrarCarritos($idCarritos);
+		        	return $app->redirect($app['url_generator']->generate('ver_carritos'));
 		        }
 		    }
 
@@ -194,23 +177,8 @@
 							));
 						}
 		        	}else if($form->get("borrarLineas")->isClicked()){
-		        		if(Modelo::borrarLineasCarrito($idLineas, $data['idCarrito'])){
-							return $app['twig']->render('mod.twig', array(
-								'msgCabecera' => 'Operación correcta',
-					    		'sessionId' => $_SESSION['admin'],
-					    		'titulo' => 'Entrada modificada',
-					    		'msgoperacion' => 'Linea de Carrito eliminada con éxito',
-					    		'seccion' => 'tienda/carritos'
-							));
-						}else{
-							return $app['twig']->render('mod.twig', array(
-								'msgCabecera' => 'Error',
-					    		'sessionId' => $_SESSION['admin'],
-					    		'titulo' => 'Entrada NO modificada',
-					    		'msgoperacion' => 'Error al eliminar el registro Linea de Carrito',
-					    		'seccion' => 'tienda/carritos'
-							));
-						}
+		        		Modelo::borrarLineasCarrito($idLineas, $data['idCarrito']);
+		        		return $app->redirect($app['url_generator']->generate('ver_carritos'));		        		
 		        	}else if($form->get("guardar")->isClicked()){
 		        		if(Modelo::modificaCarrito($data)){
 							return $app['twig']->render('mod.twig', array(
@@ -303,25 +271,8 @@
 		        if ($form_borrar->isValid()) {
 		        	$data = $form_borrar->getData();
 					$idPedidos = $req->request->get('cb_borrar');
-		        	if(Modelo::borrarPedidos($idPedidos)){
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Operación correcta',
-							'titulo' => 'Entrada(s) eliminada(s)',
-							'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
-							'seccion' => 'tienda/pedidos',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}else{
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Error',
-							'titulo' => 'Error en la operacion',
-							'msgoperacion' => 'Hubo un error al eliminar las entradas del registro',
-							'seccion' => 'tienda/pedidos',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}
+		        	Modelo::borrarPedidos($idPedidos);
+		        	return $app->redirect($app['url_generator']->generate('ver_pedidos'));
 		        }
 		    }
 
@@ -478,23 +429,8 @@
 							));
 						}
 		        	}else if($form->get("borrarLineas")->isClicked()){
-		        		if(Modelo::borrarLineasPedido($idLineas, $data['idPedido'])){
-							return $app['twig']->render('mod.twig', array(
-								'msgCabecera' => 'Operación correcta',
-					    		'sessionId' => $_SESSION['admin'],
-					    		'titulo' => 'Entrada modificada',
-					    		'msgoperacion' => 'Pedido modificado con éxito',
-					    		'seccion' => 'tienda/pedidos'
-							));
-						}else{
-							return $app['twig']->render('mod.twig', array(
-								'msgCabecera' => 'Error',
-					    		'sessionId' => $_SESSION['admin'],
-					    		'titulo' => 'Entrada NO modificada',
-					    		'msgoperacion' => 'Error al modificar el registro Pedido',
-					    		'seccion' => 'tienda/pedidos'
-							));
-						}
+		        		Modelo::borrarLineasPedido($idLineas, $data['idPedido']);
+		        		return $app->redirect($app['url_generator']->generate('ver_pedidos'));
 		        	}else if($form->get("guardar")->isClicked()){
 		        		if(Modelo::modificaPedido($data, $descriptorModPedido)){
 							return $app['twig']->render('mod.twig', array(
@@ -588,25 +524,8 @@
 		        if ($form_borrar->isValid()) {
 		        	$data = $form_borrar->getData();
 					$idProductos = $req->request->get('cb_borrar');
-		        	if(Modelo::borrarProductos($idProductos)){
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Operación correcta',
-							'titulo' => 'Entrada(s) eliminada(s)',
-							'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
-							'seccion' => 'tienda/productos',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}else{
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Error',
-							'titulo' => 'Error en la operacion',
-							'msgoperacion' => 'Hubo un error al eliminar las entradas del registro',
-							'seccion' => 'tienda/productos',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}
+		        	Modelo::borrarProductos($idProductos);
+		        	return $app->redirect($app['url_generator']->generate('ver_productos'));
 		        }
 		    }
 

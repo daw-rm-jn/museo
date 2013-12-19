@@ -15,7 +15,8 @@
 
 	$tienda->match('/productos', function(Request $req) use ($app){
 		return controlTienda::verProductos($req, $app);
-	})->before($checkAdmin);
+	})->bind("ver_productos")
+	  ->before($checkAdmin);
 
 	$tienda->match('/carritos/carrito/{id}/linea/{idLinea}', function(Request $req, $id, $idLinea) use($app){
 		return controlTienda::verLinea_Carrito($req, $app, $id, $idLinea);
@@ -31,7 +32,8 @@
 
 	$tienda->match('/carritos', function(Request $req) use ($app){
 		return controlTienda::verCarritos($req, $app);
-	})->before($checkAdmin);
+	})->bind("ver_carritos")
+	  ->before($checkAdmin);
 
 	$tienda->match('/pedidos/pedido/{id}/linea/{idLinea}', function(Request $req, $id, $idLinea) use($app){
 		return controlTienda::verLinea_Pedido($req, $app, $id, $idLinea);
@@ -47,7 +49,8 @@
 
 	$tienda->match('/pedidos', function(Request $req) use ($app){
 		return controlTienda::verPedidos($req, $app);
-	})->before($checkAdmin);
+	})->bind("ver_pedidos")
+	  ->before($checkAdmin);
 
 	return $tienda;
 ?>

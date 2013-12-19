@@ -17,25 +17,8 @@
 		        if ($form_borrar->isValid()) {
 		        	$data = $form_borrar->getData();
 					$idCuadros = $req->request->get('cb_borrar');
-		        	if(Modelo::borrarCuadros($idCuadros)){
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Operación correcta',
-							'titulo' => 'Entrada(s) eliminada(s)',
-							'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
-							'seccion' => 'cuadros',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}else{
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Error',
-							'titulo' => 'Error en la operacion',
-							'msgoperacion' => 'Hubo un error al eliminar las entradas del registro',
-							'seccion' => 'cuadros',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}
+		        	Modelo::borrarCuadros($idCuadros);
+					return $app->redirect($app['url_generator']->generate('ver_cuadros'));
 		        }
 		    }
 

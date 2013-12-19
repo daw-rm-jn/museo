@@ -57,17 +57,12 @@
 				$affected_rows_borrar = $borrarLineas->rowCount();
 				$affected_rows = $stmt->rowCount();
 
-				if($affected_rows > 0 && $affected_rows_borrar >= 0){
-					$act = array(
-						'titulo' => 'BAJA [CARRITO]',
-						'descripcion' => 'Se ha borrado el registro Carrito con id '. $idCarritos[$i] . '.',
-						'user' => $_SESSION['admin']
-					);
-					Modelo::insertUpdate($act);
-					return true;
-				}else{
-					return false;
-				}
+				$act = array(
+					'titulo' => 'BAJA [CARRITO]',
+					'descripcion' => 'Se ha borrado el registro Carrito con id '. $idCarritos[$i] . '.',
+					'user' => $_SESSION['admin']
+				);
+				Modelo::insertUpdate($act);
 
 			}
 			$con = null;
@@ -141,18 +136,35 @@
 			$con = null;
 		}
 
+		static function getUltimaLinea($idCarrito){
+			$lineas = array();
+			$con = Model_BD::conectar();
+			$stmt = $con->prepare("SELECT MAX(idLinea_Carrito) AS maxLinea FROM Linea_Carrito WHERE idCarrito = :idCarrito");
+
+			$stmt->bindParam(':idCarrito',$idCarrito);
+
+		    $stmt->execute();
+		    $result = $stmt->fetch();
+
+		    $maxLinea = $result['maxLinea'];
+
+		    return $maxLinea;
+			$con = null;
+		}
+
 		static function addLineaCarrito($carrito){
 			$con = Model_BD::conectar();
 			$insertlinea = $con->prepare("INSERT INTO Linea_Carrito VALUES (:idLinea,:idCarrito,:idCopia_Cuadro,:nombreProducto,:unidades,:precio,:IVA,:totalLinea)");
 
 			$totalLinea =  ($carrito['precio'] + (($carrito['precio'] * $carrito['IVA'])/100)) * $carrito['unidades'];
-			$lineasDelCarrito = Modelo::getLineasCarrito($carrito['idCarrito']);
-			if(sizeof($lineasDelCarrito) > 0){
-				$sigLinea = sizeof($lineasDelCarrito) + 1;
+
+			$ultimaLinea = Modelo::getUltimaLinea($carrito['idCarrito']);
+			if($ultimaLinea != ""){
+				$sigLinea = $ultimaLinea + 1;
 			}else{
 				$sigLinea = 1;
-			}			
-
+			}	
+			
 			$insertlinea->bindParam(':idLinea',$sigLinea);
 			$insertlinea->bindParam(':idCarrito',$carrito['idCarrito']);
 			$insertlinea->bindParam(':idCopia_Cuadro',$carrito['idCopia_Cuadro']);
@@ -183,12 +195,6 @@
 				$stmt->execute();
 
 				$affected_rows = $stmt->rowCount();
-
-				if($affected_rows > 0){
-					return true;
-				}else{
-					return false;
-				}
 
 			}
 			$con = null;
@@ -310,17 +316,12 @@
 				$affected_rows_borrar = $borrarLineas->rowCount();
 				$affected_rows = $stmt->rowCount();
 
-				if($affected_rows > 0 && $affected_rows_borrar >= 0){
-					$act = array(
-						'titulo' => 'BAJA [PEDIDO]',
-						'descripcion' => 'Se ha borrado el registro Pedido con id '. $idPedidos[$i] . '.',
-						'user' => $_SESSION['admin']
-					);
-					Modelo::insertUpdate($act);
-					return true;
-				}else{
-					return false;
-				}
+				$act = array(
+					'titulo' => 'BAJA [PEDIDO]',
+					'descripcion' => 'Se ha borrado el registro Pedido con id '. $idPedidos[$i] . '.',
+					'user' => $_SESSION['admin']
+				);
+				Modelo::insertUpdate($act);
 
 			}
 			$con = null;
@@ -464,13 +465,8 @@
 				$stmt->execute();
 
 				$affected_rows = $stmt->rowCount();
-
-				if($affected_rows > 0){
-					Model_Tienda::setPrecioTotalPedido($idPedido);
-					return true;
-				}else{
-					return false;
-				}
+				
+				Model_Tienda::setPrecioTotalPedido($idPedido);
 
 			}
 			$con = null;
@@ -582,18 +578,13 @@
 				$stmt->execute();
 
 				$affected_rows = $stmt->rowCount();
-
-				if($affected_rows > 0){
-					$act = array(
-						'titulo' => 'BAJA [PRODUCTO]',
-						'descripcion' => 'Se ha borrado el registro Producto con id '. $idProductos[$i] . '.',
-						'user' => $_SESSION['admin']
-					);
-					Modelo::insertUpdate($act);
-					return true;
-				}else{
-					return false;
-				}
+				
+				$act = array(
+					'titulo' => 'BAJA [PRODUCTO]',
+					'descripcion' => 'Se ha borrado el registro Producto con id '. $idProductos[$i] . '.',
+					'user' => $_SESSION['admin']
+				);
+				Modelo::insertUpdate($act);
 
 			}
 			$con = null;

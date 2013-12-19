@@ -19,25 +19,8 @@
 		        if ($form_borrar->isValid()) {
 		        	$data = $form_borrar->getData();
 					$emailClientes = $req->request->get('cb_borrar');
-		        	if(Modelo::borrarClientes($emailClientes)){
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Operación correcta',
-							'titulo' => 'Entrada(s) eliminada(s)',
-							'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
-							'seccion' => 'usuarios/clientes',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}else{
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Error',
-							'titulo' => 'Error en la operacion',
-							'msgoperacion' => 'Hubo un error al eliminar las entradas del registro',
-							'seccion' => 'usuarios/clientes',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}
+		        	Modelo::borrarClientes($emailClientes);
+		        	return $app->redirect($app['url_generator']->generate('ver_clientes'));
 		        }
 		    }
 
@@ -293,25 +276,8 @@
 		        if ($form_borrar->isValid()) {
 		        	$data = $form_borrar->getData();
 					$emailAdmins = $req->request->get('cb_borrar');
-		        	if(Modelo::borrarAdmins($emailAdmins)){
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Operación correcta',
-							'titulo' => 'Entrada(s) eliminada(s)',
-							'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
-							'seccion' => 'usuarios/admins',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}else{
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Error',
-							'titulo' => 'Error en la operacion',
-							'msgoperacion' => 'Hubo un error al eliminar las entradas del registro',
-							'seccion' => 'usuarios/admins',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}
+		        	Modelo::borrarAdmins($emailAdmins);
+		        	return $app->redirect($app['url_generator']->generate('ver_admins'));
 		        }
 		    }
 

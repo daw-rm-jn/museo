@@ -91,17 +91,12 @@
 
 				$affected_rows = $stmt->rowCount();
 
-				if($affected_rows > 0){
-					$act = array(
-						'titulo' => 'BAJA [CLIENTE]',
-						'descripcion' => 'Se ha borrado el registro Cliente con email '. $emailClientes[$i] . '.',
-						'user' => $_SESSION['admin']
-					);
-					Modelo::insertUpdate($act);
-					return true;
-				}else{
-					return false;
-				}
+				$act = array(
+					'titulo' => 'BAJA [CLIENTE]',
+					'descripcion' => 'Se ha borrado el registro Cliente con email '. $emailClientes[$i] . '.',
+					'user' => $_SESSION['admin']
+				);
+				Modelo::insertUpdate($act);
 
 			}
 			$con = null;
@@ -209,19 +204,13 @@
 				$stmt->execute();
 
 				$affected_rows = $stmt->rowCount();
-
-				if($affected_rows > 0){
-					$act = array(
-						'titulo' => 'BAJA [ADMIN]',
-						'descripcion' => 'Se ha borrado el registro Administrador con email '. $emailAdmins[$i] . '.',
-						'user' => $_SESSION['admin']
-					);
-					Modelo::insertUpdate($act);
-
-					return true;
-				}else{
-					return false;
-				}
+				
+				$act = array(
+					'titulo' => 'BAJA [ADMIN]',
+					'descripcion' => 'Se ha borrado el registro Administrador con email '. $emailAdmins[$i] . '.',
+					'user' => $_SESSION['admin']
+				);
+				Modelo::insertUpdate($act);
 
 			}
 			$con = null;

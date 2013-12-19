@@ -15,7 +15,8 @@
 
 	$pintores->match('/', function(Request $req) use ($app){
 		return controlPintor::verPintores($req, $app);
-	})->before($checkAdmin);
+	})->bind("ver_pintores")
+	  ->before($checkAdmin);
 
 	return $pintores;
 ?>

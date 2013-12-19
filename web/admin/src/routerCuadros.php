@@ -15,7 +15,8 @@
 
 	$cuadros->match('/', function(Request $req) use ($app){
 		return controlCuadro::verCuadros($req, $app);
-	})->before($checkAdmin);
+	})->bind("ver_cuadros")
+	  ->before($checkAdmin);
 
 	return $cuadros;
 ?>

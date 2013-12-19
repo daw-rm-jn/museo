@@ -70,18 +70,12 @@
 				$stmt->execute();
 
 				$affected_rows = $stmt->rowCount();
-
-				if($affected_rows > 0){
-					$act = array(
-						'titulo' => 'BAJA [ESTILO]',
-						'descripcion' => 'Se ha borrado el registro Estilo con id '. $idEstilos[$i] . '.',
-						'user' => $_SESSION['admin']
-					);
-					Modelo::insertUpdate($act);
-					return true;
-				}else{
-					return false;
-				}
+				$act = array(
+					'titulo' => 'BAJA [ESTILO]',
+					'descripcion' => 'Se ha borrado el registro Estilo con id '. $idEstilos[$i] . '.',
+					'user' => $_SESSION['admin']
+				);
+				Modelo::insertUpdate($act);
 
 			}
 			$con = null;

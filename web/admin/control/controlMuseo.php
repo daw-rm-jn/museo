@@ -20,25 +20,8 @@
 		        if ($form_borrar->isValid()) {
 		        	$data = $form_borrar->getData();
 					$idExposiciones = $req->request->get('cb_borrar');
-		        	if(Modelo::borrarExposiciones($idExposiciones)){
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Operación correcta',
-							'titulo' => 'Entrada(s) eliminada(s)',
-							'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
-							'seccion' => 'museo/exposiciones_museo',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}else{
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Error',
-							'titulo' => 'Error en la operacion',
-							'msgoperacion' => 'Hubo un error al eliminar las entradas del registro',
-							'seccion' => 'museo/exposiciones_museo',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}
+		        	Modelo::borrarExposiciones($idExposiciones);
+					return $app->redirect($app['url_generator']->generate('ver_expos'));
 		        }
 		    }
 
@@ -192,25 +175,8 @@
 		        if ($form_borrar->isValid()) {
 		        	$data = $form_borrar->getData();
 					$idPlantas = $req->request->get('cb_borrar');
-		        	if(Modelo::borrarPlantas($idPlantas)){
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Operación correcta',
-							'titulo' => 'Entrada(s) eliminada(s)',
-							'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
-							'seccion' => 'museo/plantas_museo',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}else{
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Error',
-							'titulo' => 'Error en la operacion',
-							'msgoperacion' => 'Hubo un error al eliminar las entradas del registro',
-							'seccion' => 'museo/plantas_museo',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}
+		        	Modelo::borrarPlantas($idPlantas);
+		        	return $app->redirect($app['url_generator']->generate('ver_plantas'));
 					
 		        }
 		    }
@@ -320,25 +286,8 @@
 		        if ($form_borrar->isValid()) {
 		        	$data = $form_borrar->getData();
 					$idSalas = $req->request->get('cb_borrar');
-		        	if(Modelo::borrarSalas($idSalas)){
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Operación correcta',
-							'titulo' => 'Entrada(s) eliminada(s)',
-							'msgoperacion' => 'Entrada(s) eliminada(s) del registro.',
-							'seccion' => 'museo/salas_museo',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}else{
-						return $app['twig']->render('mod.twig', array(
-							'msgCabecera' => 'Error',
-							'titulo' => 'Error en la operacion',
-							'msgoperacion' => 'Hubo un error al eliminar las entradas del registro',
-							'seccion' => 'museo/salas_museo',
-							'sessionId' => $_SESSION['admin']
-					    	)
-					    );
-					}
+		        	Modelo::borrarSalas($idSalas);
+		        	return $app->redirect($app['url_generator']->generate('ver_salas'));
 					
 		        }
 		    }

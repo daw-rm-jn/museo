@@ -27,18 +27,12 @@
 
 				$affected_rows = $stmt->rowCount();
 
-				if($affected_rows > 0){
-					$act = array(
-						'titulo' => 'BAJA [EXPOSICION]',
-						'descripcion' => 'Se ha borrado el registro Exposicion con id '. $idExposiciones[$i] . '.',
-						'user' => $_SESSION['admin']
-					);
-					Modelo::insertUpdate($act);
-					return true;
-				}else{
-					return false;
-				}
-
+				$act = array(
+					'titulo' => 'BAJA [EXPOSICION]',
+					'descripcion' => 'Se ha borrado el registro Exposicion con id '. $idExposiciones[$i] . '.',
+					'user' => $_SESSION['admin']
+				);
+				Modelo::insertUpdate($act);
 			}
 			$con = null;
 		}
@@ -140,17 +134,12 @@
 				$stmt->execute();
 				$affected_rows = $stmt->rowCount();
 
-				if($affected_rows > 0){
-					$act = array(
-						'titulo' => 'BAJA [PLANTA_MUSEO]',
-						'descripcion' => 'Se ha borrado el registro Planta_Museo con id '. $idPlantas[$i] . '.',
-						'user' => $_SESSION['admin']
-					);
-					Modelo::insertUpdate($act);
-					return true;
-				}else{
-					return false;
-				}
+				$act = array(
+					'titulo' => 'BAJA [PLANTA_MUSEO]',
+					'descripcion' => 'Se ha borrado el registro Planta_Museo con id '. $idPlantas[$i] . '.',
+					'user' => $_SESSION['admin']
+				);
+				Modelo::insertUpdate($act);
 
 			}
 			$con = null;
@@ -247,18 +236,13 @@
 				$stmt->bindParam(':id', $idSalas[$i]);
 				$stmt->execute();
 				$affected_rows = $stmt->rowCount();
-
-				if($affected_rows > 0){
-					$act = array(
-						'titulo' => 'BAJA [SALA_MUSEO]',
-						'descripcion' => 'Se ha borrado el registro Sala_Museo con id '. $idSalas[$i] . '.',
-						'user' => $_SESSION['admin']
-					);
-					Modelo::insertUpdate($act);
-					return true;
-				}else{
-					return false;
-				}
+				
+				$act = array(
+					'titulo' => 'BAJA [SALA_MUSEO]',
+					'descripcion' => 'Se ha borrado el registro Sala_Museo con id '. $idSalas[$i] . '.',
+					'user' => $_SESSION['admin']
+				);
+				Modelo::insertUpdate($act);
 
 			}
 			$con = null;

@@ -15,7 +15,8 @@
 
 	$estilos->match('/', function(Request $req) use ($app){
 		return controlEstilo::verEstilos($req, $app);
-	})->before($checkAdmin);
+	})->bind("ver_estilos")
+	  ->before($checkAdmin);
 
 	return $estilos;
 ?>
