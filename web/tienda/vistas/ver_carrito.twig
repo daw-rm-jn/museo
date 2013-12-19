@@ -1,0 +1,94 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Tienda :: Mi Carrito' %}
+	
+	{% block about %}
+		<h2>Mi carrito</h2>
+		<p>Estos son los productos actualmente en su carrito. Cuando termine de elegir productos, confirme el carrito para realizar el pedido.</p>
+	{% endblock %}
+
+	{% block info %}
+	{% endblock %}
+
+	{% block contenido %}
+		<div class="showCarr">
+			<table style="width:100%;" class="table-show-carr">
+			{{ form_start(form, {'method': 'POST'}) }}
+			{{ form_row(form.cliente, {'attr': {'value': cliente }}) }}
+			<tr>
+				<th class="th-show-carr">Nombre</th>
+				<th class="th-show-carr">Precio</th>
+				<th class="th-show-carr">Unidades</th>
+				<th class="th-show-carr">IVA</th>
+				<th class="th-show-carr">Total</th>
+				<th class="th-show-carr">#</th>
+			</tr>
+				{% for linea in lineas %}
+			{{ form_row(form.idCopia_Cuadro, {'attr': {'value': linea.idCopia_Cuadro }}) }}
+				{% if linea.idLinea_Carrito is divisibleby(2) %}
+				<tr>
+					<td class="td-show-carr par">
+						{{linea.nombreProducto}}
+						{{ form_row(form.nombreProducto, {'attr': {'value': linea.nombreProducto}}) }}
+					</td>
+					<td class="td-show-carr par">
+						{{linea.precio}}€
+						{{ form_row(form.precio, {'attr': {'value': linea.precio}}) }}
+					</td>
+					<td class="td-show-carr par">
+						{{linea.unidades}}
+						{{ form_row(form.unidades, {'attr': {'value': linea.unidades}}) }}
+					</td>
+					<td class="td-show-carr par">
+						{{linea.IVA}}%
+						{{ form_row(form.IVA, {'attr': {'value': linea.IVA}}) }}
+					</td>
+					<td class="td-show-carr par">
+						{{linea.totalLinea}}€
+						{{ form_row(form.totalLinea, {'attr': {'value': linea.totalLinea}}) }}
+					</td>
+					<td class="td-show-carr par">
+						<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{linea.idLinea_Carrito}}"/>
+					</td>
+				</tr>
+				{% else %}
+				<tr>
+					<td class="td-show-carr impar">
+						{{linea.nombreProducto}}
+						{{ form_row(form.nombreProducto, {'attr': {'value': linea.nombreProducto}}) }}
+					</td>
+					<td class="td-show-carr impar">
+						{{linea.precio}}€
+						{{ form_row(form.precio, {'attr': {'value': linea.precio}}) }}
+					</td>
+					<td class="td-show-carr impar">
+						{{linea.unidades}}
+						{{ form_row(form.unidades, {'attr': {'value': linea.unidades}}) }}
+					</td>
+					<td class="td-show-carr impar">
+						{{linea.IVA}}%
+						{{ form_row(form.IVA, {'attr': {'value': linea.IVA}}) }}
+					</td>
+					<td class="td-show-carr impar">
+						{{linea.totalLinea}}€
+						{{ form_row(form.totalLinea, {'attr': {'value': linea.totalLinea}}) }}
+					</td>
+					<td class="td-show-carr impar">
+						<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{linea.idLinea_Carrito}}"/>
+					</td>
+				</tr>
+				{% endif %}
+				{% endfor %}
+				<tr>
+					<td class="td-opt-carr" colspan="3"></td>
+					<td class="td-opt-carr">
+						{{ form_row(form.confirmar) }}
+					</td>
+					<td class="td-opt-carr">
+						{{ form_row(form.borrarLineas) }}
+					</td>
+				</tr>
+			{{ form_end(form) }}
+			</table>
+		</div>
+	{% endblock %}

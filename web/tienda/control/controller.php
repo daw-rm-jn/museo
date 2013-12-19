@@ -33,16 +33,51 @@
 			
 		}
 
-		static function item(Application $app){
+		static function item(Request $req,Application $app, $id){
+			$producto = Modelo::getDetallesProducto($id);
+			$form = $app['form.factory']->createBuilder('form')
+					->add("cliente",'hidden',array())
+					->add("idCopia_Cuadro",'hidden',array())
+					->add("nombreProducto",'hidden',array())
+					->add("precio",'hidden',array())
+					->add("enviar",'submit',array())
+					->getForm();
 			$logged = Controller::checkLog();
+
+			if ('POST' == $req->getMethod()) {
+		        $form->bind($req);
+
+
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+		        	$unidades = $req->request->get('selunidades');
+
+					if(Modelo::addLineaCarrito($data,$unidades)){
+						return $app['twig']->render('operation.twig', array(
+							'operation' => 'Producto añadido',
+							'msg' => 'Se ha añadido el producto a su carrito',
+							'logged' => $logged
+						));
+					}else{
+						return $app['twig']->render('operation.twig', array(
+							'operation' => 'Error',
+							'msg' => 'Ha ocurrido un error al añadir el producto, inténtelo de nuevo',
+							'logged' => $logged
+						));
+					}
+		        }
+		    }
+
 			return $app['twig']->render('item.twig', array(
-				'logged' => $logged
+				'logged' => $logged,
+				'producto' => $producto,
+				'cliente' => $_SESSION['cliente'],
+				'form' => $form->createView()
 				)
 			);
 		}
 
 		static function logIn(Request $req, Application $app){
-			$logged = Controller::checkLog();
 			$form = $app['form.factory']->createBuilder('form')
 			        ->add('usuario', "text", array(
 			        	'constraints' => array(
@@ -73,11 +108,12 @@
 		        	$data = $form->getData();
 					if(Modelo::isCliente($data)){
 						$_SESSION['cliente'] = $data['usuario'];
+						Modelo::checkCarrito($data['usuario']);
 						return $app->redirect($app['url_generator']->generate('inicio'));
 					}else{
 						return $app['twig']->render('login.twig', array(
 					    	'form' => $form->createView(),
-					    	'logged' => $logged,
+					    	'logged' => false,
 					    	'msgerr' => 'Nombre de Usuario a contraseña no válidos.'
 					    	)
 					    );
@@ -319,7 +355,7 @@
 		        		if(Modelo::borrarCuenta($datosCuenta->getEmail())){
 							return $app['twig']->render('operation.twig', array(
 								'operation' => 'Usuario borrado',
-								'msg' => 'Sus cuenta se ha borrado correctamente',
+								'msg' => 'Su cuenta se ha borrado correctamente',
 								'logged' => false
 							));
 						}else{
@@ -342,6 +378,55 @@
 		    	'fechCad' => $fechCad
 		    	)
 		    );
+		}
+
+		static function verCarrito(Request $req, Application $app){
+			$idCarrito = Modelo::getIdCarrito($_SESSION['cliente']);
+			$lineasCarrito = Modelo::getLineasCarrito($idCarrito);
+			$logged = Controller::checkLog();
+			$form = $app['form.factory']->createBuilder('form')
+					->add("cliente",'hidden',array())
+					->add("idCopia_Cuadro",'hidden',array())
+					->add("nombreProducto",'hidden',array())
+					->add("precio",'hidden',array())
+					->add("unidades",'hidden',array())
+					->add("IVA",'hidden',array())
+					->add("totalLinea",'hidden',array())
+					->add("confirmar",'submit',array())
+					->add("borrarLineas",'submit',array())
+					->getForm();
+
+			/*if ('POST' == $req->getMethod()) {
+		        $form->bind($req);
+
+
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+		        	$unidades = $req->request->get('selunidades');
+
+					if(Modelo::addLineaCarrito($data,$unidades)){
+						return $app['twig']->render('operation.twig', array(
+							'operation' => 'Producto añadido',
+							'msg' => 'Se ha añadido el producto a su carrito',
+							'logged' => $logged
+						));
+					}else{
+						return $app['twig']->render('operation.twig', array(
+							'operation' => 'Error',
+							'msg' => 'Ha ocurrido un error al añadir el producto, inténtelo de nuevo',
+							'logged' => $logged
+						));
+					}
+		        }
+		    }*/
+
+			return $app['twig']->render('ver_carrito.twig', array(
+				'logged' => $logged,
+				'lineas' => $lineasCarrito,
+				'form' => $form->createView(),
+				'cliente' => $_SESSION['cliente']
+				)
+			);
 		}
 	}
 ?>

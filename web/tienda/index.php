@@ -1,6 +1,6 @@
 <?php 
-	require_once __DIR__.'/../../vendor/autoload.php';
-	require_once __DIR__.'/control/controller.php';
+	require_once __DIR__.'/../../vendor/autoload.php'; //Clase de carga del framework
+	require_once __DIR__.'/control/Controller.php';
 	require_once __DIR__.'/modelo/Modelo.php';
 
 
@@ -39,6 +39,10 @@
 
 	/*---ENRUTAMIENTO--*/
 
+	$app->match('/ver_carrito', function(Request $req) use ($app){
+		return Controller::verCarrito($req, $app);
+	})->before($checkCliente);
+
 	$app->match('/mi_cuenta', function(Request $req) use ($app){
 		return Controller::verDatosCuenta($req, $app);
 	})->before($checkCliente);
@@ -55,8 +59,8 @@
 		return Controller::logIn($req,$app);
 	})->bind('login');
 
-	$app->match('/item/{id}', function($id) use ($app){
-		return Controller::item($app);
+	$app->match('/item/{id}', function(Request $req, $id) use ($app){
+		return Controller::item($req,$app, $id);
 	});
 
 	$app->match('/', function() use ($app){

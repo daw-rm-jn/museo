@@ -1,4 +1,7 @@
 @import url('login.css');
+@import url('carrito.css');
+@import url('jquery-ui.css');
+@import url('magnific-popup.css');
 
 *{
 	padding:0px;
@@ -53,7 +56,8 @@ html > body{
 	background-position:top left;
 	background-repeat:no-repeat;
 }
-#menu .but_active, #menu .but:hover{
+#menu .but_active, 
+#menu .but:hover{
 	background-image:url(../images/but.png); 
 	text-decoration:none; 
 	color:#E8EEEF;
@@ -158,7 +162,7 @@ html > body{
 }
 .item{
 	width:241px;
-	height:351px;
+	height:374px;
 	float:left;
 	background-image:url(../images/item_bg.png);
 	background-position:top left;
@@ -308,4 +312,18 @@ html > body{
 	line-height:0px;
 	padding:0px;
 	font-size:11px
+}
+.table-Add-Carr{
+	width:100%;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+.td-Add-Carr{
+	padding: 1% 1% 1% 1%;
+}
+.par{
+	background-color: #f2f0e9;
+}
+.impar{
+	background-color: white;
 }

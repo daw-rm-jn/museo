@@ -1,0 +1,27 @@
+.showCarr{
+	width:95%;
+	height:500px;
+	float:left;
+	padding:0 12px 15px 0;
+	display:inline;
+}
+table.table-show-carr{
+	border-top:1px solid #aaa;
+	border-bottom:1px solid #aaa;	
+	border-left:1px solid #aaa;	
+	border-right:1px solid #aaa;	
+	border-collapse: collapse;
+	font-size: 12px;
+}
+th.th-show-carr{
+	background-color: #9DBFC8;
+	font-size: 13px;
+}
+td.td-show-carr{
+	padding: 1% 1% 1% 1%;
+	text-align: center;
+}
+td.td-opt-carr{
+	padding: 1% 1% 1% 1%;
+	text-align: right	
+}

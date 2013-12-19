@@ -3,11 +3,13 @@
 {% block titulo 'Tienda :: Mensaje' %}
 	
 	{% block about %}
-		{{operation}}
+		<h2>{{operation}}</h2>
 	{% endblock %}
 
 	{% block contenido %}
 		<div class="logout">
 			{{msg}}
+			<br>
+			<a href="javascript:window.history.back()">Volver </a>
 		</div>
 	{% endblock %}

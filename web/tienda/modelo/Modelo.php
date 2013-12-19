@@ -76,16 +76,12 @@
 
 			$affected_rows = $stmt->rowCount();
 
-			if($row != null){
 				$datosBanc = array(
 					'numeroTarjeta' => $row['numeroTarjeta'],
 					'CCV' => $row['CCV'],
 					'fechaCaducidad' => $row['fechaCaducidad']
 				);
 			    return $datosBanc;
-			}else{
-				return null;
-			}
 
 		    $con = null;
 		}
@@ -147,10 +143,37 @@
 				Modelo::addDatosBancarios($datosBanc);
 			}
 
-			if($affected_rows >= 0){
+			if($affected_rows > 0){
+				Modelo::creaCarrito($cliente['email']);
 				return true;
 			}else{
 				return false;
+			}
+
+			$con = null;
+		}
+
+		static function creaCarrito($email){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("INSERT INTO Carrito (email,fechaCreacion,fechaExpir) VALUES (:email,NOW(),NOW()+INTERVAL 10 DAY)");
+
+			$stmt->bindParam(':email',$email);
+			$stmt->execute();
+
+			$con = null;
+		}
+
+		static function checkCarrito($email){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Carrito WHERE email = :email");
+
+			$stmt->bindParam(':email',$email);
+			$stmt->execute();
+
+		    $row = $stmt->fetch();
+
+			if(empty($row)){
+				Modelo::creaCarrito($email);
 			}
 
 			$con = null;
@@ -195,6 +218,8 @@
 			$stmt->execute();	
 			$affected_rows = $stmt->rowCount();
 
+			$checkVacio = array_filter(Modelo::getDatosBanc($cliente['email']));
+
 			if($cliente['numeroTarjeta'] != "" && $cliente['CCV'] != "" && $fechaCad != "" ){
 				$datosBanc = array(
 					'email' => $cliente['email'],
@@ -202,10 +227,10 @@
 					'CCV' => $cliente['CCV'],
 					'fechaCad' => $fechaCad
 				);
-				if(Modelo::getDatosBanc($cliente['email']) != null){
-					Modelo::modificaDatosBancarios($datosBanc);	
+				if(empty($checkVacio)){
+					Modelo::addDatosBancarios($datosBanc);	
 				}else{
-					Modelo::addDatosBancarios($datosBanc);
+					Modelo::modificaDatosBancarios($datosBanc);
 				}
 				
 			}
@@ -243,10 +268,114 @@
 			$stmt->bindParam(':email', $email);
 			$borraDatosBanc->bindParam(':emaildb', $email);
 
-			$stmt->execute();
 			$borraDatosBanc->execute();
+			$stmt->execute();
+
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows > 0){
+				return true;
+			}else{
+				return false;
+			}
 
 			$con = null;
+		}
+
+		static function getDetallesProducto($id){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Copia_Cuadro WHERE idCopia_Cuadro = :id");
+
+			$stmt->bindParam(":id", $id);
+
+			$stmt->execute();
+		    $row = $stmt->fetch();
+
+			$producto = new Copia_Cuadro($row['idCopia_Cuadro'],$row['nombreProducto'],$row['autor'],$row['estilo'],$row['orientacion'],$row['anioCuadro'],$row['fechaAlta'],$row['descripcion'],$row['precio'],$row['fotoCuadro']);
+
+		    return $producto;
+
+		    $con = null;
+		}
+
+		static function getLineasCarrito($idCarrito){
+			$lineas = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Linea_Carrito WHERE idCarrito = :idCarrito ORDER BY idLinea_Carrito ASC");
+
+			$stmt->bindParam(':idCarrito',$idCarrito);
+
+		    $stmt->execute();
+		    $result = $stmt->fetchAll();
+
+		    foreach($result as $row){
+				$linea = array(
+					'idLinea_Carrito' => $row['idLinea_Carrito'],
+					'idCarrito' => $row['idCarrito'],
+					'idCopia_Cuadro' => $row['idCopia_Cuadro'],
+					'nombreProducto' => $row['nombreProducto'],
+					'unidades' => $row['unidades'],
+					'precio' => $row['precio'],
+					'IVA' => $row['IVA'],
+					'totalLinea' => $row['totalLinea']
+				);
+				$lineas[] = $linea;
+		    }
+		    return $lineas;
+			$con = null;
+		}
+
+		static function addLineaCarrito($linea,$uds){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("INSERT INTO Linea_Carrito VALUES (:idlc,:idc,:idcc,:nomp,:uds,:precio,:iva,:total)");
+
+			$idCarrito = Modelo::getIdCarrito($linea['cliente']);
+
+			$lineasDelCarrito = Modelo::getLineasCarrito($idCarrito);
+			if(sizeof($lineasDelCarrito) > 0){
+				$sigLinea = sizeof($lineasDelCarrito) + 1;
+			}else{
+				$sigLinea = 1;
+			}	
+
+			$iva = 21;
+			$totalLinea =  ($linea['precio'] + (($linea['precio'] * $iva)/100)) * $uds;
+
+			$stmt->bindParam(':idlc',$sigLinea);
+			$stmt->bindParam(':idc',$idCarrito);
+			$stmt->bindParam(':idcc',$linea['idCopia_Cuadro']);
+			$stmt->bindParam(':nomp',$linea['nombreProducto']);
+			$stmt->bindParam(':uds',$uds);
+			$stmt->bindParam(':precio',$linea['precio']);
+			$stmt->bindParam(':iva',$iva);
+			$stmt->bindParam(':total',$totalLinea);
+
+			$stmt->execute();
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows > 0){
+				return true;
+			}else{
+				return false;
+			}
+
+			$con = null;
+		}
+
+		static function getIdCarrito($cliente){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT idCarrito FROM Carrito WHERE email = :email");
+
+			$stmt->bindParam(":email", $cliente);
+
+			$stmt->execute();
+		    $row = $stmt->fetch();
+
+			$idCarrito = $row['idCarrito'];
+
+		    return $idCarrito;
+
+		    $con = null;
 		}
 	}
 ?>

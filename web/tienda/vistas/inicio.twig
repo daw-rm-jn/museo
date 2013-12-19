@@ -7,15 +7,16 @@
 	<div id="header">																																																																								
 		<div id="header_inside">
 			{% if logged %}	
-				<img src="images/header.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />
+				<img src="{{app.request.basepath}}/images/header.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />
 			{% else %}
-				<img src="images/header2.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />	
+				<img src="{{app.request.basepath}}/images/header2.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />	
 			{% endif %}																																									
 			<ul id="menu">
 				<li><a href="{{app.request.basepath}}" class="but_active">Inicio</a></li>
 				{% if logged %}				
 					<li><a href="{{app.request.basepath}}/mi_cuenta" class="but">Mi cuenta</a></li>
 					<li><a href="{{app.request.basepath}}/ver_carrito" class="but">Mi Carrito</a></li>
+					<li><a href="{{app.request.basepath}}/ver_pedidos" class="but">Mis Pedidos</a></li>
 					<li><a href="{{app.request.basepath}}/logout" class="but">Salir</a></li>
 				{% else %}			
 					<li><a href="{{app.request.basepath}}/login" class="but">Acceder</a></li>
@@ -55,16 +56,20 @@
 				{% for producto in productos %}
 					<div class="item">
 						{% if producto.orientacion == 'vertical' %}
-							<img src="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" alt="" width="170" height="200" />
+							<a class="image-popup-vertical-fit" href="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" title="{{producto.nombreProducto}}, de {{producto.autor}}">
+								<img src="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" alt="" width="170" height="200" />
+							</a>
 						{% elseif producto.orientacion == 'horizontal' %}
-							<img src="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" alt="" width="200" height="170" />
+							<a class="image-popup-fit-width" href="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" title="{{producto.nombreProducto}}, de {{producto.autor}}">
+								<img src="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" alt="" width="200" height="170" />
+							</a>
 						{% endif %}
 						<br>
 						<br>
 						<p class="nombreProd"><a href="">{{producto.nombreProducto}}</a> ({{producto.anioCuadro}}),</p>
 						<p class="nombreProd">de <a href="">{{producto.autor}}</a></p>
 						<br>
-						<span class="precio">${{producto.precio}}</span><a href="{{app.request.basepath}}/item/{{producto.idCopia_Cuadro}}" class="view">Ver</a><a href="#" class="buy">Comprar</a>
+						<span class="precio">{{producto.precio}}€</span><a href="{{app.request.basepath}}/item/{{producto.idCopia_Cuadro}}" class="buy">Ver</a>
 					</div>
 				{% endfor %}
 			{% endblock %}
