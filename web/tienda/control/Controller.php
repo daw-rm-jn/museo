@@ -176,6 +176,9 @@
 			        	)
 			        )
 			        ->add('direccion', "text", array())
+			        ->add('pais', "text", array())
+			        ->add('provincia', "text", array())
+			        ->add('poblacion', "text", array())
 			        ->add('codigoPostal', "text", array(
 			        	'constraints' => array(
 				        		new Assert\NotBlank(),
@@ -291,6 +294,9 @@
 			        	)
 			        )
 			        ->add('direccion', "text", array())
+			        ->add('pais', "text", array())
+			        ->add('provincia', "text", array())
+			        ->add('poblacion', "text", array())
 			        ->add('codigoPostal', "text", array(
 			        	'constraints' => array(
 				        		new Assert\NotBlank(),
@@ -450,12 +456,33 @@
 			$lineasPedido = Modelo::getLineasPedido($id);
 			$totalPedido = Modelo::getTotalPedido($id);
 			$estado = Modelo::getEstadoDePedido($id);
+			$form = $app['form.factory']->createBuilder('form')
+					->add('idPedido','hidden',array())
+					->add('obtenerRecibo','submit',array())
+			        ->getForm();
+
+			if ('POST' == $req->getMethod()) {
+		        $form->bind($req);
+
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+		        	$html = Modelo::getHtmlRecibo($data['idPedido']);
+
+				    $html2pdf = new HTML2PDF('P','A4','en');
+				    $html2pdf->WriteHTML($html);
+				    $nompdf = "recibo_Pedido_#" . $data['idPedido'] . ".pdf";
+				    $html2pdf->Output($nompdf, 'D');
+		        }
+		    }
+
 
 			return $app['twig']->render('detalle_pedido.twig', array(
 				'logged' => $logged,
+				'idPedido' => $id,
 				'lineas' => $lineasPedido,
 				'totalPedido' => $totalPedido,
 				'estado' => $estado,
+				'form' => $form->createView(),	
 				'cliente' => $_SESSION['cliente']
 				)
 			); 

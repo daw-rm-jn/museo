@@ -58,7 +58,7 @@
 		    $stmt->execute();
 		    $row = $stmt->fetch();
 
-			$cliente = new Usuario($row['email'],$row['clave'],$row['nombre'],$row['nif'],$row['dir'],$row['cp'],$row['telf'],$row['fechaAlta']);
+			$cliente = new Usuario($row['email'],$row['clave'],$row['nombre'],$row['nif'],$row['dir'],$row['pais'],$row['provincia'],$row['poblacion'],$row['cp'],$row['telf'],$row['fechaAlta']);
 
 		    return $cliente;
 
@@ -120,13 +120,16 @@
 
 		static function registroCliente($cliente,$fechaCad){
 			$con = Modelo::conectar();
-			$stmt = $con->prepare("INSERT INTO Usuario (email,clave,nombre,nif,dir,cp,telf,fechaAlta) VALUES (:email,:clave,:nombre,:nif,:dir,:cp,:telf,NOW())");
+			$stmt = $con->prepare("INSERT INTO Usuario (email,clave,nombre,nif,dir,pais,provincia,poblacion,cp,telf,fechaAlta) VALUES (:email,:clave,:nombre,:nif,:dir,:pais,:prov,:pob,:cp,:telf,NOW())");
 
 			$stmt->bindParam(':email', $cliente['email']);
 			$stmt->bindParam(':clave', $cliente['clavecifrada']);
 			$stmt->bindParam(':nombre', $cliente['nombre']);
 			$stmt->bindParam(':nif', $cliente['nif']);
 			$stmt->bindParam(':dir', $cliente['direccion']);
+			$stmt->bindParam(':pais', $cliente['pais']);
+			$stmt->bindParam(':prov', $cliente['provincia']);
+			$stmt->bindParam(':pob', $cliente['poblacion']);
 			$stmt->bindParam(':cp', $cliente['codigoPostal']);
 			$stmt->bindParam(':telf', $cliente['telf']);
 
@@ -196,7 +199,7 @@
 		}
 		static function modificaCuenta($cliente,$fechaCad){
 			$con = Modelo::conectar();
-			$stmt = $con->prepare("UPDATE Usuario SET clave = :clave,nombre = :nombre,nif = :nif,dir = :dir,cp = :cp,telf = :telf WHERE email = :email");
+			$stmt = $con->prepare("UPDATE Usuario SET clave = :clave,nombre = :nombre,nif = :nif,dir = :dir,pais = :pais,provincia = :prov,poblacion = :pob,cp = :cp,telf = :telf WHERE email = :email");
 
 			if($cliente['claveactualcifrada'] == Modelo::getClaveCliente($cliente['email'])){
 				if($cliente['clavenuevacifrada'] != ""){
@@ -212,6 +215,9 @@
 			$stmt->bindParam(':nombre', $cliente['nombre']);
 			$stmt->bindParam(':nif', $cliente['nif']);
 			$stmt->bindParam(':dir', $cliente['direccion']);
+			$stmt->bindParam(':pais', $cliente['pais']);
+			$stmt->bindParam(':prov', $cliente['provincia']);
+			$stmt->bindParam(':pob', $cliente['poblacion']);
 			$stmt->bindParam(':cp', $cliente['codigoPostal']);
 			$stmt->bindParam(':telf', $cliente['telf']);
 
@@ -456,6 +462,7 @@
 
 			if($affected_rows > 0){
 				Modelo::addLineasPedido($con->lastInsertId(),$datos['idCarrito']);
+				Modelo::creaRecibo($con->lastInsertId());
 				return true;
 			}else{
 				return false;
@@ -510,6 +517,7 @@
 		}
 
 		static function getPedidos($email){
+			$pedidos = array();
 			$con = Modelo::conectar();
 			$stmt = $con->prepare("SELECT * FROM Pedido WHERE email = :email");
 
@@ -525,6 +533,23 @@
 
 		    return $pedidos;
 			$con = null;
+		}
+
+		static function getPedidoPorId($idPedido){
+			$con = Modelo::conectar();
+			$stmtDPed = $con->prepare("SELECT * FROM Pedido WHERE idPedido = :idPedido");
+
+			$stmtDPed->bindParam(':idPedido', $idPedido);
+			$stmtDPed->execute();
+
+			$row = $stmtDPed->fetch();
+
+			$pedido = new Pedido($row['email'],$row['idPedido'],$row['fecha'],$row['precioTotal'],$row['estado']);
+
+			return $pedido;
+
+			$con = null;
+			
 		}
 
 		static function getLineasPedido($idPedido){
@@ -582,6 +607,68 @@
 			$estado = $row['estado'];
 
 			return $estado;
+
+			$con = null;
+		}
+
+		static function creaRecibo($idPedido){
+			Modelo::insertaRecibo($idPedido);
+			$idRecibo = Modelo::getIdRecibo($idPedido);
+			Modelo::generaHtmlRecibo($idRecibo, $idPedido);
+		}
+
+		static function insertaRecibo($idPedido){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("INSERT INTO Recibo (idPedido) VALUES (:idp)");
+
+			$stmt->bindParam(':idp',$idPedido);
+			$stmt->execute();
+
+			$con = null;
+		}
+
+		static function getIdRecibo($idPedido){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT idRecibo FROM Recibo WHERE idPedido = :idPedido");
+
+			$stmt->bindParam(':idPedido', $idPedido);
+			$stmt->execute();
+
+			$row = $stmt->fetch();
+
+			return $row['idRecibo'];
+
+			$con = null;
+		}
+
+		static function generaHtmlRecibo($idRecibo, $idPedido){
+			$datosPedido = Modelo::getPedidoPorId($idPedido);
+			$datosCliente = Modelo::getDatosCliente($_SESSION['cliente']);
+			$lineasPedido = Modelo::getLineasPedido($idPedido);
+
+			$recibo = new Recibo($idRecibo,$datosPedido,$datosCliente,$lineasPedido);
+			$htmlRecibo = $recibo->genHtml();
+
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("UPDATE Recibo SET ReciboHTML = :htmlRecibo WHERE idRecibo = :idRecibo");
+
+			$stmt->bindParam(':idRecibo',$idRecibo);
+			$stmt->bindParam(':htmlRecibo',$htmlRecibo);
+			$stmt->execute();
+
+			$con = null;
+		}
+
+		static function getHtmlRecibo($idPedido){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT ReciboHTML FROM Recibo WHERE idPedido = :idPedido");
+
+			$stmt->bindParam(':idPedido',$idPedido);
+			$stmt->execute();
+
+			$row = $stmt->fetch();
+
+			return $row['ReciboHTML'];
 
 			$con = null;
 		}

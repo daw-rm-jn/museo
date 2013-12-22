@@ -2,6 +2,7 @@
 	require_once __DIR__.'/../../vendor/autoload.php'; //Clase de carga del framework
 	require_once __DIR__.'/control/Controller.php';
 	require_once __DIR__.'/modelo/Modelo.php';
+	require __DIR__.'/html2pdf/html2pdf.class.php';
 
 
 	/*---INYECCION DE DEPENDENCIAS--*/

@@ -76,6 +76,15 @@
 						{{totalPedido}}€
 					</th>
 				</tr>
+				<tr>
+					<td colspan="4"></td>
+					<td class="td-get-recibo">
+						{{ form_start(form, {'method': 'POST'}) }}
+							{{form_row(form.idPedido, {'attr': {'value': idPedido }}) }}
+							{{form_row(form.obtenerRecibo)}}
+						{{ form_end(form) }}
+					</td>
+				</tr>
 			</table>
 		</div>
 	{% endblock %}
