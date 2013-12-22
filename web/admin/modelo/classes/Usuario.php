@@ -5,16 +5,22 @@
 		private $nombre;
 		private $nif;
 		private $dir;
+		private $pais;
+		private $provincia;
+		private $poblacion;
 		private $cp;
 		private $telf;
 		private $fechaAlta;
 
-		public function Usuario($email,$clave,$nombre,$nif,$dir,$cp,$telf,$fechaAlta){
+		public function Usuario($email,$clave,$nombre,$nif,$dir,$pais,$provincia,$poblacion,$cp,$telf,$fechaAlta){
 			$this->email = $email;
 			$this->clave = $clave;
 			$this->nombre = $nombre;
 			$this->nif = $nif;
 			$this->dir = $dir;
+			$this->pais = $pais;
+			$this->provincia = $provincia;
+			$this->poblacion = $poblacion;
 			$this->cp = $cp;
 			$this->telf = $telf;
 			$this->fechaAlta = $fechaAlta;
@@ -67,6 +73,39 @@
 		public function setDir($dir)
 		{
 		    $this->dir = $dir;
+		    return $this;
+		}
+
+		public function getPais()
+		{
+		    return $this->pais;
+		}
+		
+		public function setPais($pais)
+		{
+		    $this->pais = $pais;
+		    return $this;
+		}
+
+		public function getProvincia()
+		{
+		    return $this->provincia;
+		}
+		
+		public function setProvincia($provincia)
+		{
+		    $this->provincia = $provincia;
+		    return $this;
+		}
+
+		public function getPoblacion()
+		{
+		    return $this->poblacion;
+		}
+		
+		public function setPoblacion($poblacion)
+		{
+		    $this->poblacion = $poblacion;
 		    return $this;
 		}
 

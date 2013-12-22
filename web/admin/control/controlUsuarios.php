@@ -66,6 +66,9 @@
 			        	)
 			        )
 			        ->add('dir', "text", array())
+			        ->add('pais', "text", array())
+			        ->add('provincia', "text", array())
+			        ->add('poblacion', "text", array())
 			        ->add('cp', "text", array(
 			        	'constraints' => array(
 				        		new Assert\NotBlank(),
@@ -182,6 +185,9 @@
 			        	)
 			        )
 			        ->add('dir', "text", array())
+			        ->add('pais', "text", array())
+			        ->add('provincia', "text", array())
+			        ->add('poblacion', "text", array())
 			        ->add('cp', "text", array(
 			        	'constraints' => array(
 				        		new Assert\NotBlank(),

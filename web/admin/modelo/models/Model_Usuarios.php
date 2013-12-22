@@ -11,7 +11,7 @@
 		    $result = $stmt->fetchAll();
 
 		    foreach($result as $row){
-				$user = new Usuario($row['email'],$row['clave'],$row['nombre'],$row['nif'],$row['dir'],$row['cp'],$row['telf'],$row['fechaAlta']);
+				$user = new Usuario($row['email'],$row['clave'],$row['nombre'],$row['nif'],$row['dir'],$row['pais'],$row['provincia'],$row['poblacion'],$row['cp'],$row['telf'],$row['fechaAlta']);
 				$users[] = $user;
 		    }
 		    return $users;
@@ -40,7 +40,7 @@
 
 		static function addCliente($cliente){
 			$con = Model_BD::conectar();
-			$stmt = $con->prepare("INSERT INTO Usuario (email,clave,nombre,nif,dir,cp,telf,fechaAlta) VALUES (:email,:clave,:nombre,:nif,:dir,:cp,:telf,NOW())");
+			$stmt = $con->prepare("INSERT INTO Usuario (email,clave,nombre,nif,dir,pais,provincia,poblacion,cp,telf,fechaAlta) VALUES (:email,:clave,:nombre,:nif,:dir,:pais,:prov,:pob,:cp,:telf,NOW())");
 			$insertdatosbanc = $con->prepare("INSERT INTO Datos_Bancarios VALUES (:emaildb,:numt,:ccvt,:fechacadt)");
 
 			$stmt->bindParam(':email', $cliente['email']);
@@ -48,6 +48,9 @@
 			$stmt->bindParam(':nombre', $cliente['nombre']);
 			$stmt->bindParam(':nif', $cliente['nif']);
 			$stmt->bindParam(':dir', $cliente['dir']);
+			$stmt->bindParam(':pais', $cliente['pais']);
+			$stmt->bindParam(':prov', $cliente['provincia']);
+			$stmt->bindParam(':pob', $cliente['poblacion']);
 			$stmt->bindParam(':cp', $cliente['cp']);
 			$stmt->bindParam(':telf', $cliente['telf']);
 
@@ -111,7 +114,7 @@
 		    $stmt->execute();
 		    $row = $stmt->fetch();
 
-			$user = new Usuario($row['email'],$row['clave'],$row['nombre'],$row['nif'],$row['dir'],$row['cp'],$row['telf'],$row['fechaAlta']);
+			$user = new Usuario($row['email'],$row['clave'],$row['nombre'],$row['nif'],$row['dir'],$row['pais'],$row['provincia'],$row['poblacion'],$row['cp'],$row['telf'],$row['fechaAlta']);
 			
 		    return $user;
 			$con = null;
@@ -119,7 +122,7 @@
 
 		static function modificaCliente($cliente){
 			$con = Model_BD::conectar();
-			$stmt = $con->prepare("UPDATE Usuario SET clave = :clave, nombre = :nombre, nif = :nif, dir = :dir, cp = :cp, telf = :telf WHERE email = :email");
+			$stmt = $con->prepare("UPDATE Usuario SET clave = :clave, nombre = :nombre, nif = :nif, dir = :dir,pais = :pais,provincia = :prov,poblacion = :pob, cp = :cp, telf = :telf WHERE email = :email");
 			$updatedatosbanc = $con->prepare("UPDATE Datos_Bancarios SET numeroTarjeta = :numt, CCV = :ccvt, fechaCaducidad = :fechcadt WHERE email = :emaildb");
 			
 			$stmt->bindParam(':email', $cliente['email']);
@@ -127,6 +130,9 @@
 			$stmt->bindParam(':nombre', $cliente['nombre']);
 			$stmt->bindParam(':nif', $cliente['nif']);
 			$stmt->bindParam(':dir', $cliente['dir']);
+			$stmt->bindParam(':pais', $cliente['pais']);
+			$stmt->bindParam(':prov', $cliente['provincia']);
+			$stmt->bindParam(':pob', $cliente['poblacion']);
 			$stmt->bindParam(':cp', $cliente['cp']);
 			$stmt->bindParam(':telf', $cliente['telf']);
 
