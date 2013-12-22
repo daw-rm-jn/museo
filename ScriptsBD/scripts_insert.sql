@@ -6,9 +6,9 @@ INSERT INTO Exposicion (idExposicion,idSala,nombreExposicion,fechaInicio,fechaFi
 
 INSERT INTO Administrador(email,clave,fechaAlta) VALUES ('admin@admin.com','250939a0f3f4b5513d6f5335bc9c9550',NOW()); /*la clave está cifrada, es 'clavemd5'*/
 
-INSERT INTO Usuario(email,clave,nombre,nif,cp,telf,fechaAlta) VALUES ('cliente1@prueba.com','d5a8d8c7ab0514e2b8a2f98769281585','Cliente1','50948753Y',28009,666666666,NOW()); /*la clave es 'cliente1'*/
-INSERT INTO Usuario(email,clave,nombre,nif,cp,telf,fechaAlta) VALUES ('cliente2@prueba.com','6dcd0e14f89d67e397b9f52bb63f5570','Cliente2','02248123H',27033,585474696,NOW()); /*la clave es 'cliente2'*/
-INSERT INTO Usuario(email,clave,nombre,nif,cp,telf,fechaAlta) VALUES ('cliente3@prueba.com','428e859901e1b27ec01c7921afc31d98','Cliente3','84695442F',20000,147258369,NOW()); /*la clave es 'cliente3'*/
+INSERT INTO Usuario(email,clave,nombre,nif,dir,pais,provincia,poblacion,cp,telf,fechaAlta) VALUES ('cliente1@prueba.com','d5a8d8c7ab0514e2b8a2f98769281585','Cliente1','50948753Y','España','c/falsa 123','Madrid','Madrid',28009,666666666,NOW()); /*la clave es 'cliente1'*/
+INSERT INTO Usuario(email,clave,nombre,nif,dir,pais,provincia,poblacion,cp,telf,fechaAlta) VALUES ('cliente2@prueba.com','6dcd0e14f89d67e397b9f52bb63f5570','Cliente2','02248123H','España','c/montalba 4','Barcelona','Barcelona',27033,585474696,NOW()); /*la clave es 'cliente2'*/
+INSERT INTO Usuario(email,clave,nombre,nif,dir,pais,provincia,poblacion,cp,telf,fechaAlta) VALUES ('cliente3@prueba.com','428e859901e1b27ec01c7921afc31d98','Cliente3','84695442F','España','c/desengaño, 21','Madrid','Madrid',20000,147258369,NOW()); /*la clave es 'cliente3'*/
 
 INSERT INTO Carrito(idCarrito,email,fechaCreacion,fechaExpir) VALUES (1,'cliente1@prueba.com',NOW(),NOW()+INTERVAL 10 DAY);
 INSERT INTO Carrito(idCarrito,email,fechaCreacion,fechaExpir) VALUES (2,'cliente2@prueba.com',NOW(),NOW()+INTERVAL 10 DAY);

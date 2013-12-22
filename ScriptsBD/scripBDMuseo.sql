@@ -2,13 +2,13 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-CREATE SCHEMA IF NOT EXISTS `bd_museo` DEFAULT CHARACTER SET latin1 ;
-USE `bd_museo` ;
+CREATE SCHEMA IF NOT EXISTS `bd_Museo` DEFAULT CHARACTER SET latin1 ;
+USE `bd_Museo` ;
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`administrador`
+-- Table `bd_Museo`.`Administrador`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`administrador` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Administrador` (
   `email` VARCHAR(50) NOT NULL,
   `clave` VARCHAR(100) NOT NULL,
   `fechaAlta` DATE NOT NULL,
@@ -18,9 +18,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`actualizacion`
+-- Table `bd_Museo`.`Actualizacion`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`actualizacion` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Actualizacion` (
   `idActualizacion` INT(11) NOT NULL AUTO_INCREMENT,
   `tituloActualizacion` VARCHAR(50) NOT NULL,
   `fechaActualizacion` DATE NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`actualizacion` (
   INDEX `fk_Actualizacion_Usuario1` (`Usuario_email` ASC),
   CONSTRAINT `fk_Actualizacion_Usuario1`
     FOREIGN KEY (`Usuario_email`)
-    REFERENCES `bd_museo`.`administrador` (`email`)
+    REFERENCES `bd_Museo`.`Administrador` (`email`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -39,14 +39,17 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`usuario`
+-- Table `bd_Museo`.`Usuario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`usuario` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Usuario` (
   `email` VARCHAR(50) NOT NULL,
   `clave` VARCHAR(100) NOT NULL,
   `nombre` VARCHAR(20) NULL DEFAULT NULL,
   `nif` VARCHAR(10) NOT NULL,
   `dir` VARCHAR(50) NULL DEFAULT NULL,
+  `pais` VARCHAR(50) NULL DEFAULT NULL,
+  `provincia` VARCHAR(50) NULL DEFAULT NULL,
+  `poblacion` VARCHAR(50) NULL DEFAULT NULL,
   `cp` INT(11) NULL DEFAULT NULL,
   `telf` INT(11) NULL DEFAULT NULL,
   `fechaAlta` DATE NOT NULL,
@@ -56,9 +59,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`carrito`
+-- Table `bd_Museo`.`Carrito`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`carrito` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Carrito` (
   `idCarrito` INT(11) NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(50) NOT NULL,
   `fechaCreacion` DATE NOT NULL,
@@ -67,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`carrito` (
   INDEX `fk_Carrito_Usuario1` (`email` ASC),
   CONSTRAINT `fk_Carrito_Usuario1`
     FOREIGN KEY (`email`)
-    REFERENCES `bd_museo`.`usuario` (`email`)
+    REFERENCES `bd_Museo`.`Usuario` (`email`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -75,9 +78,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`copia_cuadro`
+-- Table `bd_Museo`.`Copia_Cuadro`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`copia_cuadro` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Copia_Cuadro` (
   `idCopia_Cuadro` INT(11) NOT NULL AUTO_INCREMENT,
   `nombreProducto` VARCHAR(100) NULL DEFAULT NULL,
   `autor` VARCHAR(50) NULL DEFAULT NULL,
@@ -95,9 +98,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`estilo`
+-- Table `bd_Museo`.`Estilo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`estilo` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Estilo` (
   `idEstilo` INT(11) NOT NULL AUTO_INCREMENT,
   `nombreEstilo` VARCHAR(50) NULL DEFAULT NULL,
   `descripcionEstilo` VARCHAR(3000) NULL DEFAULT NULL,
@@ -108,9 +111,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`planta_museo`
+-- Table `bd_Museo`.`Planta_Museo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`planta_museo` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Planta_Museo` (
   `idPlanta` INT(11) NOT NULL AUTO_INCREMENT,
   `numeroPlanta` INT(2) NOT NULL,
   `capacidad` INT(3) NOT NULL,
@@ -121,9 +124,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`sala_museo`
+-- Table `bd_Museo`.`Sala_Museo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`sala_museo` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Sala_Museo` (
   `idSala` INT(11) NOT NULL AUTO_INCREMENT,
   `idPlanta` INT(11) NOT NULL,
   `nombreSala` VARCHAR(45) NOT NULL,
@@ -132,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`sala_museo` (
   INDEX `fk_Sala_Museo_Planta_Museo1` (`idPlanta` ASC),
   CONSTRAINT `fk_Sala_Museo_Planta_Museo1`
     FOREIGN KEY (`idPlanta`)
-    REFERENCES `bd_museo`.`planta_museo` (`idPlanta`)
+    REFERENCES `bd_Museo`.`Planta_Museo` (`idPlanta`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -141,9 +144,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`exposicion`
+-- Table `bd_Museo`.`Exposicion`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`exposicion` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Exposicion` (
   `idExposicion` INT(11) NOT NULL AUTO_INCREMENT,
   `idSala` INT(11) NOT NULL,
   `nombreExposicion` VARCHAR(50) NULL DEFAULT NULL,
@@ -154,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`exposicion` (
   INDEX `fk_Exposicion_Sala_Museo1` (`idSala` ASC),
   CONSTRAINT `fk_Exposicion_Sala_Museo1`
     FOREIGN KEY (`idSala`)
-    REFERENCES `bd_museo`.`sala_museo` (`idSala`)
+    REFERENCES `bd_Museo`.`Sala_Museo` (`idSala`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -163,9 +166,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`pintor`
+-- Table `bd_Museo`.`Pintor`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`pintor` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Pintor` (
   `idPintor` INT(11) NOT NULL AUTO_INCREMENT,
   `nombrePintor` VARCHAR(50) NULL DEFAULT NULL,
   `bioPintor` VARCHAR(4000) NULL DEFAULT NULL,
@@ -179,9 +182,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`cuadro`
+-- Table `bd_Museo`.`Cuadro`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`cuadro` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Cuadro` (
   `idCuadro` INT(11) NOT NULL AUTO_INCREMENT,
   `idPintor` INT(11) NOT NULL,
   `idExposicion` INT(11) NOT NULL,
@@ -197,17 +200,17 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`cuadro` (
   INDEX `fk_Cuadro_Estilo1` (`idEstilo` ASC),
   CONSTRAINT `fk_Cuadro_Estilo1`
     FOREIGN KEY (`idEstilo`)
-    REFERENCES `bd_museo`.`estilo` (`idEstilo`)
+    REFERENCES `bd_Museo`.`Estilo` (`idEstilo`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Cuadro_Exposicion1`
     FOREIGN KEY (`idExposicion`)
-    REFERENCES `bd_museo`.`exposicion` (`idExposicion`)
+    REFERENCES `bd_Museo`.`Exposicion` (`idExposicion`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Cuadro_Pintor`
     FOREIGN KEY (`idPintor`)
-    REFERENCES `bd_museo`.`pintor` (`idPintor`)
+    REFERENCES `bd_Museo`.`Pintor` (`idPintor`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -216,9 +219,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`datos_bancarios`
+-- Table `bd_Museo`.`Datos_Bancarios`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`datos_bancarios` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Datos_Bancarios` (
   `email` VARCHAR(50) NOT NULL,
   `numeroTarjeta` BIGINT(20) NOT NULL,
   `CCV` INT(11) NOT NULL,
@@ -227,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`datos_bancarios` (
   INDEX `fk_Datos_Bancarios_Usuario1` (`email` ASC),
   CONSTRAINT `fk_Datos_Bancarios_Usuario1`
     FOREIGN KEY (`email`)
-    REFERENCES `bd_museo`.`usuario` (`email`)
+    REFERENCES `bd_Museo`.`Usuario` (`email`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -235,9 +238,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`linea_carrito`
+-- Table `bd_Museo`.`Linea_Carrito`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`linea_carrito` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Linea_Carrito` (
   `idLinea_Carrito` INT(11) NOT NULL,
   `idCarrito` INT(11) NOT NULL,
   `idCopia_Cuadro` INT(11) NOT NULL,
@@ -251,12 +254,12 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`linea_carrito` (
   INDEX `fk_Linea_Carrito_Copia_Cuadro1` (`idCopia_Cuadro` ASC),
   CONSTRAINT `fk_Linea_Carrito_Carrito1`
     FOREIGN KEY (`idCarrito`)
-    REFERENCES `bd_museo`.`carrito` (`idCarrito`)
+    REFERENCES `bd_Museo`.`Carrito` (`idCarrito`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Linea_Carrito_Copia_Cuadro1`
     FOREIGN KEY (`idCopia_Cuadro`)
-    REFERENCES `bd_museo`.`copia_cuadro` (`idCopia_Cuadro`)
+    REFERENCES `bd_Museo`.`Copia_Cuadro` (`idCopia_Cuadro`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -264,9 +267,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`pedido`
+-- Table `bd_Museo`.`Pedido`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`pedido` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Pedido` (
   `email` VARCHAR(50) NOT NULL,
   `idPedido` INT(11) NOT NULL AUTO_INCREMENT,
   `fecha` DATE NULL DEFAULT NULL,
@@ -276,7 +279,7 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`pedido` (
   INDEX `fk_Pedido_Usuario1` (`email` ASC),
   CONSTRAINT `fk_Pedido_Usuario1`
     FOREIGN KEY (`email`)
-    REFERENCES `bd_museo`.`usuario` (`email`)
+    REFERENCES `bd_Museo`.`Usuario` (`email`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -284,9 +287,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`linea_pedido`
+-- Table `bd_Museo`.`Linea_Pedido`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`linea_pedido` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Linea_Pedido` (
   `idLinea_Pedido` INT(11) NOT NULL,
   `idPedido` INT(11) NOT NULL,
   `idCopia_Cuadro` INT(11) NOT NULL,
@@ -299,12 +302,12 @@ CREATE TABLE IF NOT EXISTS `bd_museo`.`linea_pedido` (
   INDEX `fk_LInea_Pedido_Copia_Cuadro1` (`idCopia_Cuadro` ASC),
   CONSTRAINT `fk_LInea_Pedido_Copia_Cuadro1`
     FOREIGN KEY (`idCopia_Cuadro`)
-    REFERENCES `bd_museo`.`copia_cuadro` (`idCopia_Cuadro`)
+    REFERENCES `bd_Museo`.`Copia_Cuadro` (`idCopia_Cuadro`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_LInea_Pedido_Pedido1`
     FOREIGN KEY (`idPedido`)
-    REFERENCES `bd_museo`.`pedido` (`idPedido`)
+    REFERENCES `bd_Museo`.`Pedido` (`idPedido`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -312,17 +315,17 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_museo`.`recibo`
+-- Table `bd_Museo`.`Recibo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_museo`.`recibo` (
+CREATE TABLE IF NOT EXISTS `bd_Museo`.`Recibo` (
   `idRecibo` INT(11) NOT NULL AUTO_INCREMENT,
   `idPedido` INT(11) NOT NULL,
-  `reciboHTML` VARCHAR(4000) NULL DEFAULT NULL,
+  `ReciboHTML` VARCHAR(4000) NULL DEFAULT NULL,
   PRIMARY KEY (`idRecibo`),
   INDEX `fk_Recibo_Pedido1` (`idPedido` ASC),
   CONSTRAINT `fk_Recibo_Pedido1`
     FOREIGN KEY (`idPedido`)
-    REFERENCES `bd_museo`.`pedido` (`idPedido`)
+    REFERENCES `bd_Museo`.`Pedido` (`idPedido`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
