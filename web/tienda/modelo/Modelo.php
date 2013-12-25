@@ -30,6 +30,187 @@
 			$con = null;
 		}
 
+		static function getAllProductos(){
+			$productos = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Copia_Cuadro ORDER BY fechaAlta ASC");
+		    $stmt->execute();
+		    $result = $stmt->fetchAll();
+
+		    foreach($result as $row){
+				$producto = new Copia_Cuadro($row['idCopia_Cuadro'],$row['nombreProducto'],$row['autor'],$row['estilo'],$row['orientacion'],$row['anioCuadro'],$row['fechaAlta'],$row['descripcion'],$row['precio'],$row['fotoCuadro']);
+				$productos[] = $producto;
+		    }
+		    return $productos;
+			$con = null;
+		}
+
+		static function getAllPintores(){
+			$pintores = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Pintor ORDER BY nombrePintor ASC");
+		    $stmt->execute();
+		    $result = $stmt->fetchAll();
+
+		    foreach($result as $row){
+				$pintor = new Pintor($row['idPintor'],$row['nombrePintor'],$row['bioPintor'],$row['fechaNacimiento'],$row['fechaMuerte'],$row['fotoPintor']);
+				$pintores[] = $pintor;
+		    }
+		    return $pintores;
+			$con = null;
+		}
+
+		static function getPintorByName($nombrePintor){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Pintor WHERE nombrePintor = :nombrePintor");
+
+			$stmt->bindParam(':nombrePintor', $nombrePintor);
+			$stmt->execute();
+
+			$row = $stmt->fetch();
+
+			$pintor = new Pintor($row['idPintor'],$row['nombrePintor'],$row['bioPintor'],$row['fechaNacimiento'],$row['fechaMuerte'],$row['fotoPintor']);
+
+			return $pintor;
+			$con = null;
+		}
+
+		static function getCuadrosDePintor($nombrePintor){
+			$productos = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Copia_Cuadro WHERE autor = :nombrePintor");
+
+			$stmt->bindParam(':nombrePintor', $nombrePintor);
+			$stmt->execute();
+
+			$result = $stmt->fetchAll();
+
+			foreach($result as $row){
+				$producto = new Copia_Cuadro($row['idCopia_Cuadro'],$row['nombreProducto'],$row['autor'],$row['estilo'],$row['orientacion'],$row['anioCuadro'],$row['fechaAlta'],$row['descripcion'],$row['precio'],$row['fotoCuadro']);
+				$productos[] = $producto;
+		    }
+
+			return $productos;
+			$con = null;
+		}
+
+		static function getAllEstilos(){
+			$estilos = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Estilo ORDER BY nombreEstilo ASC");
+		    $stmt->execute();
+		    $result = $stmt->fetchAll();
+
+		    foreach($result as $row){
+				$estilo = new Estilo($row['idEstilo'],$row['nombreEstilo'],$row['descripcionEstilo']);
+				$estilos[] = $estilo;
+		    }
+		    return $estilos;
+			$con = null;
+		}
+
+		static function getEstiloByName($nombreEstilo){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Estilo WHERE nombreEstilo = :nombreEstilo");
+
+			$stmt->bindParam(':nombreEstilo', $nombreEstilo);
+			$stmt->execute();
+
+			$row = $stmt->fetch();
+
+			$estilo = new Estilo($row['idEstilo'],$row['nombreEstilo'],$row['descripcionEstilo']);
+
+			return $estilo;
+			$con = null;
+		}
+
+		static function getCuadrosDeEstilo($nombreEstilo){
+			$productos = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Copia_Cuadro WHERE estilo = :nombreEstilo");
+
+			$stmt->bindParam(':nombreEstilo', $nombreEstilo);
+			$stmt->execute();
+
+			$result = $stmt->fetchAll();
+
+			foreach($result as $row){
+				$producto = new Copia_Cuadro($row['idCopia_Cuadro'],$row['nombreProducto'],$row['autor'],$row['estilo'],$row['orientacion'],$row['anioCuadro'],$row['fechaAlta'],$row['descripcion'],$row['precio'],$row['fotoCuadro']);
+				$productos[] = $producto;
+		    }
+
+			return $productos;
+			$con = null;
+		}
+
+		static function getAllExpos(){
+			$expos = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Exposicion ORDER BY nombreExposicion ASC");
+		    $stmt->execute();
+		    $result = $stmt->fetchAll();
+
+		    foreach($result as $row){
+				$expo = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFin'],$row['descripcionExpo']);
+				$expos[] = $expo;
+		    }
+		    return $expos;
+			$con = null;
+		}
+
+		static function getExpoByName($nombreExposicion){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Exposicion WHERE nombreExposicion = :nombreExposicion");
+
+			$stmt->bindParam(':nombreExposicion', $nombreExposicion);
+			$stmt->execute();
+
+			$row = $stmt->fetch();
+
+			$expo = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFin'],$row['descripcionExpo']);
+
+			return $expo;
+			$con = null;
+		}
+
+		static function getCuadrosDeExpo($idExpo){
+			$productos = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT Copia_Cuadro.*, Cuadro.nombreCuadro FROM Copia_Cuadro, Cuadro  WHERE Copia_Cuadro.nombreProducto = Cuadro.nombreCuadro AND Cuadro.idExposicion = :idExpo");
+			
+			$stmt->bindParam(':idExpo',$idExpo);
+			$stmt->execute();
+
+			$result = $stmt->fetchAll();
+
+			foreach($result as $row){
+				$producto = new Copia_Cuadro($row['idCopia_Cuadro'],$row['nombreProducto'],$row['autor'],$row['estilo'],$row['orientacion'],$row['anioCuadro'],$row['fechaAlta'],$row['descripcion'],$row['precio'],$row['fotoCuadro']);
+				$productos[] = $producto;
+			}
+
+			return $productos;
+			$con = null;
+		}
+
+		static function busqueda($key){
+			$productos = array();
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT * FROM Copia_Cuadro WHERE nombreProducto LIKE ? OR autor LIKE ? OR estilo LIKE ?");			
+			$stmt->bindValue(1, "%$key%", PDO::PARAM_STR);
+			$stmt->bindValue(2, "%$key%", PDO::PARAM_STR);
+			$stmt->bindValue(3, "%$key%", PDO::PARAM_STR);
+
+			$stmt->execute();			
+			$result = $stmt->fetchAll();        	
+
+			foreach($result as $row){
+				$producto = new Copia_Cuadro($row['idCopia_Cuadro'],$row['nombreProducto'],$row['autor'],$row['estilo'],$row['orientacion'],$row['anioCuadro'],$row['fechaAlta'],$row['descripcion'],$row['precio'],$row['fotoCuadro']);
+				$productos[] = $producto;
+		    }
+		    return $productos;
+			$con = null;
+		}
+
 		static function isCliente($datos){
 			$con = Modelo::conectar();
 			$stmt = $con->prepare("SELECT * FROM Usuario WHERE email = :usuario AND clave = :clave");

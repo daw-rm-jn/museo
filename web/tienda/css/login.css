@@ -70,7 +70,7 @@
 	background-color:#dfdfdf;
 }
 .login button#form_registrar:active,
-.login button#form_acceder:active {
+.login button#form_acceder:active{
 	position:relative;
 	top:1px;
 }
@@ -160,6 +160,46 @@ button#form_confirmar:hover {
 .login button#form_guardar:active, 
 button#form_enviar:active,
 button#form_confirmar:active {
+	position:relative;
+	top:1px;
+}
+#menu input#form_buscar {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf));
+	background:-moz-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+	background:-webkit-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+	background:-o-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+	background:-ms-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+	background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf',GradientType=0);
+	background-color:#ededed;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #777777;
+	display:inline-block;
+	cursor:pointer;
+	color:#777777;
+	font-family:arial;
+	font-size:13px;
+	font-weight:bold;
+	padding:2px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+}
+#menu input#form_buscar:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed));
+	background:-moz-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+	background:-webkit-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+	background:-o-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+	background:-ms-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+	background:linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed',GradientType=0);
+	background-color:#dfdfdf;
+}
+#menu input#form_buscar:active {
 	position:relative;
 	top:1px;
 }

@@ -19,22 +19,42 @@
 				<th class="th-show-carr">Importe</th>
 				<th class="th-show-carr">Estado</th>
 			</tr>
+				<ul id="pedidosCont">
 				{% for pedido in pedidos %}
-				<tr>
-					<td class="td-show-ped">
-						{{loop.index}}
-					</td>
-					<td class="td-show-ped">
-						<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">{{pedido.fecha}}</a>
-					</td>
-					<td class="td-show-ped">
-						<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">{{pedido.precioTotal}}€</a>
-					</td>
-					<td class="td-show-ped">
-						<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">{{pedido.estado}}</a>
-					</td>
-				</tr>
+				<li>
+					<tr>
+						<td class="td-show-ped">
+							{{loop.index}}
+						</td>
+						<td class="td-show-ped">
+							<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">{{pedido.fecha}}</a>
+						</td>
+						<td class="td-show-ped">
+							<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">{{pedido.precioTotal}}€</a>
+						</td>
+						<td class="td-show-ped">
+							<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">{{pedido.estado}}</a>
+						</td>
+					</tr>
+				</li>
 				{% endfor %}
+				</ul>
 			</table>
+		</div>		
+		<div class="pagPedidos">
+			<a class="jp-previous jp-disabled">← previous</a>
+			<a class="jp-current">1</a>
+			<span class="jp-hidden">...</span>
+			<a>2</a>
+			<a>3</a>
+			<a>4</a>
+			<a>5</a>
+			<a class="jp-hidden">6</a>
+			<a class="jp-hidden">7</a>
+			<a class="jp-hidden">8</a>
+			<a class="jp-hidden">9</a>
+			<span>...</span>
+			<a>10</a>
+			<a class="jp-next">next →</a>
 		</div>
 	{% endblock %}

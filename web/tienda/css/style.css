@@ -1,6 +1,7 @@
 @import url('login.css');
 @import url('carrito.css');
 @import url('pedido.css');
+@import url('jPages.css');
 @import url('jquery-ui.css');
 @import url('magnific-popup.css');
 
@@ -56,6 +57,10 @@ html > body{
 	text-decoration:underline;
 	background-position:top left;
 	background-repeat:no-repeat;
+}
+#menu form{
+	margin-left: 75%;
+	margin-top: 1%;
 }
 #menu .but_active, 
 #menu .but:hover{
@@ -140,7 +145,7 @@ html > body{
 	background-color:#ECECC5;
 	border:1px solid #DFDEC0;
 	width:220px;
-	position: fixed;
+	position: absolute;
 	margin-left: 25%;
 	padding:13px 26px 13px 20px;
 }
@@ -327,4 +332,30 @@ html > body{
 }
 .impar{
 	background-color: white;
+}
+ul#itemContainer li,
+ul#cuadrosCont li{
+	list-style: none;
+}
+div#res{
+	border-bottom: 1px dashed #aaa;
+	border-top: 1px dashed #aaa;
+	padding: 1% 0 1% 0;
+
+}
+span.res-autor{
+	padding: 0 0 0 30%;
+}
+span.res-tit,
+span.res-tit-autor{
+	font-weight: bold;
+	font-size: 13px;
+}
+span.res-tit-autor{	
+	padding: 0 0 0 40%;
+}
+div#bioPintor{
+	position: absolute;
+	margin-left: 11%;
+	width: 30%;
 }

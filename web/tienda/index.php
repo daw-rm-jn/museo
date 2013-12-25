@@ -40,6 +40,10 @@
 
 	/*---ENRUTAMIENTO--*/
 
+	$app->match('/buscar', function(Request $req) use ($app){
+		return Controller::buscar($req, $app);
+	});
+
 	$app->match('/pedidos/pedido/{id}', function(Request $req, $id) use ($app){
 		return Controller::verDetallesPedido($req, $app, $id);
 	})->before($checkCliente);
@@ -57,6 +61,34 @@
 	$app->match('/mi_cuenta', function(Request $req) use ($app){
 		return Controller::verDatosCuenta($req, $app);
 	})->before($checkCliente);
+
+	$app->match('/expos/{nombre}', function($nombre) use ($app){
+		return Controller::detalleExpo($app,$nombre);
+	});
+
+	$app->match('/estilos/{nombre}', function($nombre) use ($app){
+		return Controller::detalleEstilo($app,$nombre);
+	});
+
+	$app->match('/pintores/{nombre}', function($nombre) use ($app){
+		return Controller::detallePintor($app,$nombre);
+	});
+
+	$app->match('/ver_pintores', function() use ($app){
+		return Controller::verPintores($app);
+	});
+
+	$app->match('/ver_expos', function() use ($app){
+		return Controller::verExpos($app);
+	});
+
+	$app->match('/ver_estilos', function() use ($app){
+		return Controller::verEstilos($app);
+	});
+
+	$app->match('/ver_cuadros', function() use ($app){
+		return Controller::verCuadros($app);
+	});
 
 	$app->match('/sign', function(Request $req) use ($app){
 		return Controller::signIn($req, $app);

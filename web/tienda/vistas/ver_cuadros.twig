@@ -1,0 +1,54 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Tienda :: Todos los cuadros' %}
+	
+	{% block about %}
+	{% endblock %}
+
+	{% block info %}
+	{% endblock %}
+
+	{% block contenido %}
+		<h2>Todos los cuadros</h2>
+				<br>
+				<ul id="cuadrosCont">
+				{% for producto in productos %}
+					<li>
+					<div class="item">
+						{% if producto.orientacion == 'vertical' %}
+							<a class="image-popup-vertical-fit" href="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" title="{{producto.nombreProducto}}, de {{producto.autor}}">
+								<img src="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" alt="" width="170" height="200" />
+							</a>
+						{% elseif producto.orientacion == 'horizontal' %}
+							<a class="image-popup-fit-width" href="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" title="{{producto.nombreProducto}}, de {{producto.autor}}">
+								<img src="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" alt="" width="200" height="170" />
+							</a>
+						{% endif %}
+						<br>
+						<br>
+						<p class="nombreProd"><a href="">{{producto.nombreProducto}}</a> ({{producto.anioCuadro}}),</p>
+						<p class="nombreProd">de <a href="">{{producto.autor}}</a></p>
+						<br>
+						<span class="precio">{{producto.precio}}€</span><a href="{{app.request.basepath}}/item/{{producto.idCopia_Cuadro}}" class="buy">Ver</a>
+					</div>
+						</li>
+					{% endfor %}
+				</ul>		
+		
+		<div class="pagCuadros">
+			<a class="jp-previous jp-disabled">← previous</a>
+			<a class="jp-current">1</a>
+			<span class="jp-hidden">...</span>
+			<a>2</a>
+			<a>3</a>
+			<a>4</a>
+			<a>5</a>
+			<a class="jp-hidden">6</a>
+			<a class="jp-hidden">7</a>
+			<a class="jp-hidden">8</a>
+			<a class="jp-hidden">9</a>
+			<span>...</span>
+			<a>10</a>
+			<a class="jp-next">next →</a>
+		</div>
+	{% endblock %}

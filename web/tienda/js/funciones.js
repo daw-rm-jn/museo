@@ -89,4 +89,14 @@ $(document).ready(function(){
     $( "#buy" ).click(function() {
         $( "#buyForm" ).dialog( "open" );
     });
+
+    /*--- PAGINACION ---*/
+    $("div.pagPedidos").jPages({
+        containerID : "pedidosCont",
+        perPage: 10
+    });
+    $("div.pagCuadros").jPages({
+        containerID : "cuadrosCont",
+        perPage: 9
+    });
 });

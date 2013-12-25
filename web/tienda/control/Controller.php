@@ -25,12 +25,98 @@
 		static function main(Application $app){
 			$productos = Modelo::getUltimosProductos();
 			$logged = Controller::checkLog();
-				return $app['twig']->render('inicio.twig', array(
-					'productos' => $productos,
-					'logged' => $logged
-					)
-				);
+			return $app['twig']->render('inicio.twig', array(
+				'productos' => $productos,
+				'logged' => $logged
+				)
+			);
 			
+		}
+
+		static function verCuadros(Application $app){
+			$productos = Modelo::getAllProductos();
+			$logged = Controller::checkLog();
+			return $app['twig']->render('ver_cuadros.twig', array(
+				'productos' => $productos,
+				'logged' => $logged
+				)
+			);
+		}
+
+		static function verPintores(Application $app){
+			$pintores = Modelo::getAllPintores();
+			$logged = Controller::checkLog();
+			return $app['twig']->render('ver_pintores.twig', array(
+				'pintores' => $pintores,
+				'logged' => $logged
+				)
+			);
+		}
+
+		static function detallePintor(Application $app, $nombrePintor){
+			$pintor = Modelo::getPintorByName($nombrePintor);
+			$cuadros = Modelo::getCuadrosDePintor($nombrePintor);
+			$logged = Controller::checkLog();
+			return $app['twig']->render('detalle_pintor.twig', array(
+				'pintor' => $pintor,
+				'cuadros' => $cuadros,
+				'logged' => $logged
+				)
+			);
+		}
+
+		static function verEstilos(Application $app){
+			$estilos = Modelo::getAllEstilos();
+			$logged = Controller::checkLog();
+			return $app['twig']->render('ver_estilos.twig', array(
+				'estilos' => $estilos,
+				'logged' => $logged
+				)
+			);
+		}
+
+		static function detalleEstilo(Application $app, $nombreEstilo){
+			$estilo = Modelo::getEstiloByName($nombreEstilo);
+			$cuadros = Modelo::getCuadrosDeEstilo($nombreEstilo);
+			$logged = Controller::checkLog();
+			return $app['twig']->render('detalle_estilo.twig', array(
+				'estilo' => $estilo,
+				'cuadros' => $cuadros,
+				'logged' => $logged
+				)
+			);
+		}
+
+		static function verExpos(Application $app){
+			$expos = Modelo::getAllExpos();
+			$logged = Controller::checkLog();
+			return $app['twig']->render('ver_expos.twig', array(
+				'expos' => $expos,
+				'logged' => $logged
+				)
+			);
+		}
+
+		static function detalleExpo(Application $app, $nombreExpo){
+			$expo = Modelo::getExpoByName($nombreExpo);
+			$cuadros = Modelo::getCuadrosDeExpo($expo->getidExposicion());
+			$logged = Controller::checkLog();
+			return $app['twig']->render('detalle_expo.twig', array(
+				'expo' => $expo,
+				'cuadros' => $cuadros,
+				'logged' => $logged
+				)
+			);
+		}
+
+		static function buscar(Request $req, Application $app){
+			$logged = Controller::checkLog();
+			$key = $req->request->get("form_keyword");
+			$results = Modelo::busqueda($key);
+			return $app['twig']->render('resultados_busqueda.twig', array(
+				'results' => $results,
+				'logged' => $logged
+			));
 		}
 
 		static function item(Request $req,Application $app, $id){

@@ -5,12 +5,14 @@
 {% block cuerpo %}
 
 	<div id="header">																																																																								
+		{% block topmenu %}
 		<div id="header_inside">
 			{% if logged %}	
 				<img src="{{app.request.basepath}}/images/header.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />
 			{% else %}
 				<img src="{{app.request.basepath}}/images/header2.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />	
-			{% endif %}																																									
+			{% endif %}																																							
+
 			<ul id="menu">
 				<li><a href="{{app.request.basepath}}" class="but_active">Inicio</a></li>
 				{% if logged %}				
@@ -22,8 +24,15 @@
 					<li><a href="{{app.request.basepath}}/login" class="but">Acceder</a></li>
 					<li><a href="{{app.request.basepath}}/sign" class="but">Registrarse</a></li>					
 				{% endif %}
+					<li>
+						<form method="POST" action="{{app.request.basepath}}/buscar">
+							<input type="text" name="form_keyword" />
+							<input type="submit" name="form_buscar" id="form_buscar" value="Buscar" />
+						</form>
+					</li>
 			</ul>
 		</div>
+		{% endblock %}
 	</div>
 
 	<div id="wrapper">																																																																											
@@ -42,7 +51,7 @@
 				<div class="about">
 				{% block about %}
 					<h2>Sobre la tienda</h2><br />
-					<p>Bienvenido a la tienda del Museo. Aquí encontrará disponibles para su compra copias de los cuadros expuestos en el Museo, ya sean propiedad del mimso o formen parte de alguna exposición actual o pasada. </p>
+					<p>Bienvenido a la tienda del Museo. Aquí encontrará disponibles para su compra copias de los cuadros expuestos en el Museo, ya sean propiedad del mismo o formen parte de alguna exposición actual o pasada. </p>
 				{% endblock %}
 				</div>
 				<div class="news">
@@ -66,8 +75,8 @@
 						{% endif %}
 						<br>
 						<br>
-						<p class="nombreProd"><a href="">{{producto.nombreProducto}}</a> ({{producto.anioCuadro}}),</p>
-						<p class="nombreProd">de <a href="">{{producto.autor}}</a></p>
+						<p class="nombreProd"><a href="{{app.request.basepath}}/item/{{producto.idCopia_Cuadro}}">{{producto.nombreProducto}}</a> ({{producto.anioCuadro}}),</p>
+						<p class="nombreProd">de <a href="{{app.request.basepath}}/pintores/{{producto.autor}}">{{producto.autor}}</a></p>
 						<br>
 						<span class="precio">{{producto.precio}}€</span><a href="{{app.request.basepath}}/item/{{producto.idCopia_Cuadro}}" class="buy">Ver</a>
 					</div>

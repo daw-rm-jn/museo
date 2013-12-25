@@ -61,7 +61,11 @@
 					<p>
 						<strong>Autor:</strong> 
 						<br>
-						<a href="">{{producto.autor}}</a>.
+						<a href="{{app.request.basepath}}/pintores/{{producto.autor}}">{{producto.autor}}</a>.
+						<br><br>
+						<strong>Estilo:</strong>
+						<br>
+						<a href="{{app.request.basepath}}/estilos/{{producto.estilo}}">{{producto.estilo}}</a>.
 						<br><br>
 						<strong>Descripción:</strong>
 						<br>
