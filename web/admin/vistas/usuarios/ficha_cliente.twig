@@ -38,21 +38,22 @@
 											<td class="perla">
 												{{ form_row(form.pais, {'attr': {'value': cliente.pais }}) }}
 											</td>
-											<td class="perla">
+										</tr>
+										<tr>
+											<td class="grey">
 												{{ form_row(form.provincia, {'attr': {'value': cliente.provincia }}) }}
-											</td>
-											<td class="perla">
+												<br>
 												{{ form_row(form.poblacion, {'attr': {'value': cliente.poblacion }}) }}
 											</td>
-											<td class="perla">
+											<td class="grey">
 												{{ form_row(form.cp, {'attr': {'value': cliente.cp }}) }}
 											</td>
 										</tr>
 										<tr>
-											<td class="grey">
+											<td class="perla">
 												{{ form_row(form.telf, {'attr': {'value': cliente.telf }}) }}
 											</td>
-											<td class="grey">
+											<td class="perla">
 												{{ form_row(form.fechaAlta, {'attr': {'value': cliente.fechaAlta, 'readonly':'readonly' }}) }}
 											</td>
 										</tr>
