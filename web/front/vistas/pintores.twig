@@ -1,36 +1,45 @@
-{% extends 'plantilla.twig' %}
+{% extends 'inicio.twig' %}
 
-{% block titulo 'Museo' %}
+{% block titulo 'Museo :: Pintores' %}
+	
+	{% block about %}
+		<h2>Aqui se mostraran los pintores.</h2>
+                <form method="POST" action="/museo/trunk/web/front/pintores/buscar">
+							<input type="text" name="pintorFormName" placeholder="Busca un pintor" />
+							<input type="submit" name="form_buscar" id="form_buscar" value="Buscar">
+						</form>
+                
+	{% endblock %}
 
-{% block contenido %}
+	
 
-<div id="cont" class="cont">
-    
-
-    <div id="action" class="action">
-<table>
+	{% block contenido %}
+		<div class="login">
+			<table>
 					<tr>
 					</tr>
 					{% for pintor in pintores %}
 						<tr>
-							<td colspan="4">
-								<table rules="all">
+							
+								
 									
-									<tbody>
+									
 										<tr>
-											<td>
-												
-												{{pintor.nombrePintor}}<br />
-												<img src="{{pintor.fotoPintor}}"/>
+                                                                                    <td>
+                                                                                        <img src="http://localhost/museo/trunk/web/img/pintores/{{pintor.nombrePintor}}/{{pintor.fotoPintor}}"/>
+                                                                                    </td>
+											<td>												
+												{{pintor.nombrePintor}}												
+											</td>
+                                                                                        <td>												
+												{{pintor.bioPintor}}												
 											</td>
 										</tr>
-									</tbody>
-								</table>
-							</td>
-						</tr>
+									
+								
+							
+						
 					{% endfor %}
-				</table>
-    </div>
-</div> 
-
-{% endblock %}
+				</table>		
+		</div>
+	{% endblock %}

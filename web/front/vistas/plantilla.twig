@@ -1,36 +1,17 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-    <meta charset="UTF-8">
-    <head>
-        <title>{% block titulo '' %}</title>
-        <link rel="stylesheet" href="{{app.request.basepath}}/assets/css/style.css">
-        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="{{app.request.basepath}}/assets/js/jquery.slides.min.js"></script>
-        <script src="{{app.request.basepath}}/assets/js/funciones.js"></script>
-    </head>
-    <body>
-        <div id="titulo" class="titulo">
-	{% block cabecera %}
-            <div id="panelcontrol" class="panelcontrol">
-                <ul id="listaControl" class="listaControl">
-                    <li id="elem3" name="elem3" class="elem3" value="elem3"><a href="{{app.request.basepath}}/">Inicio</a></li>
-                    <li id="elem2" name="elem2" class="elem2" value="elem2"><a href="{{app.request.basepath}}/pintores">Pintores</a></li>
-                    <li id="elem4" name="elem3" class="elem4" value="elem4"><a href="{{app.request.basepath}}/cuadros">Cuadros</a></li>
-                    <li id="elem4" name="elem3" class="elem6" value="elem6"><a href="{{app.request.basepath}}/tienda">Tienda</a></li>
-                    <li id="elem5" name="elem5" class="elem5" value="elem5"><a href="{{app.request.basepath}}/carrito">Carrito</a></li>
-                {% if app.request.attributes.get('session') == ""%}
-                <li id="elem6" name="elem6" class="elem6" value="elem6"><a href="{{app.request.basepath}}/conectar">Conectar</a></li>
-                {% else %}
-                 <li id="elem6" name="elem6" class="elem6" value="elem6"><a href="{{app.request.basepath}}/desconectar">Desconectar</a></li>
-                    Conectado como: {{session}}
-                {% endif %}
-                   
+	<head>
+		<title>{% block titulo '' %}</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="{{app.request.basepath}}/css/style.css" />
+	</head>
 
-                </ul>
-            </div>
-        {% block contenido %}{% endblock %}
-	{% endblock %}
-        </div>
+	<body>
+		{% block cuerpo %}{% endblock %}
 
-    </body>
+		<script type="text/javascript" src="{{app.request.basepath}}/js/jquery-1.10.2.min.js"></script> 
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<script type="text/javascript" src="{{app.request.basepath}}/js/jquery.magnific-popup.min.js"></script>
+		<script type="text/javascript" src="{{app.request.basepath}}/js/funciones.js"></script>
+	</body>
 </html>

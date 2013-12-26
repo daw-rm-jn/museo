@@ -8,8 +8,9 @@
 		private $nombreCuadro;
 		private $descripcionCuadro;
 		private $fotoCuadro;
+                private $foto;
 
-		public function Cuadro($idCuadro,$idPintor,$idExposicion,$idEstilo,$nombreCuadro,$descripcionCuadro,$fotoCuadro){
+		public function Cuadro($idCuadro,$idPintor,$idExposicion,$idEstilo,$nombreCuadro,$descripcionCuadro,$fotoCuadro, $foto){
 			$this->idCuadro = $idCuadro;
 			$this->idPintor = $idPintor;
 			$this->idExposicion = $idExposicion;
@@ -17,6 +18,7 @@
 			$this->nombreCuadro = $nombreCuadro;
 			$this->descripcionCuadro = $descripcionCuadro;
 			$this->fotoCuadro = $fotoCuadro;
+                        $this->foto = $foto;
 		}
 
 		public function getidCuadro(){
@@ -77,8 +79,16 @@
 			return $this->idCuadro;
 		}
 
-		public function setfotoCuadro($fotoCuadro){
-			$this->fotoCuadro = $fotoCuadro;
+		public function setfotoCuadro($foto){
+			$this->foto = $foto;
+			return $this;
+		}
+                public function getfoto(){
+			return $this->foto;
+		}
+
+		public function setfoto($foto){
+			$this->foto = $foto;
 			return $this;
 		}
 	}
