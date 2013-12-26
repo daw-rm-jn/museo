@@ -23,12 +23,9 @@ class controladorPrincipal {
     }
 
     public static function main(Application $app) {
-
-        if (isset($_SESSION['user'])) {
-            return $app['twig']->render('inicio.twig', array('session' => $_SESSION['user']));
-        } else {
-            return $app['twig']->render('inicio.twig', array());
-        }
+$exposiciones = Modelo::getExposiciones();
+       return $app['twig']->render('inicio.twig', array(
+           'exposiciones' => $exposiciones));
     }
 
     static function pintoresBuscar(Request $req, Application $app) {

@@ -44,6 +44,19 @@ class Modelo {
         return $cuadros;
         $con = null;
     }
+    public static function getExposiciones() {
+        $exposiciones = array();
+        $con = Modelo::abrirConexion();
+        $query = "SELECT * FROM exposicion";
+        $res = $con->query($query);
+
+        foreach ($res as $row) {
+            $exposicion = new Exposicion($row['idExposicion'], $row['idSala'], $row['nombreExposicion'], $row['fechaInicio'], $row['fechaFin'], $row['descripcionExpo'], $row['cartel']);
+            $exposiciones[] = $exposicion;
+        }
+        return $exposiciones;
+        $con = null;
+    }
 
     static function getPintorByName($nombrePintor) {
         $pintores = array();

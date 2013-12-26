@@ -3,45 +3,75 @@
 {% block titulo 'Tienda :: Página principal' %}
 
 {% block cuerpo %}
+<script src="//code.jquery.com/jquery-latest.min.js"></script>
+<script src="//unslider.com/unslider.min.js"></script>
+<script>
+    $(function() {
+        $('.banner').unslider();
+    });
+</script>
 
-	<div id="header">																																																																								
-		<div id="header_inside">
+<div id="header">																																																																								
+    <div id="header_inside">
 
-				<img src="{{app.request.basepath}}/images/header2.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />	
-																																								
-			<ul id="menu">
-				<li><a href="{{app.request.basepath}}" class="but_active">Inicio</a></li>
-			
-					<li><a href="{{app.request.basepath}}/pintores" class="but">Pintores</a></li>
-					<li><a href="{{app.request.basepath}}/cuadros" class="but">Cuadros</a></li>
-                                        <li><a href="http://localhost/museo/trunk/web/tienda/" class="but">Tienda</a></li>
+        <img src="{{app.request.basepath}}/images/header2.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />	
 
-			</ul>
-		</div>
-	</div>
+        <ul id="menu">
+            <li><a href="{{app.request.basepath}}" class="but_active">Inicio</a></li>
 
-	<div id="wrapper">																																																																											
-		<div id="content_inside">
-			
-			<div id="main_block">
-				<div class="about">
+            <li><a href="{{app.request.basepath}}/pintores" class="but">Pintores</a></li>
+            <li><a href="{{app.request.basepath}}/cuadros" class="but">Cuadros</a></li>
+            <li><a href="http://localhost/museo/trunk/web/tienda/" class="but">Tienda</a></li>
+
+        </ul>
+    </div>
+</div>
+
+<div id="wrapper">																																																																											
+    <div id="content_inside">
+
+        <div id="main_block">
+            <div class="about">
 				{% block about %}
-					<h2>Bienvenido al Museo DAW
-                                        </h2><br />
-					<p></p>
+                <h2>Bienvenido al Museo DAW
+                </h2><br />
+                <div class="banner">
+                    <ul>
+                        <li><img src="http://localhost/museo/trunk/web/img/banner/b1.jpg"/></li>
+                        <li><img src="http://localhost/museo/trunk/web/img/banner/b2.jpg"/></li>
+                        <li><img src="http://localhost/museo/trunk/web/img/banner/b3.jpg"/></li>
+                    </ul>
+                </div>
+                <p></p>
 				{% endblock %}
-				</div>
-				
-				<div id="items">
+            </div>
+
+            <div id="items">
 				{% block contenido %}
-				
-				
+                <div class="login">
+                    <table>
+
+					{% for exposicion in exposiciones %}
+
+                        <tr>
+
+                        <img src="http://localhost/museo/trunk/web/img/exposiciones/{{exposicion.nombreExposicion}}/{{exposicion.cartel}}"/>
+                        <br />
+                        <p>{{exposicion.descripcionExpo}}</p>
+
+                        </tr>
+<br />
+
+					{% endfor %}
+                    </table>			
+                </div>
+
 			{% endblock %}
-				</div>
-			</div>
-		</div>
-	</div>
-	<br>
-	
-	
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+
 {% endblock %}
