@@ -74,7 +74,7 @@ html > body{
 #content_inside{
 	background-image:url(../images/bg.gif);
 	background-position:top left;
-	background-repeat:no-repeat;
+	background-repeat:repeat;
 	width:1000px;
 	margin:0 auto;
 	overflow:hidden;

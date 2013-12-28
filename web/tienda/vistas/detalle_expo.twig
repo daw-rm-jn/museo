@@ -4,6 +4,8 @@
 	
 	{% block about %}
 		<h2>{{expo.nombreExposicion}}</h2>
+		<br>
+		<img src="{{app.request.basepath}}/../img/exposiciones/{{expo.nombreExposicion}}/{{expo.cartel}}"/>
 	{% endblock %}
 
 	{% block info %}

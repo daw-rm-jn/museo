@@ -151,7 +151,7 @@
 		    $result = $stmt->fetchAll();
 
 		    foreach($result as $row){
-				$expo = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFin'],$row['descripcionExpo']);
+				$expo = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFin'],$row['descripcionExpo'],$row['cartel']);
 				$expos[] = $expo;
 		    }
 		    return $expos;
@@ -167,7 +167,7 @@
 
 			$row = $stmt->fetch();
 
-			$expo = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFin'],$row['descripcionExpo']);
+			$expo = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFin'],$row['descripcionExpo'],$row['cartel']);
 
 			return $expo;
 			$con = null;
