@@ -1,6 +1,6 @@
 <?php
 
-require 'ListaModelo.php';
+require 'ListaModelos.php';
 
 class Modelo {
 
@@ -38,16 +38,17 @@ class Modelo {
         $res = $con->query($query);
 
         foreach ($res as $row) {
-            $cuadro = new Cuadro($row['idCuadro'], $row['idPintor'], $row['idExposicion'], $row['idEstilo'], $row['nombreCuadro'], $row['descripcionCuadro'], $row['fotoCuadro'], $row['foto']);
+            $cuadro = new Cuadro($row['idCuadro'],$row['idPintor'],$row['idExposicion'],$row['idEstilo'],$row['nombreCuadro'],$row['descripcionCuadro'],$row['orientacion'],$row['anioCuadro'],$row['fotoCuadro']);
             $cuadros[] = $cuadro;
         }
         return $cuadros;
         $con = null;
     }
+    
     public static function getExposiciones() {
         $exposiciones = array();
         $con = Modelo::abrirConexion();
-        $query = "SELECT * FROM exposicion";
+        $query = "SELECT * FROM Exposicion";
         $res = $con->query($query);
 
         foreach ($res as $row) {
@@ -61,7 +62,7 @@ class Modelo {
     static function getPintorByName($nombrePintor) {
         $pintores = array();
         $con = Modelo::abrirConexion();
-        $stmt = $con->prepare("SELECT * FROM pintor WHERE nombrePintor LIKE ?");
+        $stmt = $con->prepare("SELECT * FROM Pintor WHERE nombrePintor LIKE ?");
         $stmt->bindValue(1, "%$nombrePintor%", PDO::PARAM_STR);
 
         $stmt->execute();
@@ -78,7 +79,7 @@ class Modelo {
     static function getCuadroByName($nombreCuadro) {
         $cuadros = array();
         $con = Modelo::abrirConexion();
-        $stmt = $con->prepare("SELECT * FROM cuadro WHERE nombreCuadro LIKE ?");
+        $stmt = $con->prepare("SELECT * FROM Cuadro WHERE nombreCuadro LIKE ?");
         $stmt->bindValue(1, "%$nombreCuadro%", PDO::PARAM_STR);
 
         $stmt->execute();

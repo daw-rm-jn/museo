@@ -1,7 +1,7 @@
 <?php 
 	require_once __DIR__.'/../../vendor/autoload.php'; 
 	require_once __DIR__.'/control/controladorPrincipal.php';
-	require_once __DIR__.'/modelo/Modelo.php';
+	require_once __DIR__.'/modelo/modelo.php';
 
 
 	/*---INYECCION DE DEPENDENCIAS--*/

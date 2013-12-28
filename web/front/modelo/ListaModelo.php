@@ -1,5 +1,5 @@
 <?php  
 	require 'Pintor.php';
-        require 'Cuadro.php';
-        require 'Exposicion.php';
+    require 'Cuadro.php';
+    require 'Exposicion.php';
 ?>

@@ -87,7 +87,7 @@ html > body{
 #content_inside{
     background-image:url(../images/bg.gif);
     background-position:top left;
-    background-repeat:no-repeat;
+    background-repeat:repeat;
     width:1000px;
     height:1500px;
     margin:0 auto;
@@ -172,7 +172,10 @@ html > body{
     float:left;
     padding:22px 0 0 0;
     width:770px;
-    height: 2000px;
+    height: auto;
+}
+.login{
+    height: auto;
 }
 .item{
     width:241px;

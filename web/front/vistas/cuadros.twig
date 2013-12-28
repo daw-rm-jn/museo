@@ -1,6 +1,6 @@
 {% extends 'inicio.twig' %}
 
-{% block titulo 'Tienda :: Registro' %}
+{% block titulo 'Museo :: Cuadros' %}
 	
 	{% block about %}
 		<h2>Aqui se mostraran los pintores.</h2>
@@ -11,12 +11,6 @@
 	{% endblock %}
 
 	{% block info %}
-		<h2>Información:</h2>
-		<p>Rellene el formulario de alta con sus datos.</p>
-		<br>
-		<p>Los datos personales son <span class="required">obligatorios</span>, los datos bancarios podrá rellenarlos más adelante.</p>
-		<br>
-		<p id="info"></p>
 	{% endblock %}
 
 	{% block contenido %}
@@ -27,14 +21,18 @@
 					{% for cuadro in cuadros %}
 						<tr>		
 							<tr>
-                                                                   <td>
-                                                                         <img src="http://localhost/museo/trunk/web/img/cuadros/{{cuadro.nombreCuadro}}/{{cuadro.foto}}"/>
-                                                                    </td>
+                               <td>
+                                    {% if cuadro.orientacion == 'vertical' %}
+										<img src="{{app.request.basepath}}/../img/cuadros/{{cuadro.nombreCuadro}}/{{cuadro.fotoCuadro}}" width="70" height="100"/>
+									{% elseif cuadro.orientacion == 'horizontal' %}
+										<img src="{{app.request.basepath}}/../img/cuadros/{{cuadro.nombreCuadro}}/{{cuadro.fotoCuadro}}" width="100" height="70"/>
+									{% endif %}
+                                </td>
 								<td>												
-												{{cuadro.nombreCuadro}}												
+									{{cuadro.nombreCuadro}}												
 								</td>
-                                                                <td>												
-												{{cuadro.descripcionCuadro}}												
+                                <td>												
+									{{cuadro.descripcionCuadro}}												
 								</td>
 							</tr>
 								

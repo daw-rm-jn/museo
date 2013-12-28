@@ -1,6 +1,6 @@
 {% extends 'plantilla.twig' %}
 
-{% block titulo 'Tienda :: Página principal' %}
+{% block titulo 'Museo :: Página principal' %}
 
 {% block cuerpo %}
 <script src="//code.jquery.com/jquery-latest.min.js"></script>
@@ -21,7 +21,7 @@
 
             <li><a href="{{app.request.basepath}}/pintores" class="but">Pintores</a></li>
             <li><a href="{{app.request.basepath}}/cuadros" class="but">Cuadros</a></li>
-            <li><a href="http://localhost/museo/trunk/web/tienda/" class="but">Tienda</a></li>
+            <li><a href="{{app.request.basepath}}/../tienda/" class="but">Tienda</a></li>
 
         </ul>
     </div>
@@ -37,9 +37,9 @@
                 </h2><br />
                 <div class="banner">
                     <ul>
-                        <li><img src="http://localhost/museo/trunk/web/img/banner/b1.jpg"/></li>
-                        <li><img src="http://localhost/museo/trunk/web/img/banner/b2.jpg"/></li>
-                        <li><img src="http://localhost/museo/trunk/web/img/banner/b3.jpg"/></li>
+                        <li><img src="{{app.request.basepath}}/../img/banner/b1.jpg"/></li>
+                        <li><img src="{{app.request.basepath}}/../img/banner/b2.jpg"/></li>
+                        <li><img src="{{app.request.basepath}}/../img/banner/b3.jpg"/></li>
                     </ul>
                 </div>
                 <p></p>
@@ -55,7 +55,7 @@
 
                         <tr>
 
-                        <img src="http://localhost/museo/trunk/web/img/exposiciones/{{exposicion.nombreExposicion}}/{{exposicion.cartel}}"/>
+                        <img src="{{app.request.basepath}}/../img/exposiciones/{{exposicion.nombreExposicion}}/{{exposicion.cartel}}"/>
                         <br />
                         <p>{{exposicion.descripcionExpo}}</p>
 
