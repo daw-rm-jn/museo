@@ -11,7 +11,7 @@
 		    $result = $stmt->fetchAll();
 
 		    foreach($result as $row){
-				$exposicion = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFin'],$row['descripcionExpo']);
+				$exposicion = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFin'],$row['descripcionExpo'],$row['cartel']);
 				$exposiciones[] = $exposicion;
 		    }
 		    return $exposiciones;
@@ -46,7 +46,7 @@
 		    $stmt->execute();
 		    $row = $stmt->fetch();
 
-			$expo = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFin'],$row['descripcionExpo']);
+			$expo = new Exposicion($row['idExposicion'],$row['idSala'],$row['nombreExposicion'],$row['fechaInicio'],$row['fechaFin'],$row['descripcionExpo'],$row['cartel']);
 			
 		    return $expo;
 			$con = null;
@@ -54,13 +54,14 @@
 
 		static function addExposicion($exposicion, $descriptor){
 			$con = Model_BD::conectar();
-			$stmt = $con->prepare("INSERT INTO Exposicion (idSala,nombreExposicion,fechaInicio,fechaFin,descripcionExpo) VALUES (:salaex,:nomex,:fechinex,:fechfinex,:descex)");
+			$stmt = $con->prepare("INSERT INTO Exposicion (idSala,nombreExposicion,fechaInicio,fechaFin,descripcionExpo,cartel) VALUES (:salaex,:nomex,:fechinex,:fechfinex,:descex,:cartel)");
 
 			$stmt->bindParam(':nomex', $exposicion['nombreExposicion']);
 			$stmt->bindParam(':descex', $descriptor['descripcion']);
 			$stmt->bindParam(':fechinex', $exposicion['fechaInicio']);
 			$stmt->bindParam(':fechfinex', $exposicion['fechaFin']);
 			$stmt->bindParam(':salaex', $descriptor['sala']);
+			$stmt->bindParam(':cartel', $descriptor['cartel']);
 
 			$stmt->execute();
 			$affected_rows = $stmt->rowCount();
@@ -83,7 +84,7 @@
 
 		static function modificaExpo($expo, $descriptor){
 			$con = Model_BD::conectar();
-			$stmt = $con->prepare("UPDATE Exposicion SET idSala = :salaex, nombreExposicion = :nomex, fechaInicio = :fechinex, fechaFin = :fechfinex, descripcionExpo = :descex WHERE idExposicion = :idex");
+			$stmt = $con->prepare("UPDATE Exposicion SET idSala = :salaex, nombreExposicion = :nomex, fechaInicio = :fechinex, fechaFin = :fechfinex, descripcionExpo = :descex,cartel = :cartel WHERE idExposicion = :idex");
 			
 			$stmt->bindParam(':nomex', $expo['nombreExposicion']);
 			$stmt->bindParam(':descex', $descriptor['descripcion']);
@@ -91,6 +92,7 @@
 			$stmt->bindParam(':idex', $descriptor['id']);
 			$stmt->bindParam(':fechinex', $expo['fechaInicio']);
 			$stmt->bindParam(':fechfinex', $expo['fechaFin']);
+			$stmt->bindParam(':cartel', $descriptor['cartel']);
 
 			$stmt->execute();
 			$affected_rows = $stmt->rowCount();

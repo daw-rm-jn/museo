@@ -54,6 +54,7 @@
 			        		)
 			        	)
 			        ))
+			        ->add("cartel", 'file', array())
 			        ->add('guardar', 'submit', array())
 			        ->getForm();
 
@@ -64,9 +65,21 @@
 
 		        	$data = $form->getData();
 
+		        	$files = $req->files->get($form->getName());
+		            $path = __DIR__.'/../../img/exposiciones/'.$data['nombreExposicion'];
+
+		            $extension = $files['cartel']->guessExtension();
+					if (!$extension) {
+					    $extension = 'bin';
+					}
+
+					$filename = $data['nombreExposicion'].'.'.$extension;
+					$files['cartel']->move($path, $filename);
+
 		        	$descriptorAddExpo = array(
 		        		'sala' => $req->request->get('selsalas'),
-		        		'descripcion' => $req->request->get('descExpo')
+		        		'descripcion' => $req->request->get('descExpo'),
+		        		'cartel' => $filename
 		        	);
 
 					if(Modelo::addExposicion($data, $descriptorAddExpo)){
@@ -120,6 +133,7 @@
 			        		)
 			        	)
 			        ))
+			        ->add('cartel','file',array())
 			        ->add('guardar', 'submit', array())
 			        ->getForm();
 
@@ -129,10 +143,22 @@
 		        if ($form->isValid()) {
 		        	$data = $form->getData();
 
+		        	$files = $req->files->get($form->getName());
+		            $path = __DIR__.'/../../img/exposiciones/'.$data['nombreExposicion'];
+
+		            $extension = $files['cartel']->guessExtension();
+					if (!$extension) {
+					    $extension = 'bin';
+					}
+
+					$filename = $data['nombreExposicion'].'.'.$extension;
+					$files['cartel']->move($path, $filename);
+
 					$descriptorMod = array(
 						'id' => $data['idExposicion'],
 		        		'sala' => $req->request->get('selsalas'),
 		        		'descripcion' => $req->request->get('descExpo'),
+		        		'cartel' => $filename
 		        	);
 					if(Modelo::modificaExpo($data, $descriptorMod)){
 						return $app['twig']->render('mod.twig', array(

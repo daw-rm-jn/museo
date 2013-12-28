@@ -6,14 +6,16 @@
 		private $fechaInicio;
 		private $fechaFin;
 		private $descripcionExpo;
+		private $cartel;
 
-		public function Exposicion($idExposicion,$idSala,$nombreExposicion,$fechaInicio,$fechaFin,$descripcionExpo){
+		public function Exposicion($idExposicion,$idSala,$nombreExposicion,$fechaInicio,$fechaFin,$descripcionExpo,$cartel){
 			$this->idExposicion = $idExposicion;
 			$this->idSala = $idSala;
 			$this->nombreExposicion = $nombreExposicion;
 			$this->fechaInicio = $fechaInicio;
 			$this->fechaFin = $fechaFin;
 			$this->descripcionExpo = $descripcionExpo;
+			$this->cartel = $cartel;
 		}
 
 		public function getidExposicion()
@@ -73,6 +75,17 @@
 		public function setdescripcionExpo($descripcionExpo)
 		{
 		    $this->descripcionExpo = $descripcionExpo;
+		    return $this;
+		}
+
+		public function getcartel()
+		{
+		    return $this->cartel;
+		}
+		
+		public function setcartel($cartel)
+		{
+		    $this->cartel = $cartel;
 		    return $this;
 		}		
 	}

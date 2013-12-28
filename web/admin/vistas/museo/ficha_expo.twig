@@ -35,7 +35,16 @@
 												</select>
 											</td>
 											<td class="grey">
-												{{ form_row(form.fechaFin, {'attr': {'value': exposicion.fechaFIn}}) }}
+												{{ form_row(form.fechaFin, {'attr': {'value': exposicion.fechaFin}}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{form_row(form.cartel) }}
+											</td>
+											<td class="perla">
+												Cartel Actual:
+												<img src="{{app.request.basepath}}/../img/exposiciones/{{exposicion.nombreExposicion}}/{{exposicion.cartel}}" width="350" height="100">
 											</td>
 										</tr>
 										<tr>
