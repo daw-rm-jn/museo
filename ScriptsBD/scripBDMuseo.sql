@@ -152,7 +152,8 @@ CREATE TABLE IF NOT EXISTS `bd_Museo`.`Exposicion` (
   `nombreExposicion` VARCHAR(50) NULL DEFAULT NULL,
   `fechaInicio` DATE NULL DEFAULT NULL,
   `fechaFin` DATE NULL DEFAULT NULL,
-  `descripcionExpo` VARCHAR(2000) NULL DEFAULT NULL,
+  `descripcionExpo` VARCHAR(5000) NULL DEFAULT NULL,
+  `cartel` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`idExposicion`),
   INDEX `fk_Exposicion_Sala_Museo1` (`idSala` ASC),
   CONSTRAINT `fk_Exposicion_Sala_Museo1`
