@@ -22,9 +22,9 @@ function cifrarMod(){
     	var clavenuevacif = hex_md5(clavenuevasincifrar);
    		document.getElementById("form_clavenuevacifrada").value = clavenuevacif;
     }else{
-    	document.getElementById("form_clavenuevacifrada").value = "";
+        document.getElementById("form_clavenuevacifrada").value = claveactualcif;        
     }
-}
+};
 
 /*--- MENSAJES DE INFORMACIÓN SEGÚN EL ELEMENTO EN EL QUE SE SITÚE---*/
 $(document).ready(function(){
@@ -43,6 +43,10 @@ $(document).ready(function(){
 	$("input#form_claveActual").focus(function() {
 		$("div.news p#info").html("La cotraseña debe tener al menos 6 carácteres y 12 como máximo.");
 	});
+
+    $("input#form_direccion").focus(function() {
+        $("div.news p#info").html("La dirección introducida será utilizada como dirección de envío y de facturación.");
+    });
 
     /*---PLUGIN PARA EL ZOOM DE LAS IMÁGENES DE LOS CUADROS---*/
     $('.image-popup-vertical-fit').magnificPopup({

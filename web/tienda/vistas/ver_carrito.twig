@@ -14,8 +14,6 @@
 		<div class="showCarr">
 			<table style="width:100%;" class="table-show-carr">
 			{{ form_start(form, {'method': 'POST'}) }}
-			{{ form_row(form.cliente, {'attr': {'value': cliente }}) }}
-			{{ form_row(form.idCarrito, {'attr': {'value': idCarrito }}) }}
 			<tr>
 				<th class="th-show-carr">Nombre</th>
 				<th class="th-show-carr">Precio</th>
@@ -76,19 +74,18 @@
 					</th>
 					<th class="th-show-carr">
 						{{totalCarrito}}€
-						{{ form_row(form.totalCarrito, {'attr': {'value': totalCarrito}}) }}
 					</th>
 				</tr>
 				<tr>
 					<td class="td-opt-carr" colspan="3"></td>
 					<td class="td-opt-carr">
-						{{ form_row(form.confirmar) }}
+						{{ form_row(form.borrarLineas) }}
+					{{ form_end(form) }}
 					</td>
 					<td class="td-opt-carr">
-						{{ form_row(form.borrarLineas) }}
+						<a href="{{app.request.basepath}}/confirma_compra"><button id="form_confirmar">Confirmar</button></a>
 					</td>
 				</tr>
-			{{ form_end(form) }}
 			</table>
 		</div>
 	{% endblock %}

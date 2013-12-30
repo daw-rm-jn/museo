@@ -53,6 +53,11 @@
 	})->bind("ver_pedidos")
 	  ->before($checkCliente);
 
+	$app->match('/confirma_compra', function(Request $req) use ($app){
+		return Controller::confirmaCompra($req, $app);
+	})->bind("confirma_compra")
+	  ->before($checkCliente);
+
 	$app->match('/ver_carrito', function(Request $req) use ($app){
 		return Controller::verCarrito($req, $app);
 	})->bind("ver_carrito")

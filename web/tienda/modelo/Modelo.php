@@ -257,12 +257,12 @@
 
 			$affected_rows = $stmt->rowCount();
 
-				$datosBanc = array(
-					'numeroTarjeta' => $row['numeroTarjeta'],
-					'CCV' => $row['CCV'],
-					'fechaCaducidad' => $row['fechaCaducidad']
-				);
-			    return $datosBanc;
+			$datosBanc = array(
+				'numeroTarjeta' => $row['numeroTarjeta'],
+				'CCV' => $row['CCV'],
+				'fechaCaducidad' => $row['fechaCaducidad']
+			);
+			return $datosBanc;
 
 		    $con = null;
 		}
@@ -380,53 +380,49 @@
 		}
 		static function modificaCuenta($cliente,$fechaCad){
 			$con = Modelo::conectar();
-			$stmt = $con->prepare("UPDATE Usuario SET clave = :clave,nombre = :nombre,nif = :nif,dir = :dir,pais = :pais,provincia = :prov,poblacion = :pob,cp = :cp,telf = :telf WHERE email = :email");
 
-			if($cliente['claveactualcifrada'] == Modelo::getClaveCliente($cliente['email'])){
-				if($cliente['clavenuevacifrada'] != ""){
-					$stmt->bindParam(':clave', $cliente['clavenuevacifrada']);
-				}else{
-					$stmt->bindParam(':clave', $cliente['claveactualcifrada']);
-				}
-			}else{
+			if($cliente['claveactualcifrada'] != Modelo::getClaveCliente($cliente['email'])){
 				return false;
-			}
-			
-			$stmt->bindParam(':email', $cliente['email']);
-			$stmt->bindParam(':nombre', $cliente['nombre']);
-			$stmt->bindParam(':nif', $cliente['nif']);
-			$stmt->bindParam(':dir', $cliente['direccion']);
-			$stmt->bindParam(':pais', $cliente['pais']);
-			$stmt->bindParam(':prov', $cliente['provincia']);
-			$stmt->bindParam(':pob', $cliente['poblacion']);
-			$stmt->bindParam(':cp', $cliente['codigoPostal']);
-			$stmt->bindParam(':telf', $cliente['telf']);
-
-			$stmt->execute();	
-			$affected_rows = $stmt->rowCount();
-
-			$checkVacio = array_filter(Modelo::getDatosBanc($cliente['email']));
-
-			if($cliente['numeroTarjeta'] != "" && $cliente['CCV'] != "" && $fechaCad != "" ){
-				$datosBanc = array(
-					'email' => $cliente['email'],
-					'numeroTarjeta' => $cliente['numeroTarjeta'],
-					'CCV' => $cliente['CCV'],
-					'fechaCad' => $fechaCad
-				);
-				if(empty($checkVacio)){
-					Modelo::addDatosBancarios($datosBanc);	
-				}else{
-					Modelo::modificaDatosBancarios($datosBanc);
-				}
+			}else{
+				$stmt = $con->prepare("UPDATE Usuario SET clave = :clave,nombre = :nombre,nif = :nif,dir = :dir,pais = :pais,provincia = :prov,poblacion = :pob,cp = :cp,telf = :telf WHERE email = :email");
 				
-			}
+				$stmt->bindParam(':email', $cliente['email']);
+				$stmt->bindParam(':clave', $cliente['clavenuevacifrada']);
+				$stmt->bindParam(':nombre', $cliente['nombre']);
+				$stmt->bindParam(':nif', $cliente['nif']);
+				$stmt->bindParam(':dir', $cliente['direccion']);
+				$stmt->bindParam(':pais', $cliente['pais']);
+				$stmt->bindParam(':prov', $cliente['provincia']);
+				$stmt->bindParam(':pob', $cliente['poblacion']);
+				$stmt->bindParam(':cp', $cliente['codigoPostal']);
+				$stmt->bindParam(':telf', $cliente['telf']);
 
-			if($affected_rows >= 0){
-				return true;
-			}else{
-				return false;
-			}
+				$stmt->execute();	
+				$affected_rows = $stmt->rowCount();
+
+				$checkVacio = array_filter(Modelo::getDatosBanc($cliente['email']));
+
+				if($cliente['numeroTarjeta'] != "" && $cliente['CCV'] != "" && $fechaCad != "" ){
+					$datosBanc = array(
+						'email' => $cliente['email'],
+						'numeroTarjeta' => $cliente['numeroTarjeta'],
+						'CCV' => $cliente['CCV'],
+						'fechaCad' => $fechaCad
+					);
+					if(empty($checkVacio)){
+						Modelo::addDatosBancarios($datosBanc);	
+					}else{
+						Modelo::modificaDatosBancarios($datosBanc);
+					}
+					
+				}
+
+				if($affected_rows >= 0){
+					return true;
+				}else{
+					return false;
+				}
+			}		
 
 			$con = null;			
 		}

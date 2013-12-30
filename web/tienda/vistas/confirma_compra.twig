@@ -1,0 +1,93 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Tienda :: Datos de pago' %}
+	
+	{% block about %}
+		<h2>Datos de pago</h2>		
+	{% endblock %}
+
+	{% block info %}
+		<h2>Información:</h2>
+		<p>Aquí puede cambiar su información de pago antes de confirmar su compra</p>
+	{% endblock %}
+
+	{% block contenido %}
+		<div class="login">
+			<table border="0" width="241">
+			{{ form_start(form, {'method': 'POST'}) }}
+			{{ form_row(form.cliente, {'attr': {'value': cliente }}) }}
+			{{ form_row(form.idCarrito, {'attr': {'value': idCarrito }}) }}
+			{{ form_row(form.totalCarrito, {'attr': {'value': totalCarrito }}) }}
+			<tr>
+				<th>Datos bancarios</th>
+			</tr>
+			<tr>
+				<td class="form" colspan="2">{{ form_row(form.numeroTarjeta, {'attr': {'value': datosBanc.numeroTarjeta }}) }}</td>
+			</tr>
+			<tr>
+				<td class="form" colspan="2">{{ form_row(form.CCV, {'attr': {'value': datosBanc.CCV }}) }}</td>
+			</tr>
+			<tr>				
+				<td class="form" colspan="2">Fecha de caducidad: 
+				{% if fechCad[0] != "" and fechCad[1] != "" %}				
+					<select name="selfechCadAnio" id="selfechCadAnio">
+						<option value="">-</option>
+						{% if curYear == fechCad[0] %}
+							<option value="{{curYear}}" SELECTED>{{curYear}}</option>
+						{% else %}
+							<option value="{{curYear}}">{{curYear}}</option>
+						{% endif %}
+						{% for i in curYear..(curYear+10) %}
+							{% if curYear+loop.index == fechCad[0] %}
+								<option value="{{curYear+loop.index}}" SELECTED>{{curYear+loop.index}}</option>
+							{% else %}
+								<option value="{{curYear+loop.index}}">{{curYear+loop.index}}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+					/
+					<select name="selfechCadMes" id="selfechCadMes">
+						<option value="">-</option>
+						{% for i in 1..12 %}
+							{% if loop.index == fechCad[1] %}
+								<option value="{{loop.index}}" SELECTED>{{loop.index}}</option>
+							{% else %}
+								<option value="{{loop.index}}">{{loop.index}}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+				{% else %}
+					<select name="selfechCadAnio" id="selfechCadAnio">
+						<option value="">-</option>
+						<option value="{{curYear}}">{{curYear}}</option>
+						{% for i in curYear..(curYear+10) %}
+							<option value="{{curYear+loop.index}}">{{curYear+loop.index}}</option>
+						{% endfor %}
+					</select>
+					/
+					<select name="selfechCadMes" id="selfechCadMes">
+						<option value="">-</option>
+						{% for i in 1..12 %}
+							<option value="{{loop.index}}">{{loop.index}}</option>
+						{% endfor %}
+					</select>
+				{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td class="cent">
+					{{ form_row(form.confirmar) }}
+				</td>
+			</tr>		
+			{{ form_end(form) }}
+			</table>			
+		</div>
+	{% endblock %}
+
+
+
+
+
+
+
+

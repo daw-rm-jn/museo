@@ -483,10 +483,6 @@
 			$totalCarrito = Modelo::getTotalCarrito($idCarrito);
 			$logged = Controller::checkLog();
 			$form = $app['form.factory']->createBuilder('form')
-					->add("cliente",'hidden',array())
-					->add("idCarrito",'hidden',array())
-					->add("totalCarrito",'hidden',array())
-					->add("confirmar",'submit',array())
 					->add("borrarLineas",'submit',array())
 					->getForm();
 
@@ -495,36 +491,102 @@
 
 		        if ($form->isValid()) {
 		        	$data = $form->getData();
-		        	if($form->get("borrarLineas")->isClicked()){
-
-		        		$idLineas = $req->request->get('cb_borrarLineas');
-		        		Modelo::borrarLineasCarrito($idLineas, $idCarrito);		        		
-						return $app->redirect($app['url_generator']->generate('ver_carrito'));	
-
-		        	}else if($form->get("confirmar")->isClicked()){
-		        		if(Modelo::crearPedido($data)){
-		        			Modelo::vaciarCarrito($data['idCarrito']);
-							return $app->redirect($app['url_generator']->generate('ver_pedidos'));
-						}else{
-							return $app['twig']->render('operation.twig', array(
-								'operation' => 'Error',
-								'msg' => 'Ha ocurrido un error durante la confirmación de su pedido, inténtelo de nuevo.',
-								'logged' => $logged
-							));
-						}
-		        	}
+		        	$idLineas = $req->request->get('cb_borrarLineas');
+		        	Modelo::borrarLineasCarrito($idLineas, $idCarrito);		        		
+					return $app->redirect($app['url_generator']->generate('ver_carrito'));
 		        }
 		    }
 
 			return $app['twig']->render('ver_carrito.twig', array(
 				'logged' => $logged,
-				'idCarrito' => $idCarrito,
 				'lineas' => $lineasCarrito,
 				'totalCarrito' => $totalCarrito,
-				'form' => $form->createView(),				
+				'form' => $form->createView()
+				)
+			);
+		}
+
+		static function confirmaCompra(Request $req, Application $app){			
+			$logged = Controller::checkLog();
+
+			$idCarrito = Modelo::getIdCarrito($_SESSION['cliente']);
+			$totalCarrito = Modelo::getTotalCarrito($idCarrito);
+
+			$datosBancUser = Modelo::getDatosBanc($_SESSION['cliente']);
+			$fechCad = explode("-", $datosBancUser['fechaCaducidad']);
+
+			$form = $app['form.factory']->createBuilder('form')	
+					->add("cliente",'hidden',array())				
+					->add("idCarrito",'hidden',array())				
+					->add("totalCarrito",'hidden',array())				
+			        ->add('numeroTarjeta','text',array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/\d{16}/',
+				        		)
+			        		)
+			        	)
+			        ))
+			        ->add('CCV','text',array(
+			        	'constraints' => array(
+			        		new Assert\Regex(array(
+            					'pattern' => '/\d{3}/',
+				        		)
+			        		)
+			        	)
+			        ))
+			        ->add("confirmar", "submit", array())
+					->getForm();
+
+			if ('POST' == $req->getMethod()) {
+		        $form->bind($req);
+
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+
+		        	$fechaCad = $req->request->get('selfechCadAnio') . '-' . $req->request->get('selfechCadMes') . '-01';
+
+		        	$datosBanc = array(
+		        		'email' => $data['cliente'],
+		        		'numeroTarjeta' => $data['numeroTarjeta'],
+		        		'CCV' => $data['CCV'],
+		        		'fechaCad' => $fechaCad
+		        	);
+
+		        	$checkVacio = array_filter(Modelo::getDatosBanc($data['cliente']));
+
+		        	if(empty($checkVacio)){		        		
+						Modelo::addDatosBancarios($datosBanc);	
+					}else{
+						Modelo::modificaDatosBancarios($datosBanc);
+					}
+
+		        	if(Modelo::crearPedido($data)){
+		        		Modelo::vaciarCarrito($data['idCarrito']);
+						return $app->redirect($app['url_generator']->generate('ver_pedidos'));
+					}else{
+						return $app['twig']->render('operation.twig', array(
+							'operation' => 'Error',
+							'msg' => 'Ha ocurrido un error durante la confirmación de su pedido, inténtelo de nuevo.',
+							'logged' => $logged
+						));
+					}
+
+		        }
+		    }
+
+			return $app['twig']->render('confirma_compra.twig', array(
+				'logged' => $logged,
+				'totalCarrito' => $totalCarrito,
+				'idCarrito' => $idCarrito,
+				'datosBanc' => $datosBancUser,
+				'fechCad' => $fechCad,
+				'form' => $form->createView(),		
+		    	'curYear' => date("Y"),		
 				'cliente' => $_SESSION['cliente']
 				)
 			);
+
 		}
 
 		static function verPedidos(Application $app){
