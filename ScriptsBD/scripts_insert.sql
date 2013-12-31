@@ -1,6 +1,8 @@
 use bd_Museo;
 
 INSERT INTO Planta_Museo(idPlanta,numeroPlanta, capacidad) VALUES (1,1,400);
+INSERT INTO Planta_Museo(idPlanta,numeroPlanta, capacidad) VALUES (2,2,400);
+INSERT INTO Planta_Museo(idPlanta,numeroPlanta, capacidad) VALUES (3,3,400);
 
 INSERT INTO Sala_Museo (idSala,idPlanta, nombreSala, descripcionSala) VALUES (1,1,'Sala Principal','sala principal');
 INSERT INTO Sala_Museo (idSala,idPlanta, nombreSala, descripcionSala) VALUES (2,1,'Sala Negra','sala principal');
