@@ -11,26 +11,25 @@
 				<img src="{{app.request.basepath}}/images/header.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />
 			{% else %}
 				<img src="{{app.request.basepath}}/images/header2.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />	
-			{% endif %}																																							
-
-			<ul id="menu">
-				<li><a href="{{app.request.basepath}}" class="but_active">Inicio</a></li>
-				{% if logged %}				
-					<li><a href="{{app.request.basepath}}/mi_cuenta" class="but">Mi cuenta</a></li>
-					<li><a href="{{app.request.basepath}}/ver_carrito" class="but">Mi Carrito</a></li>
-					<li><a href="{{app.request.basepath}}/ver_pedidos" class="but">Mis Pedidos</a></li>
-					<li><a href="{{app.request.basepath}}/logout" class="but">Salir</a></li>
-				{% else %}			
-					<li><a href="{{app.request.basepath}}/login" class="but">Acceder</a></li>
-					<li><a href="{{app.request.basepath}}/sign" class="but">Registrarse</a></li>					
-				{% endif %}
-					<li>
-						<form method="POST" action="{{app.request.basepath}}/buscar">
-							<input type="text" name="form_keyword" />
-							<input type="submit" name="form_buscar" id="form_buscar" value="Buscar" />
-						</form>
-					</li>
-			</ul>
+			{% endif %}					
+					<ul id="menu">
+						<li><a href="{{app.request.basepath}}" class="but_active">Inicio</a></li>
+						{% if logged %}				
+							<li><a href="{{app.request.basepath}}/mi_cuenta" class="but">Mi cuenta</a></li>
+							<li><a href="{{app.request.basepath}}/ver_carrito" class="but">Mi Carrito</a></li>
+							<li><a href="{{app.request.basepath}}/ver_pedidos" class="but">Mis Pedidos</a></li>
+							<li><a href="{{app.request.basepath}}/logout" class="but">Salir</a></li>
+						{% else %}			
+							<li><a href="{{app.request.basepath}}/login" class="but">Acceder</a></li>
+							<li><a href="{{app.request.basepath}}/sign" class="but">Registrarse</a></li>					
+						{% endif %}
+							<li>
+								<form method="POST" action="{{app.request.basepath}}/buscar">
+									<input type="text" name="form_keyword" />
+									<input type="submit" name="form_buscar" id="form_buscar" value="Buscar" />
+								</form>
+							</li>
+					</ul>
 		</div>
 		{% endblock %}
 	</div>
