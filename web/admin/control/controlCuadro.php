@@ -8,22 +8,28 @@
 	class controlCuadro{
 		static function verCuadros(Request $req, Application $app){
 			$cuadros = Modelo::getCuadros();
-			$form_borrar = $app['form.factory']->createBuilder('form')
-					->add('Borrar', 'submit', array())
+			$form = $app['form.factory']->createBuilder('form')
+					->add('addRegistro', 'submit', array())
+					->add('borrar', 'submit', array())
 					->getForm();
 
 			if ('POST' == $req->getMethod()) {
-		        $form_borrar->bind($req);
-		        if ($form_borrar->isValid()) {
-		        	$data = $form_borrar->getData();
-					$idCuadros = $req->request->get('cb_borrar');
-		        	Modelo::borrarCuadros($idCuadros);
-					return $app->redirect($app['url_generator']->generate('ver_cuadros'));
+		        $form->bind($req);
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+
+		        	if($form->get("borrar")->isClicked()){
+						$idCuadros = $req->request->get('cb_borrar');
+			        	Modelo::borrarCuadros($idCuadros);
+						return $app->redirect($app['url_generator']->generate('ver_cuadros'));
+		        	}else if($form->get("addRegistro")->isClicked()){
+			        	return $app->redirect($app['url_generator']->generate('add_cuadro'));
+		        	}	
 		        }
 		    }
 
 			return $app ['twig']->render('/cuadros/ver_cuadros.twig', array(
-		    	'form' => $form_borrar->createView(),
+		    	'form' => $form->createView(),
 				'cuadros' => $cuadros,
 				'msgCabecera' => 'Administración de cuadros',
 				'sessionId' => $_SESSION['admin']

@@ -11,7 +11,8 @@
 
 	$pintores->match('/add', function(Request $req) use ($app){
 		return controlPintor::addPintor($req, $app);
-	})->before($checkAdmin);
+	})->bind("add_pintor")
+	  ->before($checkAdmin);
 
 	$pintores->match('/', function(Request $req) use ($app){
 		return controlPintor::verPintores($req, $app);

@@ -11,7 +11,8 @@
 
 	$estilos->match('/add', function(Request $req) use ($app){
 		return controlEstilo::addEstilo($req, $app);
-	})->before($checkAdmin);
+	})->bind("add_estilo")
+	  ->before($checkAdmin);
 
 	$estilos->match('/', function(Request $req) use ($app){
 		return controlEstilo::verEstilos($req, $app);

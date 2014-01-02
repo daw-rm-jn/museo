@@ -11,7 +11,8 @@
 
 	$museo->match('/exposiciones_museo/add', function(Request $req) use ($app){
 		return controlMuseo::addExposicion($req, $app);
-	})->before($checkAdmin);
+	})->bind("add_expo_museo")
+	  ->before($checkAdmin);
 
 	$museo->match('/exposiciones_museo', function(Request $req) use ($app){
 		return controlMuseo::verExposiciones($req, $app);
@@ -24,7 +25,8 @@
 
 	$museo->match('/plantas_museo/add', function(Request $req) use ($app){
 		return controlMuseo::addPlanta($req, $app);
-	})->before($checkAdmin);
+	})->bind("add_planta_museo")
+	  ->before($checkAdmin);
 
 	$museo->match('/plantas_museo', function(Request $req) use ($app){
 		return controlMuseo::verPlantas($req, $app);
@@ -37,7 +39,8 @@
 
 	$museo->match('/salas_museo/add', function(Request $req) use ($app){
 		return controlMuseo::addSala($req, $app);
-	})->before($checkAdmin);
+	})->bind("add_sala_museo")
+	  ->before($checkAdmin);
 
 	$museo->match('/salas_museo', function(Request $req) use ($app){
 		return controlMuseo::verSalas($req, $app);

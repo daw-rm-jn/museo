@@ -10,22 +10,28 @@
 	class controlPintor{
 		static function verPintores(Request $req, Application $app){
 			$pintores = Modelo::getPintores();
-			$form_borrar = $app['form.factory']->createBuilder('form')
-					->add('Borrar', 'submit', array())
+			$form = $app['form.factory']->createBuilder('form')
+					->add('addRegistro', 'submit', array())
+					->add('borrar', 'submit', array())
 					->getForm();
 
 			if ('POST' == $req->getMethod()) {
-		        $form_borrar->bind($req);
-		        if ($form_borrar->isValid()) {
-		        	$data = $form_borrar->getData();
-					$idPintores = $req->request->get('cb_borrar');
-		        	Modelo::borrarPintores($idPintores);
-		        	return $app->redirect($app['url_generator']->generate('ver_pintores'));
+		        $form->bind($req);
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+
+		        	if($form->get("borrar")->isClicked()){
+		        		$idPintores = $req->request->get('cb_borrar');
+			        	Modelo::borrarPintores($idPintores);
+			        	return $app->redirect($app['url_generator']->generate('ver_pintores'));
+		        	}else if($form->get("addRegistro")->isClicked()){
+			        	return $app->redirect($app['url_generator']->generate('add_pintor'));
+		        	}					
 		        }
 		    }
 
 			return $app ['twig']->render('/pintores/ver_pintores.twig', array(
-		    	'form' => $form_borrar->createView(),
+		    	'form' => $form->createView(),
 				'pintores' => $pintores,
 				'msgCabecera' => 'Administración de pintores',
 				'sessionId' => $_SESSION['admin']

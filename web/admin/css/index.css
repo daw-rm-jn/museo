@@ -241,7 +241,8 @@ input.btborrar, input.btadd{
 }
 
 input[type="text"].txtdcha, 
-button#form_Borrar{
+button#form_borrar,
+button#form_addRegistro{
 	float:right;
 }
 

@@ -8,22 +8,28 @@
 	class controlTienda{
 		static function verCarritos(Request $req, Application $app){
 			$carritos = Modelo::getCarritos();
-			$form_borrar = $app['form.factory']->createBuilder('form')
-					->add('Borrar', 'submit', array())
+			$form = $app['form.factory']->createBuilder('form')
+					->add('addRegistro', 'submit', array())
+					->add('borrar', 'submit', array())
 					->getForm();
 
 			if ('POST' == $req->getMethod()) {
-		        $form_borrar->bind($req);
-		        if ($form_borrar->isValid()) {
-		        	$data = $form_borrar->getData();
-					$idCarritos = $req->request->get('cb_borrar');
-		        	Modelo::borrarCarritos($idCarritos);
-		        	return $app->redirect($app['url_generator']->generate('ver_carritos'));
+		        $form->bind($req);
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+
+		        	if($form->get("borrar")->isClicked()){
+						$idCarritos = $req->request->get('cb_borrar');
+			        	Modelo::borrarCarritos($idCarritos);
+			        	return $app->redirect($app['url_generator']->generate('ver_carritos'));
+		        	}else if($form->get("addRegistro")->isClicked()){
+			        	return $app->redirect($app['url_generator']->generate('add_carrito'));
+		        	}
 		        }
 		    }
 
 			return $app ['twig']->render('/tienda/ver_carritos.twig', array(
-		    	'form' => $form_borrar->createView(),
+		    	'form' => $form->createView(),
 				'carritos' => $carritos,
 				'msgCabecera' => 'Administración de carritos',
 				'sessionId' => $_SESSION['admin']
@@ -262,22 +268,28 @@
 
 		static function verPedidos(Request $req, Application $app){
 			$pedidos = Modelo::getPedidos();
-			$form_borrar = $app['form.factory']->createBuilder('form')
-					->add('Borrar', 'submit', array())
+			$form = $app['form.factory']->createBuilder('form')
+					->add('addRegistro', 'submit', array())
+					->add('borrar', 'submit', array())
 					->getForm();
 
 			if ('POST' == $req->getMethod()) {
-		        $form_borrar->bind($req);
-		        if ($form_borrar->isValid()) {
-		        	$data = $form_borrar->getData();
-					$idPedidos = $req->request->get('cb_borrar');
-		        	Modelo::borrarPedidos($idPedidos);
-		        	return $app->redirect($app['url_generator']->generate('ver_pedidos'));
+		        $form->bind($req);
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+
+		        	if($form->get("borrar")->isClicked()){
+						$idPedidos = $req->request->get('cb_borrar');
+			        	Modelo::borrarPedidos($idPedidos);
+			        	return $app->redirect($app['url_generator']->generate('ver_pedidos'));
+		        	}else if($form->get("addRegistro")->isClicked()){
+			        	return $app->redirect($app['url_generator']->generate('add_pedido'));
+		        	}
 		        }
 		    }
 
 			return $app ['twig']->render('/tienda/ver_pedidos.twig', array(
-		    	'form' => $form_borrar->createView(),
+		    	'form' => $form->createView(),
 				'pedidos' => $pedidos,
 				'msgCabecera' => 'Administración de pedidos',
 				'sessionId' => $_SESSION['admin']
@@ -515,22 +527,28 @@
 
 		static function verProductos(Request $req, Application $app){
 			$productos = Modelo::getProductos();
-			$form_borrar = $app['form.factory']->createBuilder('form')
-					->add('Borrar', 'submit', array())
+			$form = $app['form.factory']->createBuilder('form')
+					->add('addRegistro', 'submit', array())
+					->add('borrar', 'submit', array())
 					->getForm();
 
 			if ('POST' == $req->getMethod()) {
-		        $form_borrar->bind($req);
-		        if ($form_borrar->isValid()) {
-		        	$data = $form_borrar->getData();
-					$idProductos = $req->request->get('cb_borrar');
-		        	Modelo::borrarProductos($idProductos);
-		        	return $app->redirect($app['url_generator']->generate('ver_productos'));
+		        $form->bind($req);
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+
+		        	if($form->get("borrar")->isClicked()){
+						$idProductos = $req->request->get('cb_borrar');
+			        	Modelo::borrarProductos($idProductos);
+			        	return $app->redirect($app['url_generator']->generate('ver_productos'));
+		        	}else if($form->get("addRegistro")->isClicked()){
+			        	return $app->redirect($app['url_generator']->generate('add_producto'));
+		        	}	
 		        }
 		    }
 
 			return $app ['twig']->render('/tienda/ver_productos.twig', array(
-		    	'form' => $form_borrar->createView(),
+		    	'form' => $form->createView(),
 				'productos' => $productos,
 				'msgCabecera' => 'Administración de productos',
 				'sessionId' => $_SESSION['admin']

@@ -10,22 +10,28 @@
 	class controlEstilo{
 		static function verEstilos(Request $req, Application $app){
 			$estilos = Modelo::getEstilos();
-			$form_borrar = $app['form.factory']->createBuilder('form')
-					->add('Borrar', 'submit', array())
+			$form = $app['form.factory']->createBuilder('form')
+					->add('addRegistro', 'submit', array())
+					->add('borrar', 'submit', array())
 					->getForm();
 
 			if ('POST' == $req->getMethod()) {
-		        $form_borrar->bind($req);
-		        if ($form_borrar->isValid()) {
-		        	$data = $form_borrar->getData();
-					$idEstilos = $req->request->get('cb_borrar');
-		        	Modelo::borrarEstilos($idEstilos);
-					return $app->redirect($app['url_generator']->generate('ver_estilos'));
+		        $form->bind($req);
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+
+		        	if($form->get("borrar")->isClicked()){
+						$idEstilos = $req->request->get('cb_borrar');
+			        	Modelo::borrarEstilos($idEstilos);
+						return $app->redirect($app['url_generator']->generate('ver_estilos'));
+		        	}else if($form->get("addRegistro")->isClicked()){
+			        	return $app->redirect($app['url_generator']->generate('add_estilo'));
+		        	}	
 		        }
 		    }
 
 			return $app ['twig']->render('/estilos/ver_estilos.twig', array(
-		    	'form' => $form_borrar->createView(),
+		    	'form' => $form->createView(),
 				'estilos' => $estilos,
 				'msgCabecera' => 'Administración de estilos',
 				'sessionId' => $_SESSION['admin']

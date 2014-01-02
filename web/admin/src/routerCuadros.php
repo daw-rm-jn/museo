@@ -11,7 +11,8 @@
 
 	$cuadros->match('/add', function(Request $req) use ($app){
 		return controlCuadro::addCuadro($req, $app);
-	})->before($checkAdmin);
+	})->bind("add_cuadro")
+	  ->before($checkAdmin);
 
 	$cuadros->match('/', function(Request $req) use ($app){
 		return controlCuadro::verCuadros($req, $app);

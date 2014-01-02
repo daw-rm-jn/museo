@@ -4,62 +4,47 @@
 
 	{% block action %}
 			<table class="tablacrud">
-					<tr class="trcab" >
-						<th colspan="3">
-							<a href="{{app.request.basepath}}/tienda/pedidos/add"><input type="button" name="btadd" id="btadd" class="btadd" value="Añadir Registro" /></a>
-							{{ form_start(form, {'method': 'POST'}) }}
-							{{ form_row(form.Borrar)}}
-						</th>
-					</tr>
+				<thead>
 					<tr class="trcab">
-						<th>Histórico de Pedidos</th>
+						<th colspan="4">Histórico de Pedidos</th>
 					</tr>
+					<tr class="trtit">
+						<th>
+							idPedido
+						</th>
+						<th>
+							email
+						</th>
+						<th>
+							estado
+						</th>
+						<th>#</th>
+					</tr>
+				</thead>
 					{% for pedido in pedidos %}
 						<input type="hidden" name="hidid" value="{{pedido.idPedido}}"/>
 						<tr>
-							<td colspan="4">
-								<table class="bodycrud" rules="all">
-									<thead>
-										<tr class="trtit">
-											<th>
-												idPedido
-											</th>
-											<th>
-												email
-											</th>
-											<th>
-												estado
-											</th>
-											<th>
-												#
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td class="perla">
-												<a href="{{app.request.basepath}}/tienda/pedidos/pedido/{{pedido.idPedido}}">
-												{{pedido.idPedido}}
-												</a>
-											</td>
-											<td class="grey">
-												<a href="{{app.request.basepath}}/tienda/pedidos/pedido/{{pedido.idPedido}}">
-												{{pedido.email}}
-												</a>
-											</td>
-											<td class="perla">
-												{{pedido.estado}}
-											</td>
-											<td class="grey">
-												<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{pedido.idPedido}}"/>
-											</td>
-										</tr>
-					{% endfor %}
-									</tbody>
-
-								</table>
+							<td class="perla">
+								<a href="{{app.request.basepath}}/tienda/pedidos/pedido/{{pedido.idPedido}}">{{pedido.idPedido}}</a>
+							</td>
+							<td class="grey">
+								<a href="{{app.request.basepath}}/tienda/pedidos/pedido/{{pedido.idPedido}}">{{pedido.email}}</a>
+							</td>
+							<td class="perla">
+								{{pedido.estado}}
+							</td>
+							<td class="grey">
+								<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{pedido.idPedido}}"/>
 							</td>
 						</tr>
-					{{ form_end(form) }}
+				{% endfor %}
+					<tr>
+						<td class="grey" colspan="4">
+							{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.addRegistro)}}	
+								{{ form_row(form.borrar)}}	
+							{{ form_end(form) }}						
+						</td>
+					</tr>
 				</table>
 	{% endblock %}

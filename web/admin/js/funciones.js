@@ -18,7 +18,7 @@ $(document).ready(function(){
 			}
 		)
 		$('input.btVer').parents('table.bodycrud').children('tbody').toggle();
-/*--- DESPLEGABLES LISTA MUSEO---*/
+/*--- DESPLEGABLES MENU SECCIONES ---*/
 		$('li#limuseo') .click(
 			function() {
 				$('li.liexposiciones').toggle();
@@ -54,7 +54,9 @@ $(document).ready(function(){
 		var hoy = new Date();
 		var hoymasdiez = new Date();
 		hoymasdiez.setDate(hoy.getDate() + 10);
+		meshoy = hoy.getMonth() + 1;
+		mesmasdiez = hoymasdiez.getMonth() + 1;
 
-		$('input#form_fechaCreacion').val(hoy.getFullYear() + '-' + hoy.getMonth() + '-' + hoy.getDate());
-		$('input#form_fechaExpir').val(hoymasdiez.getFullYear() + '-' + hoymasdiez.getMonth() + '-' + hoymasdiez.getDate());
+		$('input#form_fechaCreacion').val(hoy.getFullYear() + '-' + meshoy + '-' + hoy.getDate());
+		$('input#form_fechaExpir').val(hoymasdiez.getFullYear() + '-' + mesmasdiez + '-' + hoymasdiez.getDate());
 });

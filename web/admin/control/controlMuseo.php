@@ -11,22 +11,28 @@
 	class controlMuseo{
 		static function verExposiciones(Request $req, Application $app){
 			$exposiciones = Modelo::getExposiciones();
-			$form_borrar = $app['form.factory']->createBuilder('form')
-					->add('Borrar', 'submit', array())
+			$form = $app['form.factory']->createBuilder('form')
+					->add('addRegistro', 'submit', array())
+					->add('borrar', 'submit', array())
 					->getForm();
 
 			if ('POST' == $req->getMethod()) {
-		        $form_borrar->bind($req);
-		        if ($form_borrar->isValid()) {
-		        	$data = $form_borrar->getData();
-					$idExposiciones = $req->request->get('cb_borrar');
-		        	Modelo::borrarExposiciones($idExposiciones);
-					return $app->redirect($app['url_generator']->generate('ver_expos'));
+		        $form->bind($req);
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+
+		        	if($form->get("borrar")->isClicked()){
+						$idExposiciones = $req->request->get('cb_borrar');
+			        	Modelo::borrarExposiciones($idExposiciones);
+						return $app->redirect($app['url_generator']->generate('ver_expos'));
+		        	}else if($form->get("addRegistro")->isClicked()){
+			        	return $app->redirect($app['url_generator']->generate('add_expo_museo'));
+		        	}	
 		        }
 		    }
 
 			return $app ['twig']->render('/museo/ver_exposiciones.twig', array(
-		    	'form' => $form_borrar->createView(),
+		    	'form' => $form->createView(),
 				'exposiciones' => $exposiciones,
 				'msgCabecera' => 'Administración de exposiciones',
 				'sessionId' => $_SESSION['admin']
@@ -192,23 +198,29 @@
 
 		static function verPlantas(Request $req, Application $app){
 			$plantas = Modelo::getPlantas();
-			$form_borrar = $app['form.factory']->createBuilder('form')
-					->add('Borrar', 'submit', array())
+			$form = $app['form.factory']->createBuilder('form')
+					->add('addRegistro', 'submit', array())
+					->add('borrar', 'submit', array())
 					->getForm();
 
 			if ('POST' == $req->getMethod()) {
-		        $form_borrar->bind($req);
-		        if ($form_borrar->isValid()) {
-		        	$data = $form_borrar->getData();
-					$idPlantas = $req->request->get('cb_borrar');
-		        	Modelo::borrarPlantas($idPlantas);
-		        	return $app->redirect($app['url_generator']->generate('ver_plantas'));
+		        $form->bind($req);
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+
+		        	if($form->get("borrar")->isClicked()){
+						$idPlantas = $req->request->get('cb_borrar');
+			        	Modelo::borrarPlantas($idPlantas);
+			        	return $app->redirect($app['url_generator']->generate('ver_plantas'));
+		        	}else if($form->get("addRegistro")->isClicked()){
+			        	return $app->redirect($app['url_generator']->generate('add_planta_museo'));
+		        	}
 					
 		        }
 		    }
 
 			return $app ['twig']->render('/museo/ver_plantas.twig', array(
-		    	'form' => $form_borrar->createView(),
+		    	'form' => $form->createView(),
 				'plantas' => $plantas,
 				'msgCabecera' => 'Administración de plantas',
 				'sessionId' => $_SESSION['admin']
@@ -303,23 +315,29 @@
 
 		static function verSalas(Request $req, Application $app){
 			$salas = Modelo::getSalas();
-			$form_borrar = $app['form.factory']->createBuilder('form')
-					->add('Borrar', 'submit', array())
+			$form = $app['form.factory']->createBuilder('form')
+					->add('addRegistro', 'submit', array())
+					->add('borrar', 'submit', array())
 					->getForm();
 
 			if ('POST' == $req->getMethod()) {
-		        $form_borrar->bind($req);
-		        if ($form_borrar->isValid()) {
-		        	$data = $form_borrar->getData();
-					$idSalas = $req->request->get('cb_borrar');
-		        	Modelo::borrarSalas($idSalas);
-		        	return $app->redirect($app['url_generator']->generate('ver_salas'));
+		        $form->bind($req);
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+
+		        	if($form->get("borrar")->isClicked()){
+						$idSalas = $req->request->get('cb_borrar');
+			        	Modelo::borrarSalas($idSalas);
+			        	return $app->redirect($app['url_generator']->generate('ver_salas'));
+		        	}else if($form->get("addRegistro")->isClicked()){
+			        	return $app->redirect($app['url_generator']->generate('add_sala_museo'));
+		        	}
 					
 		        }
 		    }
 
 			return $app ['twig']->render('/museo/ver_salas.twig', array(
-		    	'form' => $form_borrar->createView(),
+		    	'form' => $form->createView(),
 				'salas' => $salas,
 				'msgCabecera' => 'Administración de salas',
 				'sessionId' => $_SESSION['admin']

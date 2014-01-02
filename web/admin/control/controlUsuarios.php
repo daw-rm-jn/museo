@@ -10,22 +10,28 @@
 	class controlUsuarios{
 		static function verClientes(Request $req, Application $app){
 			$clientes = Modelo::getClientes();
-			$form_borrar = $app['form.factory']->createBuilder('form')
-					->add('Borrar', 'submit', array())
+			$form = $app['form.factory']->createBuilder('form')
+					->add('addRegistro', 'submit', array())
+					->add('borrar', 'submit', array())
 					->getForm();
 
 			if ('POST' == $req->getMethod()) {
-		        $form_borrar->bind($req);
-		        if ($form_borrar->isValid()) {
-		        	$data = $form_borrar->getData();
-					$emailClientes = $req->request->get('cb_borrar');
-		        	Modelo::borrarClientes($emailClientes);
-		        	return $app->redirect($app['url_generator']->generate('ver_clientes'));
+		        $form->bind($req);
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+
+		        	if($form->get("borrar")->isClicked()){
+						$emailClientes = $req->request->get('cb_borrar');
+			        	Modelo::borrarClientes($emailClientes);
+			        	return $app->redirect($app['url_generator']->generate('ver_clientes'));
+		        	}else if($form->get("addRegistro")->isClicked()){
+			        	return $app->redirect($app['url_generator']->generate('add_cliente'));
+		        	}	
 		        }
 		    }
 
 			return $app ['twig']->render('/usuarios/ver_clientes.twig', array(
-		    	'form' => $form_borrar->createView(),
+		    	'form' => $form->createView(),
 				'clientes' => $clientes,
 				'msgCabecera' => 'Administración de clientes',
 				'sessionId' => $_SESSION['admin']
@@ -273,22 +279,28 @@
 
 		static function verAdmins(Request $req, Application $app){
 			$admins = Modelo::getAdmins();
-			$form_borrar = $app['form.factory']->createBuilder('form')
-					->add('Borrar', 'submit', array())
+			$form = $app['form.factory']->createBuilder('form')
+					->add('addRegistro', 'submit', array())
+					->add('borrar', 'submit', array())
 					->getForm();
 
 			if ('POST' == $req->getMethod()) {
-		        $form_borrar->bind($req);
-		        if ($form_borrar->isValid()) {
-		        	$data = $form_borrar->getData();
-					$emailAdmins = $req->request->get('cb_borrar');
-		        	Modelo::borrarAdmins($emailAdmins);
-		        	return $app->redirect($app['url_generator']->generate('ver_admins'));
+		        $form->bind($req);
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+
+		        	if($form->get("borrar")->isClicked()){
+						$emailAdmins = $req->request->get('cb_borrar');
+			        	Modelo::borrarAdmins($emailAdmins);
+			        	return $app->redirect($app['url_generator']->generate('ver_admins'));
+		        	}else if($form->get("addRegistro")->isClicked()){
+			        	return $app->redirect($app['url_generator']->generate('add_admin'));
+		        	}	
 		        }
 		    }
 
 			return $app ['twig']->render('/usuarios/ver_admins.twig', array(
-		    	'form' => $form_borrar->createView(),
+		    	'form' => $form->createView(),
 				'admins' => $admins,
 				'msgCabecera' => 'Administración de administradores',
 				'sessionId' => $_SESSION['admin']

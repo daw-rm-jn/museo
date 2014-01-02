@@ -11,7 +11,8 @@
 
 	$usuarios->match('/clientes/add', function(Request $req) use ($app){
 		return controlUsuarios::addCliente($req, $app);
-	})->before($checkAdmin);
+	})->bind("add_cliente")
+	  ->before($checkAdmin);
 
 	$usuarios->match('/clientes', function(Request $req) use ($app){
 		return controlUsuarios::verClientes($req, $app);
@@ -24,7 +25,8 @@
 
 	$usuarios->match('/admins/add', function(Request $req) use ($app){
 		return controlUsuarios::addAdmin($req, $app);
-	})->before($checkAdmin);
+	})->bind("add_admin")
+	  ->before($checkAdmin);
 
 	$usuarios->match('/admins', function(Request $req) use ($app){
 		return controlUsuarios::verAdmins($req, $app);

@@ -4,56 +4,41 @@
 
 	{% block action %}
 			<table class="tablacrud">
-					<tr class="trcab" >
-						<th colspan="3">
-							<a href="{{app.request.basepath}}/tienda/productos/add"><input type="button" name="btadd" id="btadd" class="btadd" value="Añadir Registro" /></a>
-							{{ form_start(form, {'method': 'POST'}) }}
-							{{ form_row(form.Borrar)}}
-						</th>
-					</tr>
+				<thead>
 					<tr class="trcab">
-						<th>Lista de Productos</th>
+						<th colspan="3">Lista de Productos</th>
 					</tr>
+					<tr class="trtit">
+						<th>
+							idProducto
+						</th>
+						<th>
+							nombre
+						</th>
+						<th>#</th>
+					</tr>
+				</thead>
 					{% for producto in productos %}
 						<input type="hidden" name="hidid" value="{{producto.idCopia_Cuadro}}"/>
 						<tr>
-							<td colspan="4">
-								<table class="bodycrud" rules="all">
-									<thead>
-										<tr class="trtit">
-											<th>
-												idProducto
-											</th>
-											<th>
-												nombre
-											</th>
-											<th>
-												#
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td class="perla">
-												<a href="{{app.request.basepath}}/tienda/productos/producto/{{producto.idCopia_Cuadro}}">
-												{{producto.idCopia_Cuadro}}
-												</a>
-											</td>
-											<td class="grey">
-												<a href="{{app.request.basepath}}/tienda/productos/producto/{{producto.idCopia_Cuadro}}">
-												{{producto.nombreProducto}}
-												</a>
-											</td>
-											<td class="grey">
-												<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{producto.idCopia_Cuadro}}"/>
-											</td>
-										</tr>
-					{% endfor %}
-									</tbody>
-
-								</table>
+							<td class="perla">
+								<a href="{{app.request.basepath}}/tienda/productos/producto/{{producto.idCopia_Cuadro}}">{{producto.idCopia_Cuadro}}</a>
+							</td>
+							<td class="grey">
+								<a href="{{app.request.basepath}}/tienda/productos/producto/{{producto.idCopia_Cuadro}}">{{producto.nombreProducto}}</a>
+							</td>
+							<td class="perla">
+								<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{producto.idCopia_Cuadro}}"/>
 							</td>
 						</tr>
-					{{ form_end(form) }}
+					{% endfor %}
+					<tr>
+						<td class="grey" colspan="3">
+							{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.addRegistro)}}	
+								{{ form_row(form.borrar)}}	
+							{{ form_end(form) }}						
+						</td>
+					</tr>
 				</table>
 	{% endblock %}
