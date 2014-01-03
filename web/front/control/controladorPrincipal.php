@@ -30,14 +30,16 @@ $exposiciones = Modelo::getExposiciones();
 
     static function pintoresBuscar(Request $req, Application $app) {
         $key = $req->request->get("pintorFormName");
-        $pintores = Modelo::getPintorByName($key);
+        $select = $req->request->get("select");
+        $pintores = Modelo::getPintorByName($key, $select);
         return $app['twig']->render('pintores.twig', array(
                     'pintores' => $pintores
         ));
     }
     static function cuadrosBuscar(Request $req, Application $app) {
         $key = $req->request->get("cuadroFormName");
-        $cuadros = Modelo::getCuadroByName($key);
+        $select = $req->request->get("select");
+        $cuadros = Modelo::getCuadroByName($key, $select);
         return $app['twig']->render('cuadros.twig', array(
                     'cuadros' => $cuadros
         ));

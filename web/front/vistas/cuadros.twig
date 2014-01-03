@@ -1,45 +1,53 @@
 {% extends 'inicio.twig' %}
 
 {% block titulo 'Museo :: Cuadros' %}
-	
+
 	{% block about %}
-		<h2>Aqui se mostraran los pintores.</h2>
-                <form method="POST" action="/museo/trunk/web/front/cuadros/buscar">
-							<input type="text" name="cuadroFormName" placeholder="Busca un cuadro" />
-							<input type="submit" name="form_buscar" id="form_buscar" value="Buscar">
-						</form>		
+<h2>Aqui se mostraran los pintores.</h2>
+<form method="POST" action="/museo/web/front/cuadros/buscar">
+    <input type="text" name="cuadroFormName" placeholder="Busca un cuadro" />
+    <select name="select">
+        <option value="nombre">Nombre</option>
+        <option value="descripcion">Descrición</option>
+        <option value="anio">Año</option>
+    </select>
+    <input type="submit" name="form_buscar" id="form_buscar" value="Buscar">
+</form>		
 	{% endblock %}
 
 	{% block info %}
 	{% endblock %}
 
 	{% block contenido %}
-		<div class="login">
-			<table>
-					<tr>
-					</tr>
+<div class="login">
+    <table>
+        <tr>
+        </tr>
 					{% for cuadro in cuadros %}
-						<tr>		
-							<tr>
-                               <td>
+        <tr>		
+        <tr>
+            <td>
                                     {% if cuadro.orientacion == 'vertical' %}
-										<img src="{{app.request.basepath}}/../img/cuadros/{{cuadro.nombreCuadro}}/{{cuadro.fotoCuadro}}" width="70" height="100"/>
+                <img src="{{app.request.basepath}}/../img/cuadros/{{cuadro.nombreCuadro}}/{{cuadro.fotoCuadro}}" width="70" height="100"/>
 									{% elseif cuadro.orientacion == 'horizontal' %}
-										<img src="{{app.request.basepath}}/../img/cuadros/{{cuadro.nombreCuadro}}/{{cuadro.fotoCuadro}}" width="100" height="70"/>
+                <img src="{{app.request.basepath}}/../img/cuadros/{{cuadro.nombreCuadro}}/{{cuadro.fotoCuadro}}" width="100" height="70"/>
 									{% endif %}
-                                </td>
-								<td>												
+            </td>
+            <td>												
 									{{cuadro.nombreCuadro}}												
-								</td>
-                                <td>												
+            </td>
+            <td>												
 									{{cuadro.descripcionCuadro}}												
-								</td>
-							</tr>
-								
-						
+            </td>
+            <td>												
+									{{cuadro.anioCuadro}}												
+            </td>
+        </tr>
+
+
 					{% endfor %}
-				</table>			
-		</div>
+    </table>			
+</div>
 	{% endblock %}
 
 
