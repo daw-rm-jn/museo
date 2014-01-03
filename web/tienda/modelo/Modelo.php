@@ -230,6 +230,47 @@
 		    $con = null;
 		}
 
+		static function existeCliente($email){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("SELECT email FROM Usuario WHERE email = :email");
+
+			$stmt->bindParam(":email",$email);
+
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows > 0){
+	        	return true;
+	        }else{
+	        	return false;
+	        }
+		    $con = null;
+		}
+
+		static function generaNuevaPass($email, $length = 12){
+			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		    $randomString = '';
+		    for ($i = 0; $i < $length; $i++) {
+		        $randomString .= $characters[rand(0, strlen($characters) - 1)];
+		    }
+
+		    $clavemd5 = md5($randomString);
+
+		    $con = Modelo::conectar();
+		    $stmt = $con->prepare("UPDATE Usuario SET clave = :clave WHERE email = :email");
+
+		    $stmt->bindParam(":clave", $clavemd5);
+		    $stmt->bindParam(":email",$email);
+
+		    $stmt->execute();
+			$affected_rows = $stmt->rowCount();
+
+			if($affected_rows > 0){
+				return $randomString;
+			}		    
+		}
+
 		static function getDatosCliente($email){
 			$con = Modelo::conectar();
 			$stmt = $con->prepare("SELECT * FROM Usuario WHERE email = :email");

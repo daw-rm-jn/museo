@@ -12,73 +12,73 @@
 	{% block contenido %}
 		<div class="showCarr">
 			<table style="width:100%;" class="table-show-carr">
-			<tr>
-				<th class="th-show-carr">Nombre</th>
-				<th class="th-show-carr">Precio</th>
-				<th class="th-show-carr">Unidades</th>
-				<th class="th-show-carr">IVA</th>
-				<th class="th-show-carr">Total</th>
+			<tr class="th-show-carr">
+				<th>Nombre</th>
+				<th>Precio</th>
+				<th>Unidades</th>
+				<th>IVA</th>
+				<th>Total</th>
 			</tr>
 				{% for linea in lineas %}
 				{% if linea.idLinea_Pedido is divisibleby(2) %}
-				<tr>
-					<td class="td-show-carr par">
+				<tr class="td-show-carr par">
+					<td>
 						<a href="{{app.request.basepath}}/item/{{linea.idCopia_Cuadro}}">{{linea.nombreProducto}}</a>
 					</td>
-					<td class="td-show-carr par">
+					<td>
 						{{linea.precio}}€
 					</td>
-					<td class="td-show-carr par">
+					<td>
 						{{linea.unidades}}
 					</td>
-					<td class="td-show-carr par">
+					<td>
 						{{linea.IVA}}%
 					</td>
-					<td class="td-show-carr par">
+					<td>
 						{{linea.totalLinea}}€
 					</td>
 				</tr>
 				{% else %}
-				<tr>
-					<td class="td-show-carr impar">
+				<tr class="td-show-carr impar">
+					<td>
 						<a href="{{app.request.basepath}}/item/{{linea.idCopia_Cuadro}}">{{linea.nombreProducto}}</a>
 					</td>
-					<td class="td-show-carr impar">
+					<td>
 						{{linea.precio}}€
 					</td>
-					<td class="td-show-carr impar">
+					<td>
 						{{linea.unidades}}
 					</td>
-					<td class="td-show-carr impar">
+					<td>
 						{{linea.IVA}}%
 					</td>
-					<td class="td-show-carr impar">
+					<td>
 						{{linea.totalLinea}}€
 					</td>
 				</tr>
 				{% endif %}
 				{% endfor %}
-				<tr>
+				<tr class="td-show-carr">
 					<td colspan="3"></td>
-					<td class="td-show-carr">
+					<td>
 						Estado del Pedido:
 					</td>
-					<td class="td-show-carr">
+					<td>
 						{{estado}}
 					</td>
 				</tr>
-				<tr>
+				<tr class="th-show-carr">
 					<td colspan="3"></td>
-					<th class="th-show-carr">
+					<th>
 						IMPORTE TOTAL:
 					</th>
-					<th class="th-show-carr">
+					<th>
 						{{totalPedido}}€
 					</th>
 				</tr>
-				<tr>
+				<tr class="td-get-recibo">
 					<td colspan="4"></td>
-					<td class="td-get-recibo">
+					<td>
 						{{ form_start(form, {'method': 'POST'}) }}
 							{{form_row(form.idPedido, {'attr': {'value': idPedido }}) }}
 							{{form_row(form.obtenerRecibo)}}

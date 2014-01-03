@@ -15,7 +15,7 @@
 						<th>#</th>
 					</tr>
 				</thead>
-					{% for admin in admins %}
+					{% for admin in pager %}
 						<input type="hidden" name="hidid" value="{{admin.email}}"/>
 						<tr>
 							<td class="perla">
@@ -35,4 +35,5 @@
 						</td>
 					</tr>
 				</table>
+				{{ htmlPagination|raw }}
 	{% endblock %}

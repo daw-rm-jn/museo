@@ -4,10 +4,29 @@
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Validator\Constraints as Assert;
+	use Pagerfanta\Pagerfanta;
+	use Pagerfanta\Adapter\ArrayAdapter;
+	use Pagerfanta\View\DefaultView;
 
 	class controlTienda{
 		static function verCarritos(Request $req, Application $app){
 			$carritos = Modelo::getCarritos();
+			
+			$adapter = new ArrayAdapter($carritos);
+		    $pagerfanta = new Pagerfanta($adapter);
+		    $pagerfanta->setMaxPerPage(25);
+		    $page = $req->query->get('page', 1);
+		    $pagerfanta->setCurrentPage($page);
+		 
+		    $routeGenerator = function($page) use ($app) {
+		        return $app['url_generator']->generate('ver_carritos', array("page" => $page));
+		    };
+		 
+		    $view = new DefaultView();
+		    $htmlPagination = $view->render($pagerfanta, $routeGenerator, array(
+		        'proximity' => 3,
+		    ));
+
 			$form = $app['form.factory']->createBuilder('form')
 					->add('addRegistro', 'submit', array())
 					->add('borrar', 'submit', array())
@@ -30,8 +49,9 @@
 
 			return $app ['twig']->render('/tienda/ver_carritos.twig', array(
 		    	'form' => $form->createView(),
-				'carritos' => $carritos,
 				'msgCabecera' => 'Administración de carritos',
+				'pager' => $pagerfanta,
+				'htmlPagination' => $htmlPagination,
 				'sessionId' => $_SESSION['admin']
 				)
 			);
@@ -268,6 +288,22 @@
 
 		static function verPedidos(Request $req, Application $app){
 			$pedidos = Modelo::getPedidos();
+			
+			$adapter = new ArrayAdapter($pedidos);
+		    $pagerfanta = new Pagerfanta($adapter);
+		    $pagerfanta->setMaxPerPage(25);
+		    $page = $req->query->get('page', 1);
+		    $pagerfanta->setCurrentPage($page);
+		 
+		    $routeGenerator = function($page) use ($app) {
+		        return $app['url_generator']->generate('ver_pedidos', array("page" => $page));
+		    };
+		 
+		    $view = new DefaultView();
+		    $htmlPagination = $view->render($pagerfanta, $routeGenerator, array(
+		        'proximity' => 3,
+		    ));
+
 			$form = $app['form.factory']->createBuilder('form')
 					->add('addRegistro', 'submit', array())
 					->add('borrar', 'submit', array())
@@ -290,8 +326,9 @@
 
 			return $app ['twig']->render('/tienda/ver_pedidos.twig', array(
 		    	'form' => $form->createView(),
-				'pedidos' => $pedidos,
 				'msgCabecera' => 'Administración de pedidos',
+				'pager' => $pagerfanta,
+				'htmlPagination' => $htmlPagination,
 				'sessionId' => $_SESSION['admin']
 				)
 			);
@@ -527,6 +564,22 @@
 
 		static function verProductos(Request $req, Application $app){
 			$productos = Modelo::getProductos();
+			
+			$adapter = new ArrayAdapter($productos);
+		    $pagerfanta = new Pagerfanta($adapter);
+		    $pagerfanta->setMaxPerPage(25);
+		    $page = $req->query->get('page', 1);
+		    $pagerfanta->setCurrentPage($page);
+		 
+		    $routeGenerator = function($page) use ($app) {
+		        return $app['url_generator']->generate('ver_productos', array("page" => $page));
+		    };
+		 
+		    $view = new DefaultView();
+		    $htmlPagination = $view->render($pagerfanta, $routeGenerator, array(
+		        'proximity' => 3,
+		    ));
+
 			$form = $app['form.factory']->createBuilder('form')
 					->add('addRegistro', 'submit', array())
 					->add('borrar', 'submit', array())
@@ -549,8 +602,9 @@
 
 			return $app ['twig']->render('/tienda/ver_productos.twig', array(
 		    	'form' => $form->createView(),
-				'productos' => $productos,
 				'msgCabecera' => 'Administración de productos',
+				'pager' => $pagerfanta,
+				'htmlPagination' => $htmlPagination,
 				'sessionId' => $_SESSION['admin']
 				)
 			);

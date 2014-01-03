@@ -21,7 +21,7 @@
 						<th>#</th>
 					</tr>
 				</thead>
-					{% for pedido in pedidos %}
+					{% for pedido in pager %}
 						<input type="hidden" name="hidid" value="{{pedido.idPedido}}"/>
 						<tr>
 							<td class="perla">
@@ -47,4 +47,6 @@
 						</td>
 					</tr>
 				</table>
+
+				{{ htmlPagination|raw }}
 	{% endblock %}

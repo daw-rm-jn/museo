@@ -4,10 +4,29 @@
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Validator\Constraints as Assert;
+	use Pagerfanta\Pagerfanta;
+	use Pagerfanta\Adapter\ArrayAdapter;
+	use Pagerfanta\View\DefaultView;
 
 	class controlCuadro{
 		static function verCuadros(Request $req, Application $app){
 			$cuadros = Modelo::getCuadros();
+
+			$adapter = new ArrayAdapter($cuadros);
+		    $pagerfanta = new Pagerfanta($adapter);
+		    $pagerfanta->setMaxPerPage(25);
+		    $page = $req->query->get('page', 1);
+		    $pagerfanta->setCurrentPage($page);
+		 
+		    $routeGenerator = function($page) use ($app) {
+		        return $app['url_generator']->generate('ver_cuadros', array("page" => $page));
+		    };
+		 
+		    $view = new DefaultView();
+		    $htmlPagination = $view->render($pagerfanta, $routeGenerator, array(
+		        'proximity' => 3,
+		    ));
+
 			$form = $app['form.factory']->createBuilder('form')
 					->add('addRegistro', 'submit', array())
 					->add('borrar', 'submit', array())
@@ -30,8 +49,9 @@
 
 			return $app ['twig']->render('/cuadros/ver_cuadros.twig', array(
 		    	'form' => $form->createView(),
-				'cuadros' => $cuadros,
 				'msgCabecera' => 'Administración de cuadros',
+				'pager' => $pagerfanta,
+				'htmlPagination' => $htmlPagination,
 				'sessionId' => $_SESSION['admin']
 				)
 			);

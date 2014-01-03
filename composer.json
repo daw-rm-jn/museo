@@ -19,7 +19,8 @@
         "symfony/twig-bridge": "~2.1",
         "symfony/yaml":"v2.2.0",
         "doctrine/dbal": ">=2.2.0,<2.4.0-dev",
-        "swiftmailer/swiftmailer": "5.*"
+        "swiftmailer/swiftmailer": "5.*",
+        "pagerfanta/pagerfanta": "1.0.*@dev"
     },
     "autoload":{
         "psr-0":{

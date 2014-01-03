@@ -18,7 +18,7 @@
 						<th>#</th>
 					</tr>
 				</thead>
-					{% for sala in salas %}
+					{% for sala in pager %}
 						<input type="hidden" name="hidid" value="{{sala.idSala}}"/>
 						<tr>
 							<td class="perla">
@@ -41,4 +41,6 @@
 						</td>
 					</tr>
 				</table>
+
+				{{ htmlPagination|raw }}
 	{% endblock %}

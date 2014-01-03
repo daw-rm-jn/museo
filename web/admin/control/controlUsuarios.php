@@ -6,10 +6,29 @@
 	use Symfony\Component\HttpFoundation\JsonResponse;
 	use Symfony\Component\HttpFoundation\RedirectResponse;
 	use Symfony\Component\Validator\Constraints as Assert;
+	use Pagerfanta\Pagerfanta;
+	use Pagerfanta\Adapter\ArrayAdapter;
+	use Pagerfanta\View\DefaultView;
 
 	class controlUsuarios{
 		static function verClientes(Request $req, Application $app){
 			$clientes = Modelo::getClientes();
+			
+			$adapter = new ArrayAdapter($clientes);
+		    $pagerfanta = new Pagerfanta($adapter);
+		    $pagerfanta->setMaxPerPage(25);
+		    $page = $req->query->get('page', 1);
+		    $pagerfanta->setCurrentPage($page);
+		 
+		    $routeGenerator = function($page) use ($app) {
+		        return $app['url_generator']->generate('ver_clientes', array("page" => $page));
+		    };
+		 
+		    $view = new DefaultView();
+		    $htmlPagination = $view->render($pagerfanta, $routeGenerator, array(
+		        'proximity' => 3,
+		    ));
+
 			$form = $app['form.factory']->createBuilder('form')
 					->add('addRegistro', 'submit', array())
 					->add('borrar', 'submit', array())
@@ -32,8 +51,9 @@
 
 			return $app ['twig']->render('/usuarios/ver_clientes.twig', array(
 		    	'form' => $form->createView(),
-				'clientes' => $clientes,
 				'msgCabecera' => 'Administración de clientes',
+				'pager' => $pagerfanta,
+				'htmlPagination' => $htmlPagination,
 				'sessionId' => $_SESSION['admin']
 				)
 			);
@@ -279,6 +299,22 @@
 
 		static function verAdmins(Request $req, Application $app){
 			$admins = Modelo::getAdmins();
+			
+			$adapter = new ArrayAdapter($admins);
+		    $pagerfanta = new Pagerfanta($adapter);
+		    $pagerfanta->setMaxPerPage(25);
+		    $page = $req->query->get('page', 1);
+		    $pagerfanta->setCurrentPage($page);
+		 
+		    $routeGenerator = function($page) use ($app) {
+		        return $app['url_generator']->generate('ver_admins', array("page" => $page));
+		    };
+		 
+		    $view = new DefaultView();
+		    $htmlPagination = $view->render($pagerfanta, $routeGenerator, array(
+		        'proximity' => 3,
+		    ));
+
 			$form = $app['form.factory']->createBuilder('form')
 					->add('addRegistro', 'submit', array())
 					->add('borrar', 'submit', array())
@@ -301,8 +337,9 @@
 
 			return $app ['twig']->render('/usuarios/ver_admins.twig', array(
 		    	'form' => $form->createView(),
-				'admins' => $admins,
 				'msgCabecera' => 'Administración de administradores',
+				'pager' => $pagerfanta,
+				'htmlPagination' => $htmlPagination,
 				'sessionId' => $_SESSION['admin']
 				)
 			);

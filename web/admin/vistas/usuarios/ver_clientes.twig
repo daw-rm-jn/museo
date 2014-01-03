@@ -18,7 +18,7 @@
 						<th>#</th>
 					</tr>
 				</thead>
-					{% for cliente in clientes %}
+					{% for cliente in pager %}
 						<input type="hidden" name="hidid" value="{{cliente.email}}"/>
 						<tr>
 							<td class="perla">
@@ -41,4 +41,6 @@
 						</td>
 					</tr>
 				</table>
+
+				{{ htmlPagination|raw }}
 	{% endblock %}

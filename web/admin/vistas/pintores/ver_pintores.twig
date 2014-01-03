@@ -18,17 +18,17 @@
 						<th>#</th>
 					</tr>							
 				</thead>
-					{% for pintor in pintores %}
+					{% for result in pager %}
 						<tr>
-							<input type="hidden" name="hidid" value="{{pintor.idPintor}}"/>
+							<input type="hidden" name="hidid" value="{{result.idPintor}}"/>
 							<td class="perla">
-								<a href="{{app.request.basepath}}/pintores/pintor/{{pintor.idPintor}}">{{pintor.idPintor}}</a>
+								<a href="{{app.request.basepath}}/pintores/pintor/{{result.idPintor}}">{{result.idPintor}}</a>
 							</td>
 							<td class="grey">
-								<a href="{{app.request.basepath}}/pintores/pintor/{{pintor.idPintor}}">{{pintor.nombrePintor}}</a>
+								<a href="{{app.request.basepath}}/pintores/pintor/{{result.idPintor}}">{{result.nombrePintor}}</a>
 							</td>
 							<td class="perla">
-								<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{pintor.idPintor}}"/>
+								<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{result.idPintor}}"/>
 							</td>
 						</tr>					
 					{% endfor %}
@@ -41,4 +41,6 @@
 						</td>
 					</tr>
 				</table>
+
+				{{ htmlPagination|raw }}
 	{% endblock %}

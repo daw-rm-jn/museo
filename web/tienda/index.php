@@ -31,6 +31,14 @@
 	    'fallback_locale' => 'en',
 	));//Traductor para los mensajes de los formularios
 	$app->register(new Silex\Provider\ValidatorServiceProvider());//Validador para los campos de los formularios
+	$app->register(new Silex\Provider\SwiftmailerServiceProvider(), array(
+	    'swiftmailer.options' => array(
+	        'host'          => 'smtp.gmail.com',
+	        'port'          => '465',
+	        'username'      => 'dawrmjn@gmail.com',
+	        'password'      => 'dw2armjn'
+	    )	 
+	));
 
 	$checkCliente = function (Request $request) use ($app){
 				    if(!isset($_SESSION['cliente'])){
@@ -101,6 +109,10 @@
 
 	$app->match('/logout', function() use ($app){
 		return Controller::logout($app);
+	});
+
+	$app->match('/forgot_password', function(Request $req) use ($app){
+		return Controller::forgotPassword($req,$app);
 	});
 
 	$app->match('/login', function(Request $req) use ($app){

@@ -22,6 +22,57 @@
 			}
 		}
 
+		static function forgotPassword(Request $req, Application $app){
+			$logged = Controller::checkLog();
+			$form = $app['form.factory']->createBuilder('form')
+					->add('email', "text", array(
+			        	'constraints' => array(
+				        		new Assert\NotBlank(), 
+				        		new Assert\Email()
+				        	)
+			        	)
+			        )
+			        ->add('enviar','submit',array())
+					->getForm();
+
+			if ('POST' == $req->getMethod()) {
+		        $form->bind($req);
+
+
+		        if ($form->isValid()) {
+		        	$data = $form->getData();
+
+					if(Modelo::existeCliente($data['email'])){
+						$message = \Swift_Message::newInstance()
+                                  ->setSubject('Recuperación de contraseña')
+                                  ->setFrom(array('noreply@museoDaw'))
+                                  ->setTo(array($data['email']))
+                                  ->setBody(Modelo::generaNuevaPass($data['email']));
+ 
+                        $app['mailer']->send($message);
+ 
+						return $app['twig']->render('operation.twig', array(
+							'operation' => 'Correo enviado.',
+							'msg' => 'Se ha enviado un correo a su dirección con su nueva contraseña. Compruebe su bandeja de entrada.',
+							'logged' => $logged
+						));
+					}else{
+						return $app['twig']->render('operation.twig', array(
+							'operation' => 'Error',
+							'msg' => 'No se encuentra la dirección de correo introducida',
+							'logged' => $logged
+						));
+					}
+		        }
+		    }
+
+		    return $app['twig']->render('forgot_password.twig', array(
+		    	'form' => $form->createView(),
+		    	'logged'=> $logged
+		    	)
+		    );
+		}
+
 		static function main(Application $app){
 			$productos = Modelo::getUltimosProductos();
 			$logged = Controller::checkLog();

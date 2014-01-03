@@ -18,6 +18,7 @@
 				<th class="th-show-carr">Fecha</th>
 				<th class="th-show-carr">Importe</th>
 				<th class="th-show-carr">Estado</th>
+				<th class="th-show-carr"></th>
 			</tr>
 				<ul id="pedidosCont">
 				{% for pedido in pedidos %}
@@ -27,13 +28,16 @@
 							{{loop.index}}
 						</td>
 						<td class="td-show-ped">
-							<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">{{pedido.fecha}}</a>
+							{{pedido.fecha}}
 						</td>
 						<td class="td-show-ped">
-							<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">{{pedido.precioTotal}}€</a>
+							{{pedido.precioTotal}}€
 						</td>
 						<td class="td-show-ped">
-							<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">{{pedido.estado}}</a>
+							{{pedido.estado}}
+						</td>
+						<td class="td-show-ped">
+							<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">Ver Detalles</a>
 						</td>
 					</tr>
 				</li>

@@ -18,7 +18,7 @@
 						<th>#</th>
 					</tr>
 				</thead>
-					{% for cuadro in cuadros %}
+					{% for cuadro in pager %}
 						<input type="hidden" name="hidid" value="{{cuadro.idCuadro}}"/>
 						<tr>
 							<td class="perla">
@@ -41,4 +41,6 @@
 						</td>
 					</tr>
 				</table>
+
+				{{ htmlPagination|raw }}
 	{% endblock %}

@@ -30,7 +30,7 @@
 
 	$usuarios->match('/admins', function(Request $req) use ($app){
 		return controlUsuarios::verAdmins($req, $app);
-	})->bind("admins")
+	})->bind("ver_admins")
 	  ->before($checkAdmin);
 
 	return $usuarios;

@@ -7,10 +7,29 @@
 	use Symfony\Component\HttpFoundation\JsonResponse;
 	use Symfony\Component\HttpFoundation\RedirectResponse;
 	use Symfony\Component\Validator\Constraints as Assert;
+	use Pagerfanta\Pagerfanta;
+	use Pagerfanta\Adapter\ArrayAdapter;
+	use Pagerfanta\View\DefaultView;
 
 	class controlMuseo{
 		static function verExposiciones(Request $req, Application $app){
 			$exposiciones = Modelo::getExposiciones();
+			
+			$adapter = new ArrayAdapter($exposiciones);
+		    $pagerfanta = new Pagerfanta($adapter);
+		    $pagerfanta->setMaxPerPage(25);
+		    $page = $req->query->get('page', 1);
+		    $pagerfanta->setCurrentPage($page);
+		 
+		    $routeGenerator = function($page) use ($app) {
+		        return $app['url_generator']->generate('ver_expos', array("page" => $page));
+		    };
+		 
+		    $view = new DefaultView();
+		    $htmlPagination = $view->render($pagerfanta, $routeGenerator, array(
+		        'proximity' => 3,
+		    ));
+
 			$form = $app['form.factory']->createBuilder('form')
 					->add('addRegistro', 'submit', array())
 					->add('borrar', 'submit', array())
@@ -33,8 +52,9 @@
 
 			return $app ['twig']->render('/museo/ver_exposiciones.twig', array(
 		    	'form' => $form->createView(),
-				'exposiciones' => $exposiciones,
 				'msgCabecera' => 'Administración de exposiciones',
+				'pager' => $pagerfanta,
+				'htmlPagination' => $htmlPagination,
 				'sessionId' => $_SESSION['admin']
 				)
 			);
@@ -198,6 +218,22 @@
 
 		static function verPlantas(Request $req, Application $app){
 			$plantas = Modelo::getPlantas();
+			
+			$adapter = new ArrayAdapter($plantas);
+		    $pagerfanta = new Pagerfanta($adapter);
+		    $pagerfanta->setMaxPerPage(25);
+		    $page = $req->query->get('page', 1);
+		    $pagerfanta->setCurrentPage($page);
+		 
+		    $routeGenerator = function($page) use ($app) {
+		        return $app['url_generator']->generate('ver_plantas', array("page" => $page));
+		    };
+		 
+		    $view = new DefaultView();
+		    $htmlPagination = $view->render($pagerfanta, $routeGenerator, array(
+		        'proximity' => 3,
+		    ));
+
 			$form = $app['form.factory']->createBuilder('form')
 					->add('addRegistro', 'submit', array())
 					->add('borrar', 'submit', array())
@@ -221,8 +257,9 @@
 
 			return $app ['twig']->render('/museo/ver_plantas.twig', array(
 		    	'form' => $form->createView(),
-				'plantas' => $plantas,
 				'msgCabecera' => 'Administración de plantas',
+				'pager' => $pagerfanta,
+				'htmlPagination' => $htmlPagination,
 				'sessionId' => $_SESSION['admin']
 				)
 			);
@@ -315,6 +352,22 @@
 
 		static function verSalas(Request $req, Application $app){
 			$salas = Modelo::getSalas();
+			
+			$adapter = new ArrayAdapter($salas);
+		    $pagerfanta = new Pagerfanta($adapter);
+		    $pagerfanta->setMaxPerPage(25);
+		    $page = $req->query->get('page', 1);
+		    $pagerfanta->setCurrentPage($page);
+		 
+		    $routeGenerator = function($page) use ($app) {
+		        return $app['url_generator']->generate('ver_salas', array("page" => $page));
+		    };
+		 
+		    $view = new DefaultView();
+		    $htmlPagination = $view->render($pagerfanta, $routeGenerator, array(
+		        'proximity' => 3,
+		    ));
+
 			$form = $app['form.factory']->createBuilder('form')
 					->add('addRegistro', 'submit', array())
 					->add('borrar', 'submit', array())
@@ -338,8 +391,9 @@
 
 			return $app ['twig']->render('/museo/ver_salas.twig', array(
 		    	'form' => $form->createView(),
-				'salas' => $salas,
 				'msgCabecera' => 'Administración de salas',
+				'pager' => $pagerfanta,
+				'htmlPagination' => $htmlPagination,
 				'sessionId' => $_SESSION['admin']
 				)
 			);

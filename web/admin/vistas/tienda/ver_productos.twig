@@ -18,7 +18,7 @@
 						<th>#</th>
 					</tr>
 				</thead>
-					{% for producto in productos %}
+					{% for producto in pager %}
 						<input type="hidden" name="hidid" value="{{producto.idCopia_Cuadro}}"/>
 						<tr>
 							<td class="perla">
@@ -41,4 +41,6 @@
 						</td>
 					</tr>
 				</table>
+
+				{{ htmlPagination|raw }}
 	{% endblock %}

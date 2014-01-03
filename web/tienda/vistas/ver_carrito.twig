@@ -14,75 +14,75 @@
 		<div class="showCarr">
 			<table style="width:100%;" class="table-show-carr">
 			{{ form_start(form, {'method': 'POST'}) }}
-			<tr>
-				<th class="th-show-carr">Nombre</th>
-				<th class="th-show-carr">Precio</th>
-				<th class="th-show-carr">Unidades</th>
-				<th class="th-show-carr">IVA</th>
-				<th class="th-show-carr">Total</th>
-				<th class="th-show-carr">#</th>
+			<tr class="th-show-carr">
+				<th>Nombre</th>
+				<th>Precio</th>
+				<th>Unidades</th>
+				<th>IVA</th>
+				<th>Total</th>
+				<th>#</th>
 			</tr>
 				{% for linea in lineas %}
 				{% if linea.idLinea_Carrito is divisibleby(2) %}
-				<tr>
-					<td class="td-show-carr par">
+				<tr class="td-show-carr par">
+					<td>
 						<a href="{{app.request.basepath}}/item/{{linea.idCopia_Cuadro}}">{{linea.nombreProducto}}</a>
 					</td>
-					<td class="td-show-carr par">
+					<td>
 						{{linea.precio}}€
 					</td>
-					<td class="td-show-carr par">
+					<td>
 						{{linea.unidades}}
 					</td>
-					<td class="td-show-carr par">
+					<td>
 						{{linea.IVA}}%
 					</td>
-					<td class="td-show-carr par">
+					<td>
 						{{linea.totalLinea}}€
 					</td>
-					<td class="td-show-carr par">
+					<td>
 						<input type="checkbox" name="cb_borrarLineas[]" id="cb_borrarLineas[]" value="{{linea.idLinea_Carrito}}"/>
 					</td>
 				</tr>
 				{% else %}
-				<tr>
-					<td class="td-show-carr impar">
+				<tr class="td-show-carr impar">
+					<td>
 						<a href="{{app.request.basepath}}/item/{{linea.idCopia_Cuadro}}">{{linea.nombreProducto}}</a>
 					</td>
-					<td class="td-show-carr impar">
+					<td>
 						{{linea.precio}}€
 					</td>
-					<td class="td-show-carr impar">
+					<td>
 						{{linea.unidades}}
 					</td>
-					<td class="td-show-carr impar">
+					<td>
 						{{linea.IVA}}%
 					</td>
-					<td class="td-show-carr impar">
+					<td>
 						{{linea.totalLinea}}€
 					</td>
-					<td class="td-show-carr impar">
+					<td>
 						<input type="checkbox" name="cb_borrarLineas[]" id="cb_borrarLineas[]" value="{{linea.idLinea_Carrito}}"/>
 					</td>
 				</tr>
 				{% endif %}
 				{% endfor %}
-				<tr>
+				<tr class="th-show-carr">
 					<td colspan="3"></td>
-					<th class="th-show-carr">
+					<th>
 						TOTAL:
 					</th>
-					<th class="th-show-carr">
+					<th>
 						{{totalCarrito}}€
 					</th>
 				</tr>
-				<tr>
-					<td class="td-opt-carr" colspan="3"></td>
-					<td class="td-opt-carr">
+				<tr class="td-opt-carr">
+					<td colspan="3"></td>
+					<td>
 						{{ form_row(form.borrarLineas) }}
 					{{ form_end(form) }}
 					</td>
-					<td class="td-opt-carr">
+					<td>
 						<a href="{{app.request.basepath}}/confirma_compra"><button id="form_confirmar">Confirmar</button></a>
 					</td>
 				</tr>

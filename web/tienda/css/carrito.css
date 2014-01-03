@@ -1,11 +1,11 @@
-.showCarr{
+div.showCarr{
 	width:95%;
 	height:500px;
 	float:left;
 	padding:0 12px 15px 0;
 	display:inline;
 }
-.table-show-carr{
+table.table-show-carr{
 	border-top:1px solid #aaa;
 	border-bottom:1px solid #aaa;	
 	border-left:1px solid #aaa;	
@@ -13,20 +13,20 @@
 	border-collapse: collapse;
 	font-size: 12px;
 }
-.th-show-carr{
+tr.th-show-carr th{
 	background-color: #9DBFC8;
 	font-size: 13px;
 	padding: 0.2% 0.2% 0.2% 0.2%;
 }
-.td-show-carr{
+tr.td-show-carr td{
 	padding: 1% 1% 1% 1%;
 	text-align: center;
 }
-.td-opt-carr{
+tr.td-opt-carr td{
 	padding: 1% 1% 1% 1%;
 	text-align: right	
 }
-.td-show-ped{
+tr.td-show-ped td{
 	padding: 1% 1% 1% 1%;
 	text-align: center;
 	border: 1px solid #aaa;	
