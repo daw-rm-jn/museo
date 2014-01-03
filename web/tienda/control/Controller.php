@@ -43,11 +43,16 @@
 		        	$data = $form->getData();
 
 					if(Modelo::existeCliente($data['email'])){
+						$newPass = Modelo::generaNuevaPass($data['email']);
+						$user = Modelo::getDatosCliente($data['email']);
 						$message = \Swift_Message::newInstance()
                                   ->setSubject('Recuperación de contraseña')
-                                  ->setFrom(array('noreply@museoDaw'))
+                                  ->setFrom(array('dawrmjn@gmail.com'))
                                   ->setTo(array($data['email']))
-                                  ->setBody(Modelo::generaNuevaPass($data['email']));
+                                  ->setBody($app['twig']->render('email_recupera_pass.twig',array(
+                                  	'user' => $user,
+                                  	'newPass' => $newPass)),'text/html');
+                                  
  
                         $app['mailer']->send($message);
  

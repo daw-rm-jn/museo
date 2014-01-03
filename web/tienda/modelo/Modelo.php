@@ -248,7 +248,7 @@
 		    $con = null;
 		}
 
-		static function generaNuevaPass($email, $length = 12){
+		static function generaNuevaPass($email, $length = 11){
 			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		    $randomString = '';
 		    for ($i = 0; $i < $length; $i++) {

@@ -13,6 +13,7 @@
 	use Symfony\Component\HttpFoundation\JsonResponse;
 	use Symfony\Component\HttpFoundation\RedirectResponse;
 	use Symfony\Component\Validator\Constraints as Assert;
+	use Silex\Provider\SwiftmailerServiceProvider;
 	
 	session_start();
 
@@ -31,14 +32,16 @@
 	    'fallback_locale' => 'en',
 	));//Traductor para los mensajes de los formularios
 	$app->register(new Silex\Provider\ValidatorServiceProvider());//Validador para los campos de los formularios
-	$app->register(new Silex\Provider\SwiftmailerServiceProvider(), array(
-	    'swiftmailer.options' => array(
-	        'host'          => 'smtp.gmail.com',
-	        'port'          => '465',
-	        'username'      => 'dawrmjn@gmail.com',
-	        'password'      => 'dw2armjn'
-	    )	 
-	));
+	$app->register(new SwiftmailerServiceProvider());//Servicio para el envío de emails.
+
+	$app['swiftmailer.options'] = array(
+	    'host' => 'smtp.gmail.com',
+	    'port' => 465,
+	    'username' => 'dawrmjn@gmail.com',
+	    'password' => 'dw2armjn',
+	    'encryption' => 'ssl',
+	    'auth_mode' => 'login'
+	);
 
 	$checkCliente = function (Request $request) use ($app){
 				    if(!isset($_SESSION['cliente'])){
