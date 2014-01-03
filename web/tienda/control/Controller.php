@@ -51,6 +51,7 @@
                                   ->setTo(array($data['email']))
                                   ->setBody($app['twig']->render('email_recupera_pass.twig',array(
                                   	'user' => $user,
+                                  	'newPass' => $newPass)),'text/html');
                                   
  
                         $app['mailer']->send($message);
