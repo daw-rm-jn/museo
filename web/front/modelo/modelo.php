@@ -59,11 +59,17 @@ class Modelo {
         $con = null;
     }
 
-    static function getPintorByName($nombrePintor) {
+    static function getPintorByName($nombrePintor, $select) {
         $pintores = array();
         $con = Modelo::abrirConexion();
-        $stmt = $con->prepare("SELECT * FROM Pintor WHERE nombrePintor LIKE ?");
+        if($select=="nombre"){
+            $stmt = $con->prepare("SELECT * FROM Pintor WHERE nombrePintor LIKE ?");
         $stmt->bindValue(1, "%$nombrePintor%", PDO::PARAM_STR);
+        }else if($select=="descripcion"){
+            $stmt = $con->prepare("SELECT * FROM Pintor WHERE bioPintor LIKE ?");
+        $stmt->bindValue(1, "%$nombrePintor%", PDO::PARAM_STR);
+        }
+        
 
         $stmt->execute();
         $result = $stmt->fetchAll();
@@ -76,17 +82,26 @@ class Modelo {
         $con = null;
     }
 
-    static function getCuadroByName($nombreCuadro) {
+    static function getCuadroByName($nombreCuadro, $select) {
         $cuadros = array();
         $con = Modelo::abrirConexion();
-        $stmt = $con->prepare("SELECT * FROM Cuadro WHERE nombreCuadro LIKE ?");
-        $stmt->bindValue(1, "%$nombreCuadro%", PDO::PARAM_STR);
+        if($select=="nombre"){
+           $stmt = $con->prepare("SELECT * FROM Cuadro WHERE nombreCuadro LIKE ?");
+        $stmt->bindValue(1, "%$nombreCuadro%", PDO::PARAM_STR); 
+        }else if($select=="descripcion"){
+            $stmt = $con->prepare("SELECT * FROM Cuadro WHERE descripcionCuadro LIKE ?");
+        $stmt->bindValue(1, "%$nombreCuadro%", PDO::PARAM_STR); 
+        }else if($select=="anio"){
+            $stmt = $con->prepare("SELECT * FROM Cuadro WHERE anioCuadro LIKE ?");
+        $stmt->bindValue(1, "%$nombreCuadro%", PDO::PARAM_STR); 
+        }
+        
 
         $stmt->execute();
         $result = $stmt->fetchAll();
 
         foreach ($result as $row) {
-            $cuadro = new Cuadro($row['idCuadro'], $row['idPintor'], $row['idExposicion'], $row['idEstilo'], $row['nombreCuadro'], $row['descripcionCuadro'], $row['fotoCuadro'], $row['foto']);
+            $cuadro = new Cuadro($row['idCuadro'], $row['idPintor'], $row['idExposicion'], $row['idEstilo'], $row['nombreCuadro'], $row['descripcionCuadro'], $row['orientacion'], $row['anioCuadro'], $row['fotoCuadro']);
             $cuadros[] = $cuadro;
         }
         return $cuadros;

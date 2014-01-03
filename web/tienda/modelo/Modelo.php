@@ -60,7 +60,7 @@
 			$con = null;
 		}
 
-		static function getPintorByName($nombrePintor){
+		static function getPintorByName($nombrePintor, $select){
 			$con = Modelo::conectar();
 			$stmt = $con->prepare("SELECT * FROM Pintor WHERE nombrePintor = :nombrePintor");
 
