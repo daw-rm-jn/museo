@@ -468,6 +468,18 @@
 			$con = null;			
 		}
 
+		static function modificaDirEnvio($email,$dir){
+			$con = Modelo::conectar();
+			$stmt = $con->prepare("UPDATE Usuario SET dir = :dir WHERE email = :email");
+
+			$stmt->bindParam(":dir",$dir);
+			$stmt->bindParam(":email",$email);
+
+			$stmt->execute();
+
+			$con = null;
+		}
+
 		static function modificaDatosBancarios($datosBanc){
 			$con = Modelo::conectar();
 			$moddatosbanc = $con->prepare("UPDATE Datos_Bancarios SET numeroTarjeta = :numt,CCV = :ccvt,fechaCaducidad = :fechacadt WHERE email = :emaildb");

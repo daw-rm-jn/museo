@@ -565,16 +565,19 @@
 		static function confirmaCompra(Request $req, Application $app){			
 			$logged = Controller::checkLog();
 
+			$cliente = Modelo::getDatosCliente($_SESSION['cliente']);
+
 			$idCarrito = Modelo::getIdCarrito($_SESSION['cliente']);
 			$totalCarrito = Modelo::getTotalCarrito($idCarrito);
 
 			$datosBancUser = Modelo::getDatosBanc($_SESSION['cliente']);
 			$fechCad = explode("-", $datosBancUser['fechaCaducidad']);
 
-			$form = $app['form.factory']->createBuilder('form')	
+			$form = $app['form.factory']->createBuilder('form')			
 					->add("cliente",'hidden',array())				
 					->add("idCarrito",'hidden',array())				
-					->add("totalCarrito",'hidden',array())				
+					->add("totalCarrito",'hidden',array())
+					->add("direccion",'text',array())						
 			        ->add('numeroTarjeta','text',array(
 			        	'constraints' => array(
 			        		new Assert\Regex(array(
@@ -617,6 +620,8 @@
 						Modelo::modificaDatosBancarios($datosBanc);
 					}
 
+					Modelo::modificaDirEnvio($data['cliente'],$data['direccion']);
+
 		        	if(Modelo::crearPedido($data)){
 		        		Modelo::vaciarCarrito($data['idCarrito']);
 						return $app->redirect($app['url_generator']->generate('ver_pedidos'));
@@ -639,7 +644,7 @@
 				'fechCad' => $fechCad,
 				'form' => $form->createView(),		
 		    	'curYear' => date("Y"),		
-				'cliente' => $_SESSION['cliente']
+				'cliente' => $cliente
 				)
 			);
 

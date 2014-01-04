@@ -13,30 +13,30 @@
 	{% block contenido %}
 		<div class="showCarr">
 			<table style="width:100%;" class="table-show-carr">
-			<tr>
-				<th class="th-show-carr">#</th>
-				<th class="th-show-carr">Fecha</th>
-				<th class="th-show-carr">Importe</th>
-				<th class="th-show-carr">Estado</th>
-				<th class="th-show-carr"></th>
+			<tr class="th-show-carr">
+				<th>#</th>
+				<th>Fecha</th>
+				<th>Importe</th>
+				<th>Estado</th>
+				<th></th>
 			</tr>
 				<ul id="pedidosCont">
 				{% for pedido in pedidos %}
 				<li>
-					<tr>
-						<td class="td-show-ped">
+					<tr class="td-show-ped">
+						<td>
 							{{loop.index}}
 						</td>
-						<td class="td-show-ped">
+						<td>
 							{{pedido.fecha}}
 						</td>
-						<td class="td-show-ped">
+						<td>
 							{{pedido.precioTotal}}€
 						</td>
-						<td class="td-show-ped">
+						<td>
 							{{pedido.estado}}
 						</td>
-						<td class="td-show-ped">
+						<td>
 							<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">Ver Detalles</a>
 						</td>
 					</tr>

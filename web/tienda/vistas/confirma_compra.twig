@@ -15,9 +15,15 @@
 		<div class="login">
 			<table border="0" width="241">
 			{{ form_start(form, {'method': 'POST'}) }}
-			{{ form_row(form.cliente, {'attr': {'value': cliente }}) }}
+			{{ form_row(form.cliente, {'attr': {'value': cliente.email }}) }}
 			{{ form_row(form.idCarrito, {'attr': {'value': idCarrito }}) }}
 			{{ form_row(form.totalCarrito, {'attr': {'value': totalCarrito }}) }}
+			<tr>
+				<th>Dirección de envío</th>
+			</tr>
+			<tr>
+				<td class="form">{{ form_row(form.direccion, {'attr': {'value': cliente.dir }}) }}</td>
+			</tr>
 			<tr>
 				<th>Datos bancarios</th>
 			</tr>
