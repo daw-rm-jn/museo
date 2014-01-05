@@ -110,7 +110,7 @@
 					<tr class="trcab">
 						<th colspan="4">ÚLTIMAS OPERACIONES</th>
 					</tr>
-					{% for upd in updates %}
+					{% for upd in pager %}
 						<tr>
 							<td colspan="4">
 								<table class="bodycrud" rules="all">
@@ -154,6 +154,7 @@
 						</tr>
 					{% endfor %}
 				</table>
+				{{ htmlPagination|raw }}
 			{% endblock %}
 		</div>
 	</div>

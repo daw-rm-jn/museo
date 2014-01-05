@@ -14,8 +14,8 @@
 		return controlAdmin::logIn($req, $app);
 	})->bind('login');
 
-	$main->match("/", function() use ($app){
-		return controlAdmin::main($app);
+	$main->match("/", function(Request $req) use ($app){
+		return controlAdmin::main($req,$app);
 	})->bind("inicio");
 
 	return $main;
