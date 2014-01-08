@@ -2,6 +2,20 @@
 	require 'ListaClases.php';
 
 	class Modelo{
+		static function getMailer(){
+			$xml = simplexml_load_file(__DIR__ . '/../xml/mailer.xml');
+			
+			$mailer = array(
+				'host' => $xml->host,
+				'port' => $xml->port,
+				'username' => $xml->username,
+				'password' => $xml->password,
+				'encryption' => $xml->encryption,
+				'auth_mode' => $xml->auth_mode
+			);
+
+			return $mailer;
+		}
 		static function conectar(){
 			$host = 'localhost';
 			$usuario = 'root';

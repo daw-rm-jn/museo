@@ -34,13 +34,15 @@
 	$app->register(new Silex\Provider\ValidatorServiceProvider());//Validador para los campos de los formularios
 	$app->register(new SwiftmailerServiceProvider());//Servicio para el envío de emails.
 
+	$mailer = Modelo::getMailer();
+	
 	$app['swiftmailer.options'] = array(
-	    'host' => 'smtp.gmail.com',
-	    'port' => 465,
-	    'username' => 'dawrmjn@gmail.com',
-	    'password' => 'dw2armjn',
-	    'encryption' => 'ssl',
-	    'auth_mode' => 'login'
+	    'host' => $mailer['host'],
+	    'port' => $mailer['port'],
+	    'username' => $mailer['username'],
+	    'password' => $mailer['password'],
+	    'encryption' => $mailer['encryption'],
+	    'auth_mode' => $mailer['auth_mode']
 	);
 
 	$checkCliente = function (Request $request) use ($app){
