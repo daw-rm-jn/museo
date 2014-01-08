@@ -94,8 +94,10 @@ class Modelo {
         }else if($select=="anio"){
             $stmt = $con->prepare("SELECT * FROM Cuadro WHERE anioCuadro LIKE ?");
         $stmt->bindValue(1, "%$nombreCuadro%", PDO::PARAM_STR); 
+        }   else if($select=="pintor"){
+            $stmt = $con->prepare("SELECT * FROM bd_museo.cuadro where cuadro.idPintor=(select pintor.idPintor from pintor where nombrePintor like ?)");
+        $stmt->bindValue(1, "%$nombreCuadro%", PDO::PARAM_STR); 
         }
-        
 
         $stmt->execute();
         $result = $stmt->fetchAll();

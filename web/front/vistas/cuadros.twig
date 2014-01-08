@@ -3,13 +3,14 @@
 {% block titulo 'Museo :: Cuadros' %}
 
 	{% block about %}
-<h2>Aqui se mostraran los pintores.</h2>
+<h2>Aqui se mostraran los cuadros.</h2>
 <form method="POST" action="/museo/web/front/cuadros/buscar">
     <input type="text" name="cuadroFormName" placeholder="Busca un cuadro" />
     <select name="select">
         <option value="nombre">Nombre</option>
         <option value="descripcion">Descrición</option>
         <option value="anio">Año</option>
+        <option value="pintor">Pintor</option>
     </select>
     <input type="submit" name="form_buscar" id="form_buscar" value="Buscar">
 </form>		
