@@ -37,6 +37,10 @@
 		return controladorPrincipal::pintores($app);
 	})->bind('pintores');
         
+        $app->match('/sup', function() use ($app){
+		return controladorPrincipal::acerca($app);
+	})->bind('sup');
+        
         $app->match('/pintores/buscar', function(Request $req) use ($app){
 		return controladorPrincipal::pintoresBuscar($req, $app);
 	})->bind('pintoresBuscar');
@@ -48,6 +52,7 @@
          $app->match("/cuadros", function() use ($app){
 		return controladorPrincipal::cuadros($app);
 	})->bind("cuadros");
+       
 
 	$app->match('/', function() use ($app){
 		return controladorPrincipal::main($app);

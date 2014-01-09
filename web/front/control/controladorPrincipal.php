@@ -21,7 +21,11 @@ class controladorPrincipal {
         return $app['twig']->render('cuadros.twig', array(
                     'cuadros' => $cuadros));
     }
-
+ public static function acerca(Application $app) {
+        $pintores = Modelo::getPintores();
+        return $app['twig']->render('acercade.twig', array(
+                    'pintores' => $pintores));
+    }
     public static function main(Application $app) {
 $exposiciones = Modelo::getExposiciones();
        return $app['twig']->render('inicio.twig', array(

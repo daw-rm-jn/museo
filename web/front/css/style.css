@@ -1,6 +1,11 @@
 .banner { position: relative; overflow: auto; }
     .banner li { list-style: none; }
         .banner ul li { float: left; }
+        #acerca
+        {
+
+width:330px;
+}
 table{
     max-width:550px;
     width:auto;

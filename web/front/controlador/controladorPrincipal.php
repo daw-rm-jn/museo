@@ -74,6 +74,10 @@ $form = $app['form.factory']->createBuilder('form')
         return $app['twig']->render('cuadros.twig', array(
                     'cuadros' => $cuadros));
     }
+    public static function acerca(Application $app) {
+        
+        return $app['twig']->render('acercade.twig', array(           ));
+    }
     
     public static function tienda(Application $app) {
         $cuadros = Modelo::getCuadros();
