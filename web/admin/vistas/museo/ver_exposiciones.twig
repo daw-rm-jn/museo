@@ -1,0 +1,46 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Exposiciones' %}
+
+	{% block action %}
+			<table class="tablacrud">
+				<thead>
+					<tr class="trcab">
+						<th colspan="3">Lista de Exposiciones</th>
+					</tr>
+					<tr class="trtit">
+						<th>
+							idExposicion
+						</th>
+						<th>
+							nombreExposicion
+						</th>
+						<th>#</th>
+					</tr>
+				</thead>
+					{% for exposicion in pager %}
+						<input type="hidden" name="hidid" value="{{exposicion.idExposicion}}"/>
+						<tr>
+							<td class="perla">
+								<a href="{{app.request.basepath}}/museo/exposiciones_museo/exposicion/{{exposicion.idExposicion}}">{{exposicion.idExposicion}}</a>
+							</td>
+							<td class="grey">
+								<a href="{{app.request.basepath}}/museo/exposiciones_museo/exposicion/{{exposicion.idExposicion}}">{{exposicion.nombreExposicion}}</a>
+							</td>
+							<td class="perla">
+								<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{exposicion.idExposicion}}"/>
+							</td>
+						</tr>
+					{% endfor %}
+					<tr>
+						<td class="grey" colspan="3">
+							{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.addRegistro)}}	
+								{{ form_row(form.borrar)}}	
+							{{ form_end(form) }}						
+						</td>
+					</tr>
+				</table>
+
+				{{ htmlPagination|raw }}
+	{% endblock %}

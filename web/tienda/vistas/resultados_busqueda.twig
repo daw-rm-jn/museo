@@ -1,0 +1,46 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Tienda :: Búsqueda' %}
+	
+	{% block about %}
+		<h2>Resultados de la búsqueda.</h2>
+		<br>
+		<p>Su búsqueda ha devuelto {{results|length}} resultados:</p>
+	{% endblock %}
+
+	{% block info %}
+	{% endblock %}
+
+	{% block contenido %}
+		<div class="showCarr">
+				<span class="res-tit">Nombre</span>
+				<span class="res-tit-autor">Autor</span>
+				<br>
+				<br>
+				<ul id="pedidosCont">
+					{% for result in results %}
+						<li>
+							<div id="res">
+								<span><a href="{{app.request.basepath}}/item/{{result.idCopia_Cuadro}}">{{result.nombreProducto}}</a></span> <span class="res-autor"><a href="{{app.request.basepath}}/pintores/{{result.autor}}">{{result.autor}}</a></span>
+							</div>
+						</li>
+					{% endfor %}
+				</ul>
+		</div>		
+		<div class="pagPedidos">
+			<a class="jp-previous jp-disabled">← previous</a>
+			<a class="jp-current">1</a>
+			<span class="jp-hidden">...</span>
+			<a>2</a>
+			<a>3</a>
+			<a>4</a>
+			<a>5</a>
+			<a class="jp-hidden">6</a>
+			<a class="jp-hidden">7</a>
+			<a class="jp-hidden">8</a>
+			<a class="jp-hidden">9</a>
+			<span>...</span>
+			<a>10</a>
+			<a class="jp-next">next →</a>
+		</div>
+	{% endblock %}

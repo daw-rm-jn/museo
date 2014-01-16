@@ -1,0 +1,46 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Clientes' %}
+
+	{% block action %}
+			<table class="tablacrud">
+				<thead>
+					<tr class="trcab">
+						<th colspan="3">Lista de Clientes</th>
+					</tr>
+					<tr class="trtit">
+						<th>
+							email
+						</th>
+						<th>
+							nombre
+						</th>
+						<th>#</th>
+					</tr>
+				</thead>
+					{% for cliente in pager %}
+						<input type="hidden" name="hidid" value="{{cliente.email}}"/>
+						<tr>
+							<td class="perla">
+								<a href="{{app.request.basepath}}/usuarios/clientes/cliente/{{cliente.email}}">{{cliente.email}}</a>
+							</td>
+							<td class="grey">
+								<a href="{{app.request.basepath}}/usuarios/clientes/cliente/{{cliente.email}}">{{cliente.nombre}}</a>
+							</td>
+							<td class="perla">
+								<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{cliente.email}}"/>
+							</td>
+						</tr>
+					{% endfor %}
+					<tr>
+						<td class="grey" colspan="3">
+							{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.addRegistro)}}	
+								{{ form_row(form.borrar)}}	
+							{{ form_end(form) }}						
+						</td>
+					</tr>
+				</table>
+
+				{{ htmlPagination|raw }}
+	{% endblock %}

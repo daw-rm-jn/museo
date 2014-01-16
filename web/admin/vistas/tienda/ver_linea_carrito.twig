@@ -1,0 +1,35 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Linea de Carrito' %}
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Detalles de Linea #{{linea.idLinea_Carrito}}</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.idCarrito, {'attr': {'value': linea.idCarrito }}) }}
+								{{ form_row(form.idLinea_Carrito, {'attr': {'value': linea.idLinea_Carrito }}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="grey">{{ form_row(form.idCopia_Cuadro, {'attr': {'value': linea.idCopia_Cuadro }}) }}</td>
+											<td class="perla">{{ form_row(form.nombreProducto, {'attr': {'value': linea.nombreProducto }}) }}</td>
+											<td class="grey">{{ form_row(form.unidades, {'attr': {'value': linea.unidades }}) }}</td>
+											<td class="perla">{{ form_row(form.precio, {'attr': {'value': linea.precio }}) }} €</td>
+											<td class="grey">{{ form_row(form.IVA, {'attr': {'value': linea.IVA }}) }} %</td>
+											<td class="grey">{{ form_row(form.totalLinea, {'attr': {'readonly':'readonly' ,'value': linea.totalLinea }}) }} €</td>
+										<tr>
+										<tr>
+											<td class="grey" colspan="6">
+												{{form_row(form.guardar)}}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

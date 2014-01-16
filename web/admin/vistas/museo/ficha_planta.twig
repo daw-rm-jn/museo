@@ -1,0 +1,35 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Ficha de Planta' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Planta #{{planta.idPlanta}}</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.idPlanta, {'attr': {'value': planta.idPlanta }}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.numeroPlanta, {'attr': {'value': planta.numeroPlanta}}) }}
+											</td>
+											<td class="grey">
+												{{ form_row(form.capacidad, {'attr': {'value': planta.capacidad}}) }} (personas)
+											</td>
+										</tr>
+										<tr>
+											<td class="grey" colspan="2">
+												{{form_row(form.guardar)}}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

@@ -1,0 +1,10 @@
+@import url('login.css');
+@import url('index.css');
+@import url('pager.css');
+
+body{
+	font-family: 'Armata', sans-serif;
+	font-size: 0.810em;
+	background-color:#DCE3E5;
+}
+

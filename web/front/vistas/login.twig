@@ -1,0 +1,31 @@
+{% extends 'plantilla.twig' %}
+
+{% block titulo 'Museo' %}
+
+{% block contenido %}
+
+	<div id="cont" class="cont">
+	<div id="titulo" class="titulo">
+	{% block cabecera %}
+	    <div id="panelcontrol" class="panelcontrol">
+		    <ul id="listaControl" class="listaControl">
+				<li id="elem3" name="elem3" class="elem3" value="elem3"><a href="{{app.request.basepath}}/">Inicio</a></li>
+				<li id="elem2" name="elem2" class="elem2" value="elem2"><a href="{{app.request.basepath}}/pintores">Pintores</a></li>
+                                <li id="elem4" name="elem3" class="elem4" value="elem4"><a href="{{app.request.basepath}}/cuadros">Cuadros</a></li>
+                                <li id="elem5" name="elem5" class="elem5" value="elem5"><a href="{{app.request.basepath}}/carrito">Carrito</a></li>
+                                if {{sessionId}}{
+                                Sesión: {{sessionId}}
+                                }else{
+                                <li id="elem6" name="elem6" class="elem6" value="elem6"><a href="{{app.request.basepath}}/miusuario">Conectar</a></li>
+				}
+			</ul>
+		</div>
+	{% endblock %}
+	 </div>
+
+	<div id="action" class="action">
+
+	</div>
+</div> 
+
+{% endblock %}

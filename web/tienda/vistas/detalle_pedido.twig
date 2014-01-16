@@ -1,0 +1,90 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Tienda :: Detalle de Pedido' %}
+	
+	{% block about %}
+		<h2>Detalles de pedido</h2>
+	{% endblock %}
+
+	{% block info %}
+	{% endblock %}
+
+	{% block contenido %}
+		<div class="showCarr">
+			<table style="width:100%;" class="table-show-carr">
+			<tr class="th-show-carr">
+				<th>Nombre</th>
+				<th>Precio</th>
+				<th>Unidades</th>
+				<th>IVA</th>
+				<th>Total</th>
+			</tr>
+				{% for linea in lineas %}
+				{% if linea.idLinea_Pedido is divisibleby(2) %}
+				<tr class="td-show-carr par">
+					<td>
+						<a href="{{app.request.basepath}}/item/{{linea.idCopia_Cuadro}}">{{linea.nombreProducto}}</a>
+					</td>
+					<td>
+						{{linea.precio}}€
+					</td>
+					<td>
+						{{linea.unidades}}
+					</td>
+					<td>
+						{{linea.IVA}}%
+					</td>
+					<td>
+						{{linea.totalLinea}}€
+					</td>
+				</tr>
+				{% else %}
+				<tr class="td-show-carr impar">
+					<td>
+						<a href="{{app.request.basepath}}/item/{{linea.idCopia_Cuadro}}">{{linea.nombreProducto}}</a>
+					</td>
+					<td>
+						{{linea.precio}}€
+					</td>
+					<td>
+						{{linea.unidades}}
+					</td>
+					<td>
+						{{linea.IVA}}%
+					</td>
+					<td>
+						{{linea.totalLinea}}€
+					</td>
+				</tr>
+				{% endif %}
+				{% endfor %}
+				<tr class="td-show-carr">
+					<td colspan="3"></td>
+					<td>
+						Estado del Pedido:
+					</td>
+					<td>
+						{{estado}}
+					</td>
+				</tr>
+				<tr class="th-show-carr">
+					<td colspan="3"></td>
+					<th>
+						IMPORTE TOTAL:
+					</th>
+					<th>
+						{{totalPedido}}€
+					</th>
+				</tr>
+				<tr class="td-get-recibo">
+					<td colspan="4"></td>
+					<td>
+						{{ form_start(form, {'method': 'POST'}) }}
+							{{form_row(form.idPedido, {'attr': {'value': idPedido }}) }}
+							{{form_row(form.obtenerRecibo)}}
+						{{ form_end(form) }}
+					</td>
+				</tr>
+			</table>
+		</div>
+	{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Carritos' %}
+
+	{% block action %}
+			<table class="tablacrud">
+				<thead>
+					<tr class="trcab">
+						<th colspan="4">Lista de Carritos activos</th>
+					</tr>
+					<tr class="trtit">
+						<th>
+							idCarrito
+						</th>
+						<th>
+							email
+						</th>
+						<th>
+							Fecha Expiración
+						</th>
+						<th>#</th>
+					</tr>
+				</thead>
+					{% for carrito in pager %}
+						<input type="hidden" name="hidid" value="{{carrito.idCarrito}}"/>
+						<tr>
+							<td class="perla">
+								<a href="{{app.request.basepath}}/tienda/carritos/carrito/{{carrito.idCarrito}}">{{carrito.idCarrito}}</a>
+							</td>
+							<td class="grey">
+								<a href="{{app.request.basepath}}/tienda/carritos/carrito/{{carrito.idCarrito}}">{{carrito.email}}</a>
+							</td>
+							<td class="perla">
+								{{carrito.fechaExpir}}
+							</td>
+							<td class="grey">
+								<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{carrito.idCarrito}}"/>
+							</td>
+						</tr>
+					{% endfor %}
+					<tr>
+						<td class="grey" colspan="4">
+							{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.addRegistro)}}	
+								{{ form_row(form.borrar)}}	
+							{{ form_end(form) }}						
+						</td>
+					</tr>
+				</table>
+
+				{{htmlPagination|raw }}
+	{% endblock %}

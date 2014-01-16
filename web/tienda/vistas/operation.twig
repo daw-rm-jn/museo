@@ -1,0 +1,15 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Tienda :: Mensaje' %}
+	
+	{% block about %}
+		<h2>{{operation}}</h2>
+	{% endblock %}
+
+	{% block contenido %}
+		<div class="logout">
+			{{msg}}
+			<br>
+			<a href="javascript:window.history.back()">Volver </a>
+		</div>
+	{% endblock %}

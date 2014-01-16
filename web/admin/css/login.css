@@ -1,0 +1,71 @@
+
+div.loginout{
+	margin-left: auto;
+	margin-top: 16%;
+	margin-right: auto;
+	width:300px;
+	height: auto;
+	border: 2px solid #9DBFC8;
+	padding: 2% 2% 2% 2%;
+	background-color: #E7EDEF;
+	box-shadow: 0px 10px 50px #888888;
+}
+
+div.loginout input#form_usuario{
+	background: url('../img/iconUser.svg') no-repeat scroll right center #FFFFFF;
+  	background-size: contain;
+	float: right;
+	width: 150px;
+	color:#9DBFC8;
+}
+
+div.loginout input#form_usuario:focus, 
+div.loginout input#form_clave:focus{
+	box-shadow: 0 0 3px 3px #ffa853;
+	color: #666;
+	outline: none;
+}
+
+div.loginout input#form_clave{
+	background: url('../img/iconKey.svg') no-repeat scroll right center #FFFFFF;
+  	background-size: contain;
+	float: right;
+	width: 150px;
+	color:#9DBFC8;
+}
+
+input#btLogin{
+	display:block;
+	border:none;
+	width: 150px;
+	background-color: #9DBFC8;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1% 1% 1% 1%;
+	box-shadow: 0 0 20px #888888;
+}
+input[type="submit"]:hover{
+	background-color: #C9CFD0;
+}
+
+div.loginout label[for=form_clave], 
+div.loginout label[for=form_usuario]{
+	position:relative;
+	font-weight: bold;
+	color:#9DBFC8;
+}
+
+label[for=form_clave]{
+	top: 1.6em;
+}
+
+label[for=form_usuario]{
+	top: 0.6em;
+}
+
+div.loginout > form > div > ul > li{
+	float:left;
+	color:red;
+	font-size: 0.9em;
+	margin-top:2%;
+}

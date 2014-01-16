@@ -1,0 +1,54 @@
+.holder,
+.pagPedidos,
+.pagCuadros {
+	margin: 15px 0;
+}
+.holder a,
+.pagPedidos a,
+.pagCuadros a {
+	font-size: 12px;
+	cursor: pointer;
+	margin: 0 5px;
+	color: #333;
+}
+.holder a:hover,
+.pagPedidos a:hover,
+.pagCuadros a:hover {
+	background-color: #222;
+	color: #fff;
+}
+.holder a.jp-previous,
+.pagPedidos a.jp-previous,
+.pagCuadros a.jp-previous { 
+	margin-right: 15px; 
+}
+.holder a.jp-next,
+.pagPedidos a.jp-next,
+.pagCuadros a.jp-next { 
+	margin-left: 15px; 
+}
+.holder a.jp-current, a.jp-current:hover,
+.pagPedidos a.jp-current, a.jp-current:hover,
+.pagCuadros a.jp-current, a.jp-current:hover { 
+	color: #FF4242;
+	font-weight: bold;
+}
+.holder a.jp-disabled, a.jp-disabled:hover,
+.pagPedidos a.jp-disabled, a.jp-disabled:hover,
+.pagCuadros a.jp-disabled, a.jp-disabled {
+	color: #bbb;
+}
+.holder a.jp-current, a.jp-current:hover,
+.holder a.jp-disabled, a.jp-disabled:hover,
+.pagPedidos a.jp-current, a.jp-current:hover,
+.pagPedidos a.jp-disabled, a.jp-disabled:hover,
+.pagCuadros a.jp-current, a.jp-current:hover,
+.pagCuadros a.jp-disabled, a.jp-disabled:hover {
+	cursor: default; 
+	background: none;
+}
+.holder span,
+.pagPedidos span,
+.pagCuadros span { 
+	margin: 0 5px; 
+}

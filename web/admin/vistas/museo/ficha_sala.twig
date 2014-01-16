@@ -1,0 +1,52 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Ficha de Sala' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Sala #{{sala.idSala}}</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.idSala, {'attr': {'value': sala.idSala }}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.nombreSala, {'attr': {'value': sala.nombreSala}}) }}
+											</td>
+											<td class="perla">
+												
+												<label for="selplantas">Planta</label>
+												<select name="selplantas" id="selplantas">
+													{% for planta in plantas %}
+														{% if sala.idPlanta == planta.idPlanta %}
+															<option value="{{planta.idPlanta}}" SELECTED>{{planta.numeroPlanta}}</option>
+														{% else %}
+															<option value="{{planta.idPlanta}}">{{planta.numeroPlanta}}</option>
+														{% endif %}
+													{% endfor %}
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="grey" colspan="2">
+												Descripción de sala:
+												<br>
+												<textarea name="descSala" id="descSala" cols="100" rows="20">{{sala.descripcionSala}}</textarea>
+											</td>
+										</tr>
+										<tr>
+											<td class="perla" colspan="2">
+												{{form_row(form.guardar)}}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

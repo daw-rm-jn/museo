@@ -1,0 +1,64 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Tienda :: Mis Pedidos' %}
+	
+	{% block about %}
+		<h2>Mis pedidos</h2>
+		<p>Aquí puede ver los pedidos que ha realizado, los detalles de los mismos y el estado en el que se encuentran</p>
+	{% endblock %}
+
+	{% block info %}
+	{% endblock %}
+
+	{% block contenido %}
+		<div class="showCarr">
+			<table style="width:100%;" class="table-show-carr">
+			<tr class="th-show-carr">
+				<th>#</th>
+				<th>Fecha</th>
+				<th>Importe</th>
+				<th>Estado</th>
+				<th></th>
+			</tr>
+				<ul id="pedidosCont">
+				{% for pedido in pedidos %}
+				<li>
+					<tr class="td-show-ped">
+						<td>
+							{{loop.index}}
+						</td>
+						<td>
+							{{pedido.fecha}}
+						</td>
+						<td>
+							{{pedido.precioTotal}}€
+						</td>
+						<td>
+							{{pedido.estado}}
+						</td>
+						<td>
+							<a href="{{app.request.basepath}}/pedidos/pedido/{{pedido.idPedido}}">Ver Detalles</a>
+						</td>
+					</tr>
+				</li>
+				{% endfor %}
+				</ul>
+			</table>
+		</div>		
+		<div class="pagPedidos">
+			<a class="jp-previous jp-disabled">← previous</a>
+			<a class="jp-current">1</a>
+			<span class="jp-hidden">...</span>
+			<a>2</a>
+			<a>3</a>
+			<a>4</a>
+			<a>5</a>
+			<a class="jp-hidden">6</a>
+			<a class="jp-hidden">7</a>
+			<a class="jp-hidden">8</a>
+			<a class="jp-hidden">9</a>
+			<span>...</span>
+			<a>10</a>
+			<a class="jp-next">next →</a>
+		</div>
+	{% endblock %}

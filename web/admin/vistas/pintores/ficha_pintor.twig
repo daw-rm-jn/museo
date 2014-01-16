@@ -1,0 +1,49 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Ficha de pintor' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Pintor #{{pintor.idPintor}}</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.idPintor, {'attr': {'value' : pintor.idPintor}}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla" style="width:66%;">
+												{{ form_row(form.nombrePintor, {'attr': {'value': pintor.nombrePintor, 'class': 'txtdcha' }}) }}
+												<br>
+												{{ form_row(form.fechaNacimiento, {'attr': {'value': pintor.fechaNacimiento, 'class': 'txtdcha' }}) }}
+												<br>
+												{{ form_row(form.fechaMuerte, {'attr': {'value': pintor.fechaMuerte, 'class': 'txtdcha' }}) }}
+												<hr class="separador">
+												<label for="">Seleccione una nueva foto: </label>{{ form_row(form.fotoPintor) }}
+											</td>
+											<td class="perla pict">												
+												<label for="">Foto de pintor (ACTUAL):</label>
+												<br>
+												<img class="foto" src="{{app.request.basepath}}/../img/pintores/{{pintor.nombrePintor}}/{{pintor.fotoPintor}}" alt="" width="170" height="200">
+											</td>
+										</tr>
+										<tr>
+											<td class="grey" colspan="3">
+												<label for="">Biografía de pintor:</label><br>
+												<textarea name="bioPintor" id="bioPintor" cols="100" rows="20">{{pintor.bioPintor}}</textarea>
+											</td>
+										</tr>
+										<tr>
+											<td class="perla" colspan="3">
+												{{ form_row(form.guardar) }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

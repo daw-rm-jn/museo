@@ -1,0 +1,46 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Estilos' %}
+
+	{% block action %}
+			<table class="tablacrud">
+				<thead>
+					<tr class="trcab">
+						<th colspan="3">Lista de Estilos</th>
+					</tr>
+					<tr class="trtit">
+						<th>
+							idEstilo
+						</th>
+						<th>
+							nombreEstilo
+						</th>
+						<th>#</th>
+					</tr>
+				</thead>
+					{% for estilo in pager %}
+						<input type="hidden" name="hidid" value="{{estilo.idEstilo}}"/>
+						<tr>
+							<td class="perla">
+								<a href="{{app.request.basepath}}/estilos/estilo/{{estilo.idEstilo}}">{{estilo.idEstilo}}</a>
+							</td>
+							<td class="grey">
+								<a href="{{app.request.basepath}}/estilos/estilo/{{estilo.idEstilo}}">{{estilo.nombreEstilo}}</a>
+							</td>
+							<td class="perla">
+								<input type="checkbox" name="cb_borrar[]" id="cb_borrar[]" value="{{estilo.idEstilo}}"/>
+							</td>
+						</tr>
+					{% endfor %}
+					<tr>
+						<td class="grey" colspan="3">
+							{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.addRegistro)}}	
+								{{ form_row(form.borrar)}}	
+							{{ form_end(form) }}						
+						</td>
+					</tr>
+				</table>
+
+				{{ htmlPagination|raw }}
+	{% endblock %}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mailer>
+	<host>smtp.gmail.com</host>
+	<port>465</port>
+	<username>dawrmjn@gmail.com</username>
+	<password>dw2armjn</password>
+	<encryption>ssl</encryption>
+	<auth_mode>login</auth_mode>
+</mailer>

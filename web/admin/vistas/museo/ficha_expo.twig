@@ -1,0 +1,67 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Ficha de Exposicion' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Exposicion #{{exposicion.idExposicion}}</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								{{ form_row(form.idExposicion, {'attr': {'value': exposicion.idExposicion }}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.nombreExposicion, {'attr': {'value': exposicion.nombreExposicion}}) }}
+											</td>
+											<td class="perla">
+												{{ form_row(form.fechaInicio, {'attr': {'value': exposicion.fechaInicio}}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												<label for="selsalas">Sala</label>
+												<select name="selsalas" id="selsalas">
+													{% for sala in salas %}
+														{% if exposicion.idSala == sala.idSala %}
+															<option value="{{sala.idSala}}" SELECTED>{{sala.nombreSala}}</option>
+														{% else %}
+															<option value="{{sala.idSala}}">{{sala.nombreSala}}</option>
+														{% endif %}
+													{% endfor %}
+												</select>
+											</td>
+											<td class="grey">
+												{{ form_row(form.fechaFin, {'attr': {'value': exposicion.fechaFin}}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{form_row(form.cartel) }}
+											</td>
+											<td class="perla">
+												Cartel Actual:
+												<img src="{{app.request.basepath}}/../img/exposiciones/{{exposicion.nombreExposicion}}/{{exposicion.cartel}}" width="350" height="100">
+											</td>
+										</tr>
+										<tr>
+											<td class="perla" colspan="3">
+												<label for="">Descripción de la Exposicion:</label><br>
+												<textarea name="descExpo" id="descExpo" cols="100" rows="20">{{exposicion.descripcionExpo}}</textarea>
+											</td>
+										</tr>
+										<tr>
+											<td class="grey" colspan="2">
+												{{ form_row(form.guardar) }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

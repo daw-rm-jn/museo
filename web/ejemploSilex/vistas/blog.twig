@@ -1,0 +1,31 @@
+{% extends 'plantilla.twig' %}
+
+{% block titulo 'Lista de Posts' %}
+
+{% block estilos %}{% endblock %}
+
+{% block contenido %}
+	<table border="3">
+		<tr>
+			<td colspan="5">LISTADO DE POSTS</td>
+		</tr>
+		<tr>
+			<td>IdPost</td>
+			<td>Titulo</td>
+			<td>Autor</td>
+			<td>Cuerpo</td>
+			<td>Fecha</td>
+		</tr>
+
+		{% for unPost in posts %}
+			<tr>
+				<td>{{unPost.idPost}}</td>
+				<td><a href="{{app.request.basepath}}/blog/{{unPost.idPost}}">{{unPost.titulo}}</a></td>
+				<td>{{unPost.autor}}</td>
+				<td>{{unPost.cuerpo}}</td>
+				<td>{{unPost.fecha}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+	<a href="{{app.request.basepath}}/blog/nuevo">Crear post</a>
+{% endblock %}

@@ -1,0 +1,163 @@
+{% extends 'plantilla.twig' %}
+
+{% block titulo 'Inicio' %}
+
+{% block contenido %}
+
+<div id="cont" class="cont">
+
+	<div id="menuizq" class="menuizq">
+		<div id="sections" class="sections">
+			<ul id="listaSec" class="listaSec">
+				<li class="limenu" id="limenu" name="limenu">
+					MENU
+				</li>
+				<a href="{{app.request.basepath}}/pintores">
+					<li id="lipintores" class="lipintores" name="lipintores">
+						Pintores
+					</li>
+				</a>
+				<a href="{{app.request.basepath}}/cuadros">
+					<li id="licuadros" class="licuadros" name="licuadros">
+					Cuadros
+					</li>
+				</a>
+				<a href="{{app.request.basepath}}/estilos">
+					<li id="liestilos" name="liestilos" class="liestilos">
+						Estilos
+					</li>
+				</a>
+				<li id="limuseo" class="limuseo" name="limuseo" value="limuseo">
+					Museo
+				</li>
+				<a href="{{app.request.basepath}}/museo/exposiciones_museo">
+					<li class="liexposiciones" id="liexposiciones" name="liexposiciones">
+						Exposiciones
+					</li>
+				</a>
+				<a href="{{app.request.basepath}}/museo/plantas_museo">
+					<li class="liplantas" id="liplantas" name="liplantas">
+						Plantas
+					</li>
+				</a>
+				<a href="{{app.request.basepath}}/museo/salas_museo">
+					<li class="lisalas" id="lisalas" name="lisalas">
+						Salas
+					</li>
+				</a>
+				<li id="liusuarios" class="liusuarios" name="liusuarios">
+					Usuarios
+				</li>
+				<a href="{{app.request.basepath}}/usuarios/clientes">
+					<li id="liclientes" class="liclientes" name="liclientes">
+						Clientes
+					</li>
+				</a>
+				<a href="{{app.request.basepath}}/usuarios/admins">
+					<li id="liadmins" class="liadmins" name="liadmins">
+						Aministradores
+					</li>
+				</a>
+				<li id="litienda" class="litienda" name="litienda">
+					Tienda
+				</li>
+				<a href="{{app.request.basepath}}/tienda/productos">
+					<li id="liproductos" class="liproductos" name="liproductos">
+						Productos
+					</li>
+				</a>
+				<a href="{{app.request.basepath}}/tienda/carritos">
+					<li id="licarritos" class="licarritos" name="licarritos">
+						Carritos
+					</li>
+				</a>
+				<a href="{{app.request.basepath}}/tienda/pedidos">
+					<li id="lipedidos" class="lipedidos" name="lipedidos">
+						Pedidos
+					</li>
+				</a>
+			</ul>
+		</div>
+	</div>
+
+	<div id="titulo" class="titulo">
+	{% block cabecera %}
+		<div id="nombresec" class="nombresec">
+	    	<h1>{{msgCabecera}}</h1>
+	    </div>
+	    <div id="panelcontrol" class="panelcontrol">
+	    	<div id="divlistacontrol">
+			    <ul id="listaControl" class="listaControl">
+					<li id="elem3" name="elem3" class="elem3" value="elem3">
+						<a href="{{app.request.basepath}}">Inicio</a>
+					</li>
+					<li id="logout" name="logout" class="logout" value="logout">
+						<a href="{{app.request.basepath}}/logout">Logout</a>
+					</li>
+				</ul>
+			</div>
+	    	<div id="sessionid">
+	    		Sesión: {{sessionId}}
+	    	</div>
+		</div>
+	{% endblock %}
+	</div>
+
+	<div id="action" class="action">
+		<div id="tcrud" class="tcrud">
+			{% block action %}
+				<table class="tablacrud">
+					<tr class="trcab">
+						<th colspan="4">ÚLTIMAS OPERACIONES</th>
+					</tr>
+					{% for upd in pager %}
+						<tr>
+							<td colspan="4">
+								<table class="bodycrud" rules="all">
+									<thead>
+										<tr class="trtit">
+											<th>
+												Título
+											</th>
+											<th>
+												Usuario
+											</th>
+											<th>
+												Fecha
+											</th>
+											<th></th>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{upd.tituloActualizacion}}
+											</td>
+											<td class="grey">
+												{{upd.Usuario_email}}
+											</td>
+											<td class="perla">
+												{{upd.fechaActualizacion}}
+											</td>
+											<td class="grey">
+												<input type="button" class="btVer" value="Ver Descripción" />
+											</td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td colspan="4" class="descact">
+												<span class="labdesc">Descripción:</span> <span class="spdesc">{{upd.descActualizacion}}</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+				{{ htmlPagination|raw }}
+			{% endblock %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}

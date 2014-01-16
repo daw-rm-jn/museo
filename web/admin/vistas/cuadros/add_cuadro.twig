@@ -1,0 +1,70 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Añadir cuadro' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Formulario de alta de Cuadro</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.nombreCuadro) }}
+												{{ form_row(form.anioCuadro) }}
+											</td>
+											<td class="perla">
+												{{ form_row(form.fotoCuadro) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												<label for="selpintores">Pintor</label>
+												<select name="selpintores" id="selpintores">
+													<option value=""></option>
+													{% for pintor in pintores %}
+														<option value="{{pintor.idPintor}}">{{pintor.nombrePintor}}</option>
+													{% endfor %}
+												</select>
+												<br>
+												<label for="selestilos">Estilo</label>
+												<select name="selestilos" id="selestilos">
+													<option value=""></option>
+													{% for estilo in estilos %}
+														<option value="{{estilo.idEstilo}}">{{estilo.nombreEstilo}}</option>
+													{% endfor %}
+												</select>
+												{{ form_row(form.orientacion) }}
+											</td>
+											<td class="grey">
+												<label for="selexpos">Exposicion</label>
+												<select name="selexpos" id="selexpos">
+													<option value=""></option>
+													{% for exposicion in exposiciones %}
+														<option value="{{exposicion.idExposicion}}">{{exposicion.nombreExposicion}}</option>
+													{% endfor %}
+												</select>
+											</td>
+										</tr>
+											<td class="perla" colspan="3">
+												<label for="">Descripción del cuadro::</label><br>
+												<textarea name="descCuadro" id="descCuadro" cols="100" rows="20"></textarea>
+											</td>
+										<tr>
+										</tr>
+										<tr>
+											<td class="grey" colspan="2">
+												{{ form_row(form.guardar) }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

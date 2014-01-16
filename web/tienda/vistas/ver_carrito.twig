@@ -1,0 +1,91 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Tienda :: Mi Carrito' %}
+	
+	{% block about %}
+		<h2>Mi carrito</h2>
+		<p>Estos son los productos actualmente en su carrito. Cuando termine de elegir productos, confirme el carrito para realizar el pedido.</p>
+	{% endblock %}
+
+	{% block info %}
+	{% endblock %}
+
+	{% block contenido %}
+		<div class="showCarr">
+			<table style="width:100%;" class="table-show-carr">
+			{{ form_start(form, {'method': 'POST'}) }}
+			<tr class="th-show-carr">
+				<th>Nombre</th>
+				<th>Precio</th>
+				<th>Unidades</th>
+				<th>IVA</th>
+				<th>Total</th>
+				<th>#</th>
+			</tr>
+				{% for linea in lineas %}
+				{% if linea.idLinea_Carrito is divisibleby(2) %}
+				<tr class="td-show-carr par">
+					<td>
+						<a href="{{app.request.basepath}}/item/{{linea.idCopia_Cuadro}}">{{linea.nombreProducto}}</a>
+					</td>
+					<td>
+						{{linea.precio}}€
+					</td>
+					<td>
+						{{linea.unidades}}
+					</td>
+					<td>
+						{{linea.IVA}}%
+					</td>
+					<td>
+						{{linea.totalLinea}}€
+					</td>
+					<td>
+						<input type="checkbox" name="cb_borrarLineas[]" id="cb_borrarLineas[]" value="{{linea.idLinea_Carrito}}"/>
+					</td>
+				</tr>
+				{% else %}
+				<tr class="td-show-carr impar">
+					<td>
+						<a href="{{app.request.basepath}}/item/{{linea.idCopia_Cuadro}}">{{linea.nombreProducto}}</a>
+					</td>
+					<td>
+						{{linea.precio}}€
+					</td>
+					<td>
+						{{linea.unidades}}
+					</td>
+					<td>
+						{{linea.IVA}}%
+					</td>
+					<td>
+						{{linea.totalLinea}}€
+					</td>
+					<td>
+						<input type="checkbox" name="cb_borrarLineas[]" id="cb_borrarLineas[]" value="{{linea.idLinea_Carrito}}"/>
+					</td>
+				</tr>
+				{% endif %}
+				{% endfor %}
+				<tr class="th-show-carr">
+					<td colspan="3"></td>
+					<th>
+						TOTAL:
+					</th>
+					<th>
+						{{totalCarrito}}€
+					</th>
+				</tr>
+				<tr class="td-opt-carr">
+					<td colspan="3"></td>
+					<td>
+						{{ form_row(form.borrarLineas) }}
+					{{ form_end(form) }}
+					</td>
+					<td>
+						<a href="{{app.request.basepath}}/confirma_compra"><button id="form_confirmar">Confirmar</button></a>
+					</td>
+				</tr>
+			</table>
+		</div>
+	{% endblock %}

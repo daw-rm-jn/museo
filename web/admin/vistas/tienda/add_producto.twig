@@ -1,0 +1,64 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Añadir producto' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Formulario de alta de Producto</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla" colspan="2">
+												{{ form_row(form.nombreProducto) }}
+												{{ form_row(form.anioCuadro) }}
+												{{ form_row(form.orientacion) }}
+											</td>
+											<td class="perla">
+												{{ form_row(form.fotoCuadro) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey" colspan="2">
+												{{ form_row(form.precio) }}
+											</td>
+											<td class="grey">
+												<label for="selpintores">Pintor</label>
+												<select name="selpintores" id="selpintores">
+													<option value=""></option>
+													{% for pintor in pintores %}
+														<option value="{{pintor.idPintor}}">{{pintor.nombrePintor}}</option>
+													{% endfor %}
+												</select>
+												<br>
+												<label for="selestilos">Estilo</label>
+												<select name="selestilos" id="selestilos">
+													<option value=""></option>
+													{% for estilo in estilos %}
+														<option value="{{estilo.idEstilo}}">{{estilo.nombreEstilo}}</option>
+													{% endfor %}
+												</select>
+											</td>
+										</tr>
+											<td class="perla" colspan="3">
+												<label for="">Descripción del cuadro:</label><br>
+												<textarea name="descProducto" id="descProducto" cols="100" rows="20"></textarea>
+											</td>
+										<tr>
+										</tr>
+										<tr>
+											<td class="grey" colspan="3">
+												{{ form_row(form.guardar) }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

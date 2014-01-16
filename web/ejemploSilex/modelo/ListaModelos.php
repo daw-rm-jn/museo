@@ -1,0 +1,3 @@
+<?php 
+	require 'Post.php';
+?>

@@ -1,0 +1,37 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Añadir estilo' %}
+
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Formulario de alta de Estilo</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.nombreEstilo) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey" colspan="2">
+												<label for="">Descripción de estilo:</label><br>
+												<textarea name="descEstilo" id="descEstilo" cols="100" rows="20"></textarea>
+											</td>
+										</tr>
+										<tr>
+											<td class="perla" colspan="2">
+												{{ form_row(form.guardar) }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

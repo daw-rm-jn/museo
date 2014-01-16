@@ -1,0 +1,86 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Añadir cliente' %}
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Formulario para añadir un Cliente</th>
+					</tr>
+					<tr class="trcab">
+						<th>Datos personales</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.email) }}
+											</td>
+											<td class="perla">
+												{{ form_row(form.clave) }}
+												{{ form_row(form.clavecifrada) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												{{ form_row(form.nombre) }}
+											</td>
+											<td class="grey">
+												{{ form_row(form.nif) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.dir) }}
+											</td>
+											<td class="perla">
+												{{ form_row(form.pais) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.provincia) }}
+											</td>
+											<td class="perla">
+												{{ form_row(form.poblacion) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												{{ form_row(form.telf) }}
+											</td>
+											<td class="grey">
+												{{ form_row(form.cp) }}
+											</td>
+										</tr>
+										<tr class="trcab">
+											<th colspan="2">Datos bancarios</th>
+										</tr>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.numeroTarjeta)}}
+											</td>
+											<td class="perla">
+												{{ form_row(form.CCV) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												{{ form_row(form.fechaCaducidad) }} (AAAA-MM-DD)
+											</td>
+											<td class="grey"></td>
+										</tr>
+										<tr>
+											<td class="perla" colspan="2">
+												{{ form_row(form.guardar, {'attr': {'onclick': 'cifrar()' }})  }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

@@ -1,0 +1,142 @@
+{% extends 'plantilla.twig' %}
+
+{% block titulo 'Tienda :: Ficha de producto' %}
+
+{% block cuerpo %}
+	<div id="header">																																																																								
+		<div id="header_inside">
+			{% if logged %}	
+				<img src="{{app.request.basepath}}/images/header.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />
+			{% else %}
+				<img src="{{app.request.basepath}}/images/header2.jpg" alt="setalpm" width="999" height="222" border="0" usemap="#Map" /><br />	
+			{% endif %}																																									
+			<ul id="menu">
+				<li><a href="{{app.request.basepath}}" class="but_active">Inicio</a></li>
+				{% if logged %}				
+					<li><a href="{{app.request.basepath}}/mi_cuenta" class="but">Mi cuenta</a></li>
+					<li><a href="{{app.request.basepath}}/ver_carrito" class="but">Mi Carrito</a></li>
+					<li><a href="{{app.request.basepath}}/ver_pedidos" class="but">Mis Pedidos</a></li>
+					<li><a href="{{app.request.basepath}}/logout" class="but">Salir</a></li>
+				{% else %}			
+					<li><a href="{{app.request.basepath}}/login" class="but">Acceder</a></li>
+					<li><a href="{{app.request.basepath}}/sign" class="but">Registrarse</a></li>					
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+	<div id="wrapper">																																																																																																				
+		<div id="content_inside">
+			<div id="sidebar">
+				<h2>Menú</h2>																																																																			
+				<ul id="list">
+					<li class="color"><a href="{{app.request.basepath}}/ver_cuadros">Todos los cuadros</a></li>
+					<li><a href="{{app.request.basepath}}/ver_pintores">Pintores</a></li>
+					<li class="color"><a href="{{app.request.basepath}}/ver_estilos">Estilos</a></li>
+					<li><a href="{{app.request.basepath}}/ver_expos">Exposiciones</a></li>
+					<li class="color"><a href="{{app.request.basepath}}/../front/">Volver al Museo</a></li>
+				</ul>
+			</div>
+			<div id="main_block" class="style1">																																																																													
+				<div id="item">
+					<h4>{{producto.nombreProducto}} ({{producto.anioCuadro}})</h4><br />
+					<div class="big_view">
+						{% if producto.orientacion == 'vertical' %}
+							<a class="image-popup-vertical-fit" href="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" title="{{producto.nombreProducto}}, de {{producto.autor}}">
+								<img src="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" alt="" width="370" height="500" />
+							</a>
+						{% elseif producto.orientacion == 'horizontal' %}
+							<a class="image-popup-fit-width" href="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" title="{{producto.nombreProducto}}, de {{producto.autor}}">
+								<img src="{{app.request.basepath}}/../img/cuadros/{{producto.nombreProducto}}/{{producto.fotoCuadro}}" alt="" width="400" height="270" />
+							</a>
+						{% endif %}
+						<br>
+						<br>
+						<br>
+						<br> 
+						<br>
+						<span>{{producto.precio}}€/ud.</span>
+					</div>
+				</div>
+				<div class="description">
+					<p>
+						<strong>Autor:</strong> 
+						<br>
+						<a href="{{app.request.basepath}}/pintores/{{producto.autor}}">{{producto.autor}}</a>.
+						<br><br>
+						<strong>Estilo:</strong>
+						<br>
+						<a href="{{app.request.basepath}}/estilos/{{producto.estilo}}">{{producto.estilo}}</a>.
+						<br><br>
+						<strong>Descripción:</strong>
+						<br>
+						{{producto.descripcion}}
+					</p>
+					<p>
+						{% if logged %}
+							<a href="#" id="buy" class="buy">Comprar</a>
+						{% else %}
+							<a href="{{app.request.basepath}}/login" class="buy">Comprar</a>
+						{% endif %}
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		<div id="footer_inside">
+			<ul class="footer_menu">
+				<li><a href="index.html">Home Page</a>|</li>
+				<li><a href="index2.html">About Us</a>|</li>
+				<li><a href="index2.html">News &amp; Events</a>|</li>
+				<li><a href="index2.html">Services</a>|</li>
+				<li><a href="index2.html">My Account</a>|</li>
+				<li><a href="index2.html">Contacts</a></li>
+			</ul><br /><br />																		
+		</div>
+		<div id="buyForm">
+			<table class="table-Add-Carr">
+			{{ form_start(form, {'method': 'POST'}) }}
+			{{ form_row(form.cliente, {'attr': {'value': cliente }}) }}
+			{{ form_row(form.idCopia_Cuadro, {'attr': {'value': producto.idCopia_Cuadro }}) }}
+				<tr>
+					<td class="td-Add-Carr par">Nombre del producto: </td>
+					<td class="td-Add-Carr par">
+						{{producto.nombreProducto}}
+						{{ form_row(form.nombreProducto, {'attr': {'value': producto.nombreProducto}}) }}
+					</td>
+				</tr>
+				<tr>
+					<td class="td-Add-Carr impar">Precio:</td>
+					<td class="td-Add-Carr impar">
+						{{producto.precio}}€
+						{{ form_row(form.precio, {'attr': {'value': producto.precio}}) }}
+					</td>
+				</tr>
+				<tr>
+					<td class="td-Add-Carr par">Unidades:</td>
+					<td class="td-Add-Carr par">
+						<select name="selunidades" id="selunidades">
+							{% for i in 1..50 %}
+								<option value="{{loop.index}}">{{loop.index}}</option>
+							{% endfor %}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="td-Add-Carr">
+						<br>
+						{{ form_row(form.enviar) }}
+					</td>
+				</tr>
+			{{ form_end(form) }}
+			</table>
+		</div>
+	</div>
+	{% if logged %}
+    <map name="Map">
+       <area shape="poly" coords="670,87,719,78,727,123,677,130" href="{{app.request.basepath}}">
+       <area shape="poly" coords="776,124,818,152,793,189,751,160" href="{{app.request.basepath}}/logout">
+       <area shape="poly" coords="834,52,885,61,878,105,828,96" href="{{app.request.basepath}}/ver_carrito">
+	</map>
+	{% endif %}
+{% endblock %}

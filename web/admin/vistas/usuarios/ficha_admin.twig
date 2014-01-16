@@ -1,0 +1,40 @@
+{% extends 'inicio.twig' %}
+
+{% block titulo 'Ficha de Administrador' %}
+	{% block action %}
+			<table class="tablacrud">
+					<tr class="trcab">
+						<th>Administrador {{admin.email}}</th>
+					</tr>
+						<tr>
+							<td colspan="4">
+								{{ form_start(form, {'method': 'POST'}) }}
+								<table class="bodycrud" rules="all">
+									<tbody>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.email, {'attr': {'value': admin.email, 'readonly':'readonly' }}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												{{ form_row(form.clave, {'attr': {'value': admin.clave }}) }}
+												{{ form_row(form.clavecifrada) }}
+											</td>
+										<tr>
+											<td class="perla">
+												{{ form_row(form.fechaAlta, {'attr': {'value': admin.fechaAlta, 'readonly':'readonly' }}) }}
+											</td>
+										</tr>
+										<tr>
+											<td class="grey">
+												{{ form_row(form.guardar, {'attr': {'onclick': 'cifrar()' }})  }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{{ form_end(form) }}
+							</td>
+						</tr>
+				</table>
+	{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'plantilla.twig' %}
+
+{% block titulo 'Inicio' %}
+
+{% block contenido %}
+
+
+	{% block action %}
+
+	{% endblock %}
+<div id="cont" class="cont">
+
+    
+<table>
+					<tr>
+					</tr>
+					{% for cuadro in cuadros %}
+						<tr>
+							<td colspan="4">
+								<table rules="all">
+									
+									<tbody>
+										<tr>
+											<td>
+												
+												{{cuadro.nombreCuadro}}
+                                                                                            <button value="{{cuadro.idCuadro}}" type="button">Añadir al carrito</button> 
+												
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+</div>
+
+{% endblock %}
